@@ -1,0 +1,42 @@
+@import "_variables.scss";
+@import "../../node_modules/bootstrap/scss/mixins/buttons";
+
+.mau-notification {
+  margin-top: 2rem;
+  margin-right: 2rem;
+  padding: .4rem;
+  display: flex;
+  cursor: pointer;
+  flex-direction: row;
+  border-radius: .25rem;
+  .notification-title {
+    flex: 1;
+    order: 2;
+    display: flex;
+    align-items: center;
+    margin-left: .15rem;
+  }
+
+  .notification-content {
+    order: 1;
+    @include button-size($btn-padding-y-sm, $btn-padding-x-sm, $font-size-base, 0, 0);
+    // border-right: 2px solid white;
+  }
+
+  &.warning {
+    color: white;
+    background-color: $brand-warning;
+  }
+  &.success {
+    color: white;
+    background-color: $brand-success;
+  }
+  &.info {
+    color: white;
+    background-color: $brand-info;
+  }
+  &.danger {
+    color: white;
+    background-color: $brand-danger;
+  }
+}

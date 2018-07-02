@@ -1,0 +1,30 @@
+<template>
+  <div class="container">
+    <mau-crud-view>
+      <template slot-scope="params">
+        <mau-entity-view :entity="params.entity" :propertiesReference="propertiesReference"></mau-entity-view>
+      </template>
+    </mau-crud-view>
+  </div>
+</template>
+
+<script>
+  import OrderPropertiesReference from 'src/api/propertiesReference/BagOrderPropertiesReference'
+  import OrderAdjustmentPropertiesReference from 'src/api/propertiesReference/BagOrderAdjustmentPropertiesReference'
+  export default {
+    name: 'ViewOrderAdjustment',
+    data () {
+      return {
+        propertiesReference: [
+          OrderPropertiesReference.NAME,
+          OrderPropertiesReference.DATE,
+          OrderPropertiesReference.BAGS,
+          OrderAdjustmentPropertiesReference.ADJUSTMENT_TYPE
+        ]
+      }
+    },
+    props: {
+      id: null
+    }
+  }
+</script>

@@ -1,0 +1,120 @@
+<template>
+  <b-navbar toggleable="md" type="dark" variant="info">
+    <button class="navbar-toggler navbar-link" type="button" aria-label="Toggle navigation" aria-controls="nav_collapse" aria-expanded="false">
+      <span @click="toggle" class="fa fa-angle-left"></span>
+    </button>
+    <b-navbar-toggle class="navbar-link" target="nav_collapse"><span class="fa fa-bars"></span></b-navbar-toggle>
+    <b-collapse is-nav id="nav_collapse">
+
+      <b-navbar-nav>
+        <b-nav-item-dropdown class="text-right">
+          <!-- Using button-content slot -->
+          <template slot="button-content">
+            <span>{{navbarTitle}}</span>
+          </template>
+          <b-dropdown-item v-for="(navbarRouteObj, index) in navbarRouteObjects" class="dropdown-item text-right" :to="navbarRouteObj.path" :key="index">
+            {{navbarRouteObj.meta.title}}
+          </b-dropdown-item>
+        </b-nav-item-dropdown>
+      </b-navbar-nav>
+
+      <!-- Right aligned nav items -->
+      <b-navbar-nav class="ml-auto">
+        <b-nav-item-dropdown right class="text-right">
+          <!-- Using button-content slot -->
+          <template slot="button-content">
+            <span>{{user.email}}</span>
+          </template>
+          <b-dropdown-item class="dropdown-item text-right" :to="notificationsPathObject">Notificaciones</b-dropdown-item>
+          <b-dropdown-item class="dropdown-item text-right" :to="myProfilePathObject">Mi Perfil</b-dropdown-item>
+          <b-dropdown-item class="dropdown-item text-right" v-on:click.prevent="logout">Cerrar sesion</b-dropdown-item>
+        </b-nav-item-dropdown>
+      </b-navbar-nav>
+
+    </b-collapse>
+  </b-navbar>
+</template>
+
+<script>
+  import { mapGetters, mapActions } from 'vuex'
+  import authActions from 'src/api/store/authActions'
+  import EntityTypes from 'src/api/EntityTypes'
+  import AppActions from 'src/app/store/AppActions'
+  import RouteObjectHelper from 'src/services/routeObject/RouteObjectHelper'
+  import ChildTypes from 'src/api/ChildTypes'
+  export default {
+    name: 'navbar',
+    data () {
+      return {
+        notificationsPathObject: {path: RouteObjectHelper.createPath(EntityTypes.NOTIFICATION, ChildTypes.NOTIFICATIONS)},
+        myProfilePathObject: {path: RouteObjectHelper.createPath(EntityTypes.AUTH, ChildTypes.MY_PROFILE)},
+        navbarRouteObjects: [],
+        navbarTitle: '',
+        navbarIcon: '',
+        isSidebarActive: true
+      }
+    },
+    directives: {
+    },
+    computed: mapGetters([
+      'user',
+      'routeObjects',
+      'sidebarOpened',
+      'toggleWithoutAnimation'
+    ]),
+    created () {
+      let currentRouteObject = this.$route
+      this.mapRouteObjectsToNavbar(currentRouteObject)
+    },
+    watch: {
+      $route: function (currentRouteObject) {
+        this.mapRouteObjectsToNavbar(currentRouteObject)
+      }
+    },
+    methods: {
+      mapRouteObjectsToNavbar: function (currentRouteObject) {
+        this.navbarTitle = RouteObjectHelper.getRouteObjectMetaPropertyValue(currentRouteObject, 'title')
+        let currentRouteObjectCategory = RouteObjectHelper.getRouteObjectMetaPropertyValue(currentRouteObject, 'category')
+        let currentRouteObjectCategoryName = currentRouteObjectCategory !== null ? currentRouteObjectCategory.name : ''
+        this.navbarRouteObjects = this.routeObjects.filter(routeObj => {
+          let routeObjCategory = RouteObjectHelper.getRouteObjectMetaPropertyValue(routeObj, 'category')
+          let routeObjCategoryName = routeObjCategory !== null ? routeObjCategory.name : ''
+          let showNavbar = RouteObjectHelper.getRouteObjectMetaPropertyValue(routeObj, 'showNavbar')
+          return currentRouteObjectCategoryName === routeObjCategoryName && showNavbar
+        })
+      },
+      ...mapActions([
+        AppActions.TOGGLE_SIDEBAR
+      ]),
+      logout: function () {
+        this.$store.dispatch(authActions.UNSET_USER).then(result => {
+          this.$router.push({name: 'LoginAuth'})
+        })
+      },
+      toggle: function () {
+        this[AppActions.TOGGLE_SIDEBAR]()
+      }
+    }
+  }
+</script>
+
+<style lang="scss">
+  @import "../../../sass/variables";
+
+  a.navbar-brand {
+    color: $white !important;
+    margin-right: 0px;
+    text-align: center;
+  }
+  .dropdown-menu:after {
+   display: none !important;
+  }
+  .navbar .navbar-link {
+    z-index: 300;
+    color: $body-color;
+  }
+  .custom-navbar-name {
+    width: 100%;
+    text-align: left;
+  }
+</style>

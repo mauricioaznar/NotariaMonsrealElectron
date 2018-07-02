@@ -1,0 +1,137 @@
+h1, h2, h3, h4, h5, h6, strong, b {
+  font-weight: 600;
+}
+
+.blockquote {
+  margin: 2.5rem 0 2.5rem 1rem;
+  font-style: oblique;
+}
+
+.vue-green-text {
+  color: $brand-primary;
+}
+
+.vue-clickable-text {
+  color: $brand-primary;
+  &:hover {
+    color: lighten($brand-primary, 10%);
+    cursor: pointer;
+  }
+}
+
+.vue-highlighted-text {
+  background-color: $brand-primary;
+  padding: 2px 1px 1px 2px;
+}
+
+.vue-selected-text {
+  background-color: $brand-primary;
+  padding: 2px 1px 2px 2px;
+  color: $white;
+}
+
+ul.vue-list-inner, ol.vue-list-inner {
+  li:first-child {
+    margin-top: 1.5rem;
+  }
+
+  li:last-child {
+    padding-bottom: 0;
+  }
+}
+
+ul.vue-unordered {
+  padding         : 0;
+  list-style-type : none;
+  margin: 0;
+
+  ul {
+    padding         : 0;
+    list-style-type : none;
+  }
+
+  li {
+    padding-left : 1.563rem;
+    padding-bottom :1.5rem;
+    &::before {
+      content          : "";
+      display          : inline-block;
+      width            : 0.75rem;
+      height           : 0.75rem;
+      position         : relative;
+      right            : 1.563rem;
+      top              : 0.0625rem;
+      margin-right     : -0.75em;
+      border-radius    : 0.75rem;
+      background-color : $brand-primary;
+    }
+
+    li {
+      &::before {
+        background-color : $white;
+        border           : 2.5px solid $brand-primary;
+      }
+    }
+  }
+}
+
+ul, ol {
+  margin: 0;
+}
+
+ol.vue-ordered {
+  padding       : 0;
+  counter-reset : olCounter;
+  margin: 0;
+
+  li {
+    list-style   : none;
+    padding-left : 1.563rem;
+  }
+
+  > li:before {
+    counter-increment : olCounter;
+    content           : counter(olCounter) ". ";
+    display           : inline-block;
+    width             : 0.75rem;
+    height            : 0.75rem;
+    position          : relative;
+    right             : 1.563rem;
+    top               : 0.0625rem;
+    margin-right      : -0.75em;
+  }
+
+  ul {
+    padding         : 0;
+    list-style-type : none;
+    li {
+      padding-left : 1.563rem;
+      &::before {
+        content          : "";
+        display          : inline-block;
+        width            : 0.75rem;
+        height           : 0.75rem;
+        position         : relative;
+        right            : 1.563rem;
+        top              : 0.0625rem;
+        margin-right     : -0.75em;
+        border-radius    : 0.75rem;
+        background-color : $vue-green;
+      }
+
+    }
+  }
+
+}
+
+.vue-misc {
+  margin-top: 5.625rem;
+  margin-bottom: 2rem;
+}
+
+//Well
+.well {
+  padding          : 1.9rem 2.2rem 1.9rem 1.6rem;
+  // background-color : #f7f7f7;
+  background-color: $light-gray;
+}

@@ -1,0 +1,43 @@
+<template>
+  <div class="container">
+    <mau-crud-create
+      :entityApiName="entityApiName"
+      :relatedEntitiesRoutes="relatedEntitiesRoutes"
+      :relationshipIdName="hostRelationshipIdName"
+      :callback="callback"
+    >
+      <template slot-scope="params">
+        <bag-order-form :saveFunction="params.save"></bag-order-form>
+      </template>
+    </mau-crud-create>
+  </div>
+</template>
+
+<script>
+  import PropertiesReference from 'src/api/propertiesReference/BagOrderPropertiesReference'
+  import {ApiRoutes} from 'src/api/ApiRoutes'
+  import RouteObjectHelper from 'src/services/routeObject/RouteObjectHelper'
+  import BagOrderForm from 'src/api/components/generic/bagOrder/BagOrderForm.vue'
+  import EntityTypes from 'src/api/EntityTypes'
+  import ChildTypes from 'src/api/ChildTypes'
+  export default {
+    name: 'CreateBagOrderProduction',
+    data () {
+      return {
+        relatedEntitiesRoutes: {
+          [PropertiesReference.BAGS.entityName]: ApiRoutes[EntityTypes.BAG_ORDER_PRODUCTION_PRODUCT.apiName]
+        },
+        entityApiName: EntityTypes.BAG_ORDER_PRODUCTION.apiName,
+        hostRelationshipIdName: 'bag_order_production_id'
+      }
+    },
+    components: {
+      BagOrderForm
+    },
+    methods: {
+      callback: function () {
+        this.$router.push({path: RouteObjectHelper.createPath(EntityTypes.BAG_ORDER_PRODUCTION, ChildTypes.LIST)})
+      }
+    }
+  }
+</script>

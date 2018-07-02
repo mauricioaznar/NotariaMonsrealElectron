@@ -1,0 +1,453 @@
+.form-control {
+  border-width: 1px !important;
+}
+.override-form-control {
+  padding: 0;
+}
+.override-outline, .override-outline:active, .override-outline:focus {
+  outline: none !important;
+  border: 0 solid #fff;
+  box-shadow: none !important;
+}
+
+//general
+body {
+  background-color: rgb(235, 237, 248) !important;
+  font-size: 13px !important;
+}
+.content-wrap {
+  margin-left: calc(24px + 24px + 37px) !important;
+  padding: 10px 7px 0 0 !important;
+}
+.card {
+  padding: 15px !important;
+}
+
+//navbar
+.bg-info {
+  background-color: white !important;
+}
+.navbar {
+  min-height: 56px !important;
+  border-bottom: 1px solid #eeeff1;
+}
+.navbar-dark a.navbar-brand {
+  color: rgb(40, 40, 40) !important;
+}
+.navbar-dark .navbar-nav .nav-link {
+  padding-top: 17px;
+  padding-left: 60px;
+  font-size: 14px;
+  font-weight: bold;
+  color: rgb(40, 40, 40) !important;
+}
+.navbar-dark a.navbar-brand {
+  font-weight: 700;
+}
+#__BVID__14 {
+  margin-top: -28px !important;
+  margin-bottom: -28px !important;
+  border-left: 1px solid rgb(238, 239, 241) !important;
+}
+.dropdown-menu {
+  border: none !important;
+  border-radius: 0 !important;
+  background-color: #2c3246;
+  top: 60px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.24);
+}
+.dropdown-item {
+  color: #e8e9ea !important;
+  padding: 10px 25px !important;
+  font-size: 13px;
+}
+.dropdown-item:focus {
+  border: none !important;
+  outline: none !important;
+  background-color: transparent !important;
+}
+.dropdown-item:hover {
+  color: #4ab2e3 !important;
+  background-color: transparent !important;
+}
+.dropdown-toggle::after {
+  margin-left: 20px !important;
+}
+
+//sidebar
+.sidebar {
+  height: calc(100vh) !important;
+  position: fixed !important;
+  top: 0 !important;
+}
+.sidebar, .sidebar .vuestic-scrollbar .scrollbar-content {
+  background-color: rgb(44, 50, 70) !important;
+}
+.sidebar a {
+  color: rgb(232, 233, 234) !important;
+}
+.sidebar .sidebar-link .sidebar-menu-item-icon {
+  font-size: 25px !important;
+  margin-right: 0 !important;
+}
+.sidebar a, .sidebar .sidebar-link .sidebar-menu-item-icon {
+  color: rgb(232, 233, 234) !important;
+}
+.sidebar .vuestic-scrollbar .scrollbar-wrapper {
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}
+.sidebar .sidebar-link {
+  text-align: center !important;
+  padding-left: 0 !important;
+  font-weight: 500;
+}
+.sidebar .sidebar-link .d-flex {
+  width: 100% !important;
+}
+.sidebar .sidebar-link p {
+  margin-top: 5px;
+  font-size: 10px !important;
+}
+.sidebar .sidebar-menu li, .sidebar .sidebar-submenu li {
+  margin-top: 15px !important;
+}
+.sidebar .sidebar-link.router-link-active, .sidebar .sidebar-link:hover {
+  color: #4ab2e3 !important;
+  background-color: transparent !important;
+}
+.sidebar .sidebar-link.router-link-active,
+.sidebar .sidebar-link:hover,
+.sidebar .sidebar-link:hover .sidebar-menu-item-icon,
+.sidebar .sidebar-link.router-link-active .sidebar-menu-item-icon {
+  color: #4ab2e3 !important;
+}
+
+//widgets
+.widget {
+  background: transparent !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}
+.widget .widget-header .title {
+  display: none !important;
+}
+.widget-body {
+  //background-color: #ffffff !important;
+  margin: 9px !important;
+  padding: 0 !important;
+  padding-bottom: 20px !important;
+}
+.widget-body .container {
+  background-color: #ffffff !important;
+  padding: 30px;
+}
+
+//tables
+tbody {
+  background-color: #ffffff;
+}
+th {
+  text-align: center !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  background-color: rgb(235, 237, 248);
+}
+td {
+  text-align: center !important;
+  vertical-align: inherit !important;
+}
+tbody tr {
+  border-bottom: 1px solid rgb(238, 239, 241) !important;
+}
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: white;
+}
+.custom-actions {
+  padding-right: 10px !important;
+}
+.custom-action {
+  min-width: 0 !important;
+}
+.vue-table {
+  margin-bottom: 40px;
+}
+.icon-button span {
+  font-size: 18px !important;
+  color: rgb(42, 62, 99) !important;
+}
+.vue-data-table.table-responsive {
+  margin-top: -20px;
+}
+.vue-data-table .form-group {
+  margin-bottom: 0;
+  outline: none;
+}
+.vue-data-table .form-group .form-control,
+.vue-data-table .dropdown-toggle,
+.vue-data-table .form-group .form-control:hover,
+.vue-data-table .dropdown-toggle:hover,
+.vue-data-table .form-group .form-control:focus,
+.vue-data-table .dropdown-toggle:focus {
+  border: none !important;
+  outline: none !important;
+}
+.vue-data-table .form-control:focus {
+  color: #495057;
+  border-color: transparent !important;
+  outline: 0;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+.vue-data-table .form-row:first-child {
+  margin: 0;
+}
+.vuetable-pagination-info {
+  color: rgb(150,150,150);
+  font-size: 11px;
+}
+.vue-data-table .form-control
+{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  height: 50px !important;
+  vertical-align: text-top;
+}
+.vue-data-table .form-control.custom-select {
+  outline: auto;
+}
+.vue-data-table .form-group {
+}
+.vue-data-table input[type="text"]::placeholder {
+}
+.vue-data-table .form-group.form-row .override-form-control {
+  border-left: 1px solid #eeeff1 !important;
+  padding-left: 15px;
+  height: 60px;
+  padding-top: 12px;
+  font-weight: 500;
+}
+.vue-data-table input.form-control {
+  padding-left: 15px;
+}
+.vue-data-table .selected-tag {
+  color: #ffffff !important;
+}
+
+//.vue-data-table .search-container::before
+//{
+//  font-family: 'FontAwesome';
+//  color: rgb(40, 40, 40);
+//  position: absolute;
+//  top: 15px;
+//  font-size: 20px;
+//  left: 15px;
+//  content: "\f0b0";
+//}
+
+//forms
+.form-control {
+  font-size: 13px !important;
+  border-radius: 0 !important;
+  border-radius: 0 !important;
+}
+label {
+  font-weight: 600;
+}
+.form-control[readonly] {
+  background-color: #ffffff !important;
+}
+.flatpickr-input, .custom-select {
+  border: none !important;
+}
+
+//buttons
+.btn {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  background: rgb(42, 62, 99) !important;
+}
+.btn-excel {
+  color: white;
+  background-color: rgb(78,140,96) !important;
+  display: flex;
+  cursor: pointer;
+  justify-content: center;
+  flex-direction: column;
+  button {
+    cursor: pointer;
+    background-color: transparent;
+    color: white;
+    border: 0px solid transparent;
+    outline: 0px solid transparent;
+  }
+}
+.btn-primary:focus, .btn-primary.focus {
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(42, 62, 99, 0.5);
+  box-shadow: 0 0 0 0.2rem rgba(42, 62, 99, 0.5);
+}
+
+//pills
+.mau-tabs {
+  margin-top: -20px;
+}
+.mau-tabs .nav {
+  padding-top: 20px !important;
+}
+.mau-tabs .hidden-lg-down {
+  background-color: rgb(42, 62, 99) !important;
+}
+.mau-tabs .nav h5 {
+  font-size: 15px !important;
+  color: rgba(255, 255, 255, 0.4) !important;
+  font-weight: 400;
+  margin-bottom: 14px;
+}
+.mau-tabs .nav .nav-item.active h5 {
+  color: #ffffff !important;
+}
+
+//mau-widget
+.icon-button.active span {
+  background: none !important;
+  color: #4ab2e3 !important;
+}
+
+//schedule
+.mau-schedule {
+  background-color: #ffff !important;
+  padding-top: 25px;
+}
+.mau-schedule .form-group p {
+  font-weight: 600;
+}
+.mau-schedule .container {
+  max-width: 400px;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+.schedule {
+  max-width: 100% !important;
+}
+.schedule ul p {
+  width: 100% !important;
+  //border-top: 1px solid #EAEAEA !important;
+  color: #ffffff;
+  background-color: rgb(42, 62, 99);
+}
+.schedule li, .schedule p{
+  font-size: 13px !important;
+}
+.schedule .task-list {
+  border: none !important;
+  border-right: 1px solid #EAEAEA !important;
+}
+
+//vue select
+.v-select .dropdown-toggle {
+  //border: none !important;
+  border-radius: 0 !important;
+}
+.v-select .open-indicator:before {
+  border-width: 2px 2px 0 0 !important;
+  margin-top: 3px !important;
+  height: 8px !important;
+  width: 8px !important;
+}
+.v-select .dropdown-toggle .clear {
+  right: 40px !important;
+  font-size: 20px !important;
+  line-height: 17px !important;
+  color: rgba(60, 60, 60, 0.8) !important;
+}
+.dropdown-menu {
+  font-size: 13px;
+  &:after {
+    left: -20px;
+    content: none;
+  }
+}
+.dropdown-menu li:hover a {
+  color: #ffffff !important;
+}
+
+.vue-data-table .card .form-group input.form-control {
+  padding: 0 !important;
+  height: 40px !important;
+  border: 1px solid rgb(234, 234, 234) !important;
+}
+.vue-data-table .card {
+  position: absolute !important;
+  max-width: 600px !important;
+  top: 100px !important;
+  left: 0;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  right: 0;
+  border-radius: 0 !important;
+  border: none !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24) !important;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24) !important;
+}
+
+.vue-data-table .card .form-control::before {
+  content: '' !important;
+}
+.vue-data-table .btn.btn-secondary {
+  width: 100%;
+  border-radius: 0;
+  background-color: rgb(240, 240, 240);
+}
+.vue-data-table .btn-submit {
+  border-radius: 0;
+}
+.vue-data-table .btn-collapse {
+  background-color: rgb(210, 220, 230) !important;
+  outline: none;
+  font-size: 20px !important;
+  color: rgb(40, 40, 40);
+}
+.vue-data-table .btn-collapse:focus,
+.vue-data-table .btn-collapse:active,
+.vue-data-table .btn-collapse:hover{
+  outline: none;
+  border: none;
+}
+
+.ld-no,
+.ld-yes,
+.ld-na {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+}
+
+.ld-no {
+  background-color: rgb(220, 220, 220);
+}
+.ld-na {
+  content: 'N/A';
+}
+.ld-na::before {
+  content: 'N/A';
+}
+.ld-yes {
+  background-color: green;
+}
+
+
+.card .v-select .dropdown-toggle .clear {
+  bottom: 21px;
+}
+.card .v-select .open-indicator {
+    bottom: 18px !important;
+    right: 16px !important;
+}
+
+.card .dropdown-toggle {
+  margin-left: -10px !important;
+  margin-right: -10px !important;
+}
