@@ -25,7 +25,7 @@
     "productName": "grupoinopack",
     "appId": "org.simulatedgreg.electron-vue",
     "directories": {
-      "output": "build"
+      "output": "dist"
     },
     "files": [
       "dist/electron/**/*"
