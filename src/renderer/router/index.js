@@ -18,8 +18,7 @@ let router = new Router({
   routes: [
     ...generateRoutesFromMenu(routeObjectStore.state.routeObjects),
     {path: '*', redirect: { name: getDefaultRoute(routeObjectStore.state.routeObjects).name }}
-  ],
-  mode: 'history'
+  ]
 })
 
 export default router
