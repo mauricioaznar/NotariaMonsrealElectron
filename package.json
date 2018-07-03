@@ -1,5 +1,5 @@
 {
-  "name": "grupoinopack",
+  "name": "Industria",
   "version": "0.0.0",
   "author": "Maguas Tupaguas <mauricioaznar94@gmail.com>",
   "description": "An electron-vue project",
@@ -22,7 +22,7 @@
     "postinstall": "npm run lint:fix"
   },
   "build": {
-    "productName": "grupoinopack",
+    "productName": "Industria",
     "appId": "org.simulatedgreg.electron-vue",
     "directories": {
       "output": "dist"
