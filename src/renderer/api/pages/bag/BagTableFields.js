@@ -12,8 +12,12 @@ export default [
     dataClass: 'text-center'
   },
   {
-    name: PropertiesReference.CURRENT_UNIT_PRICE.name,
-    title: PropertiesReference.CURRENT_UNIT_PRICE.title
+    name: PropertiesReference.WIDTH.name,
+    title: PropertiesReference.WIDTH.title
+  },
+  {
+    name: PropertiesReference.LENGTH.name,
+    title: PropertiesReference.LENGTH.title
   },
   {
     name: PropertiesReference.CURRENT_GROUP_WEIGHT.name,
@@ -22,6 +26,11 @@ export default [
   {
     name: PropertiesReference.BAG_TYPE.name,
     title: PropertiesReference.BAG_TYPE.title,
+    callback: DisplayFunctions.getNameFromObject
+  },
+  {
+    name: PropertiesReference.BAG_PACKING.name,
+    title: PropertiesReference.BAG_PACKING.title,
     callback: DisplayFunctions.getNameFromObject
   }
 ]
