@@ -26,13 +26,13 @@ moment.locale('es', {
 Vue.use(MauPlugin)
 Vue.use(BootstrapVue)
 Vue.use(VueResource)
-Validator.addLocale(esLocale)
+Validator.localize(esLocale)
 Validator.extend('object_required', VeeValidateCustomRules.objectRequired)
 Validator.extend('array_required', VeeValidateCustomRules.arrayRequired)
-Validator.updateDictionary(VeeValidateDictionary)
 Vue.use(VeeValidate, {
   fieldsBagName: 'formFields',
-  locale: 'es'
+  locale: 'es',
+  dictionary: VeeValidateDictionary
 })
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
