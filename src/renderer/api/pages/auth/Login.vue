@@ -56,7 +56,7 @@
           ApiOperations.create(getApiRoute(EntityTypes.AUTH, ApiRouteTypes.TOKEN), credentials).then(result => {
             let token = result.token
             window.localStorage.setItem('AccessToken', JSON.stringify(token))
-            Notifications.info(_this, 'Bienvendio al sistema de grupo inopack e industria')
+            Notifications.info(_this, 'Bienvendio al sistema industrial')
             _this.$router.push({path: '*'})
           }).catch(e => {
             console.log(e)
