@@ -74,7 +74,7 @@
   import ItemsPerPageDefinition from './data/items-per-page-definition'
   import Vue from 'vue'
   import DataTableStyles from './data/data-table-styles'
-  import {getHeaders} from 'renderer/config'
+  import {getHeaders} from 'renderer/services/api/ApiHTPPHeaders'
   import DisplayFunctions from 'renderer/services/api/DisplayFunctions'
   import isEntityEditable from 'renderer/services/api/isEntityEditable'
 

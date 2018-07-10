@@ -8,6 +8,7 @@
                 :label="displayProperty"
                 :track-by="'id'"
                 class="form-control override-form-control"
+                :onSearch="onSearch"
                 :clearSearchOnSelect="hasClear"
                 :options="availableObjects"
                 :class="getBootstrapValidationClass(error)"
@@ -29,6 +30,8 @@
     import VueSelect from 'vue-select'
     import ValidatorHelper from 'renderer/services/form/ValidatorHelper'
     import cloneDeep from 'renderer/services/common/cloneDeep'
+    import ApiOperations from 'renderer/services/api/ApiOperations'
+    import _ from 'lodash'
     export default {
       data () {
         return {
@@ -76,6 +79,12 @@
           default: function () {
             return false
           }
+        },
+        url: {
+          type: String,
+          default: function () {
+            return ''
+          }
         }
       },
       created () {
@@ -93,6 +102,15 @@
             newValue = {}
           }
           this.$emit('input', newValue)
+        },
+        onSearch: function (string) {
+          if (this.url !== '') {
+            _.debounce(ApiOperations.get(this.url).then(data => {
+              this.options = data
+            }).catch(e => {
+              console.log(e)
+            }), 500)
+          }
         }
       },
       watch: {

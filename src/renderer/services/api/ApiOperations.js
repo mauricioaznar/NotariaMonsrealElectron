@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import {getHeaders} from 'renderer/config'
+import {getHeaders} from 'renderer/services/api/ApiHTPPHeaders'
 
 export function get (url) {
   return Vue.http.get(url, {headers: getHeaders()}).then(getServerResponseData)
