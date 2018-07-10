@@ -1,4 +1,4 @@
-import ConvertDateTimeTo from 'src/services/common/ConvertDateTimeTo'
+import ConvertDateTimeTo from 'renderer/services/common/ConvertDateTimeTo'
 import moment from 'moment'
 moment.locale('es')
 

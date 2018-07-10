@@ -1,5 +1,5 @@
-import ApiDomain from 'src/services/api/ApiDomain'
-import EntityTypes from 'src/api/EntityTypes'
+import ApiDomain from 'renderer/services/api/ApiDomain'
+import EntityTypes from 'renderer/api/EntityTypes'
 
 export const ApiRouteTypes = {
   LIST: 'list',

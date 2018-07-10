@@ -28,10 +28,10 @@
 
 <script>
   import VueSelect from 'vue-select'
-  import GlobalEntityIdentifier from 'src/services/api/GlobalEntityIdentifier'
-  import ValidatorHelper from 'src/services/form/ValidatorHelper'
-  import cloneDeep from 'src/services/common/cloneDeep'
-  import isDefined from 'src/services/common/isDefined'
+  import GlobalEntityIdentifier from 'renderer/services/api/GlobalEntityIdentifier'
+  import ValidatorHelper from 'renderer/services/form/ValidatorHelper'
+  import cloneDeep from 'renderer/services/common/cloneDeep'
+  import isDefined from 'renderer/services/common/isDefined'
   export default {
     data () {
       return {

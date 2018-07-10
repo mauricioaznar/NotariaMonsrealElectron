@@ -1,6 +1,6 @@
-import OrderProductPropertiesReference from 'src/api/propertiesReference/BagOrderProductPropertiesReference'
-import DisplayFunctions from 'src/services/api/DisplayFunctions'
-import MauInputDefaultValues from 'src/components/mau-components/mau-form-inputs/MauInputDefaultValues'
+import OrderProductPropertiesReference from 'renderer/api/propertiesReference/BagOrderProductPropertiesReference'
+import DisplayFunctions from 'renderer/services/api/DisplayFunctions'
+import MauInputDefaultValues from 'renderer/components/mau-components/mau-form-inputs/MauInputDefaultValues'
 
 let OrderProductSalePropertiesReference = {
   UNIT_PRICE: {

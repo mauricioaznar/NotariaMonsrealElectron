@@ -8,7 +8,7 @@
 
 <script>
   import GrantorList from './components/GrantorList.vue'
-  import {ApiRoutes} from 'src/api/ApiRoutes'
+  import {ApiRoutes} from 'renderer/api/ApiRoutes'
   export default {
     name: 'ListGrantor',
     data () {

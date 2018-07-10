@@ -1,6 +1,6 @@
-import OrderAdjustmentPropertiesReference from 'src/api/propertiesReference/BagOrderAdjustmentPropertiesReference'
-import SimpleOrderPropertiesReference from 'src/api/propertiesReference/BagOrderPropertiesReference'
-import DisplayFunctions from 'src/services/api/DisplayFunctions'
+import OrderAdjustmentPropertiesReference from 'renderer/api/propertiesReference/BagOrderAdjustmentPropertiesReference'
+import SimpleOrderPropertiesReference from 'renderer/api/propertiesReference/BagOrderPropertiesReference'
+import DisplayFunctions from 'renderer/services/api/DisplayFunctions'
 export default [
   {
     name: SimpleOrderPropertiesReference.NAME.name,

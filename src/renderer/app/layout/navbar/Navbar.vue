@@ -37,11 +37,11 @@
 
 <script>
   import { mapGetters, mapActions } from 'vuex'
-  import authActions from 'src/api/store/authActions'
-  import EntityTypes from 'src/api/EntityTypes'
-  import AppActions from 'src/app/store/AppActions'
-  import RouteObjectHelper from 'src/services/routeObject/RouteObjectHelper'
-  import ChildTypes from 'src/api/ChildTypes'
+  import authActions from 'renderer/api/store/authActions'
+  import EntityTypes from 'renderer/api/EntityTypes'
+  import AppActions from 'renderer/app/store/AppActions'
+  import RouteObjectHelper from 'renderer/services/routeObject/RouteObjectHelper'
+  import ChildTypes from 'renderer/api/ChildTypes'
   export default {
     name: 'navbar',
     data () {

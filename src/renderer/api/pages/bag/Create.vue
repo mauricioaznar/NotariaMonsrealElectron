@@ -13,9 +13,9 @@
 
 <script>
   import BagForm from './components/BagForm.vue'
-  import RouteObjectHelper from 'src/services/routeObject/RouteObjectHelper'
-  import EntityTypes from 'src/api/EntityTypes'
-  import ChildTypes from 'src/api/ChildTypes'
+  import RouteObjectHelper from 'renderer/services/routeObject/RouteObjectHelper'
+  import EntityTypes from 'renderer/api/EntityTypes'
+  import ChildTypes from 'renderer/api/ChildTypes'
   export default {
     name: 'CreateBag',
     data () {

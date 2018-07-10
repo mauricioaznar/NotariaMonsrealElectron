@@ -127,9 +127,9 @@
 </template>
 
 <script>
-  import ValidatorHelper from 'src/services/form/ValidatorHelper'
+  import ValidatorHelper from 'renderer/services/form/ValidatorHelper'
   import PropertiesReference from '../PropertiesReference'
-  import FormSubmitEventBus from 'src/services/form/FormSubmitEventBus'
+  import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
   export default {
     name: 'ClientForm',
     data () {

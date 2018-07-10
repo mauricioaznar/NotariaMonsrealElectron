@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import ApiFunctions from 'src/services/api/ApiOperations'
+  import ApiFunctions from 'renderer/services/api/ApiOperations'
   export default {
     name: 'MauPeriodicApiCaller',
     data () {

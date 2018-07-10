@@ -1,8 +1,8 @@
-import { ApiRoutes, getApiRoute, ApiRouteTypes } from 'src/api/ApiRoutes'
-import EntityTypes from 'src/api/EntityTypes'
-import RolesTypes from 'src/api/RoleTypes'
+import { ApiRoutes, getApiRoute, ApiRouteTypes } from 'renderer/api/ApiRoutes'
+import EntityTypes from 'renderer/api/EntityTypes'
+import RolesTypes from 'renderer/api/RoleTypes'
 import EntityActions from './entityActions'
-import ApiFunctions from 'src/services/api/ApiOperations'
+import ApiFunctions from 'renderer/services/api/ApiOperations'
 
 let roles = []
 Object.keys(RolesTypes).forEach(key => {

@@ -5,13 +5,13 @@
 </template>
 
 <script>
-  import ApiFunctions from 'src/services/api/ApiOperations'
-  import GlobalEntityIdentifier from 'src/services/api/GlobalEntityIdentifier'
-  import Notifications from 'src/services/api/Notifications'
-  import addHostId from 'src/services/api/addHostId'
-  import convertFirstCharacterTo from 'src/services/common/ConvertFirstCharacterTo'
-  import {ApiRoutes} from 'src/api/ApiRoutes'
-  import FormSubmitEventBus from 'src/services/form/FormSubmitEventBus'
+  import ApiFunctions from 'renderer/services/api/ApiOperations'
+  import GlobalEntityIdentifier from 'renderer/services/api/GlobalEntityIdentifier'
+  import Notifications from 'renderer/services/api/Notifications'
+  import addHostId from 'renderer/services/api/addHostId'
+  import convertFirstCharacterTo from 'renderer/services/common/ConvertFirstCharacterTo'
+  import {ApiRoutes} from 'renderer/api/ApiRoutes'
+  import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
   export default {
     name: 'MauCrudCreate',
     data () {

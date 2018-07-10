@@ -8,7 +8,7 @@
 </template>
 
 <script>
-  import Entities from 'src/api/EntityTypes'
+  import Entities from 'renderer/api/EntityTypes'
   export default {
     name: 'DelBagOrderProduction',
     data () {

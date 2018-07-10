@@ -1,5 +1,5 @@
 import SimpleOrderPropertiesReference from '../../../propertiesReference/BagOrderPropertiesReference'
-import DisplayFunctions from 'src/services/api/DisplayFunctions'
+import DisplayFunctions from 'renderer/services/api/DisplayFunctions'
 export default [
   {
     name: SimpleOrderPropertiesReference.NAME.name,

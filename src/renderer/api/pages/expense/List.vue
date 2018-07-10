@@ -12,10 +12,10 @@
 </template>
 
 <script>
-  import {ApiRoutes} from 'src/api/ApiRoutes'
-  import TransactionPropertiesReference from 'src/api/propertiesReference/TransactionPropertiesReference'
-  import DisplayFunctions from 'src/services/api/DisplayFunctions'
-  import GlobalEntityIdentifier from 'src/services/api/GlobalEntityIdentifier'
+  import {ApiRoutes} from 'renderer/api/ApiRoutes'
+  import TransactionPropertiesReference from 'renderer/api/propertiesReference/TransactionPropertiesReference'
+  import DisplayFunctions from 'renderer/services/api/DisplayFunctions'
+  import GlobalEntityIdentifier from 'renderer/services/api/GlobalEntityIdentifier'
   export default {
     name: 'ListExpense',
     data () {

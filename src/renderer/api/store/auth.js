@@ -1,7 +1,7 @@
-import {getHeaders} from 'src/config'
+import {getHeaders} from 'renderer/config'
 import Vue from 'vue'
 import authActions from './authActions'
-import {ApiRoutes} from 'src/api/ApiRoutes'
+import {ApiRoutes} from 'renderer/api/ApiRoutes'
 
 const state = {
   user: null,

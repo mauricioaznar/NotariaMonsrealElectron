@@ -14,10 +14,10 @@
 </template>
 
 <script>
-  import ApiFunctions from 'src/services/api/ApiOperations'
-  import {getApiRoute, ApiRouteTypes} from 'src/api/ApiRoutes'
-  import RouteObjectHelper from 'src/services/routeObject/RouteObjectHelper'
-  import ChildTypes from 'src/api/ChildTypes'
+  import ApiFunctions from 'renderer/services/api/ApiOperations'
+  import {getApiRoute, ApiRouteTypes} from 'renderer/api/ApiRoutes'
+  import RouteObjectHelper from 'renderer/services/routeObject/RouteObjectHelper'
+  import ChildTypes from 'renderer/api/ChildTypes'
   export default {
     name: 'MauCrudDel',
     data () {

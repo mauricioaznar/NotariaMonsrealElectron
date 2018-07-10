@@ -7,7 +7,7 @@
 
 <script>
   import { VueEditor } from 'vue2-editor'
-  import isDefined from 'src/services/common/isDefined'
+  import isDefined from 'renderer/services/common/isDefined'
   export default {
     name: 'MauEditor',
     data () {

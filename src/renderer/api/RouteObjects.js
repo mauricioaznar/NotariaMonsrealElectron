@@ -1,9 +1,9 @@
-import RouteObjectHelper from 'src/services/routeObject/RouteObjectHelper'
-import EntityTypes from 'src/api/EntityTypes'
-import ChildTypes from 'src/api/ChildTypes'
-import Categories from 'src/api/Categories'
-import RolesTypes from 'src/api/RoleTypes'
-import GlobalEntityIdentifier from 'src/services/api/GlobalEntityIdentifier'
+import RouteObjectHelper from 'renderer/services/routeObject/RouteObjectHelper'
+import EntityTypes from 'renderer/api/EntityTypes'
+import ChildTypes from 'renderer/api/ChildTypes'
+import Categories from 'renderer/api/Categories'
+import RolesTypes from 'renderer/api/RoleTypes'
+import GlobalEntityIdentifier from 'renderer/services/api/GlobalEntityIdentifier'
 
 let routeObjects = []
 

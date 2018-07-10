@@ -1,5 +1,5 @@
 import ProductPropertiesReference from './PropertiesReference'
-// import DisplayFunctions from 'src/services/functions/displayFunctions'
+// import DisplayFunctions from 'renderer/services/functions/displayFunctions'
 export default [
   {
     name: ProductPropertiesReference.ID.name,

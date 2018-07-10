@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import app from '../app/store/app'
 import api from './modules/api/api'
 
-import * as getters from 'src/app/store/getters'
+import * as getters from 'renderer/app/store/getters'
 
 Vue.use(Vuex)
 

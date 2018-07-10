@@ -23,7 +23,7 @@
 </template>
 
 <script>
-  import MauFormInputSelect from 'src/components/mau-components/mau-form-inputs/MauFormInputSelect.vue'
+  import MauFormInputSelect from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelect.vue'
   export default {
     name: 'FilterBar',
     data () {

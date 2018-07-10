@@ -9,10 +9,10 @@
 </template>
 
 <script>
-  import Layout from 'src/app/layout/Layout'
-  import AuthLayout from 'src/app/layout/AuthLayout'
+  import Layout from 'renderer/app/layout/Layout'
+  import AuthLayout from 'renderer/app/layout/AuthLayout'
   import {mapGetters} from 'vuex'
-  import AppActions from 'src/app/store/AppActions'
+  import AppActions from 'renderer/app/store/AppActions'
 
   export default {
     name: 'app',

@@ -1,9 +1,9 @@
 // import Vue from 'vue'
-// import {getHeaders} from 'src/config'
-import auth from 'src/api/store/auth'
-import entity from 'src/api/store/entity'
-import routeObject from 'src/api/store/routeObject'
-import * as getters from 'src/api/store/apiGetters'
+// import {getHeaders} from 'renderer/config'
+import auth from 'renderer/api/store/auth'
+import entity from 'renderer/api/store/entity'
+import routeObject from 'renderer/api/store/routeObject'
+import * as getters from 'renderer/api/store/apiGetters'
 
 
 

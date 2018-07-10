@@ -33,8 +33,8 @@
 </template>
 
 <script>
-    import ValidatorHelper from 'src/services/form/ValidatorHelper'
-    import Masks from 'src/services/form/Masks'
+    import ValidatorHelper from 'renderer/services/form/ValidatorHelper'
+    import Masks from 'renderer/services/form/Masks'
     let textInputTypes = {
       EMAIL: 'email',
       TEXT: 'text'

@@ -1,7 +1,7 @@
-import GlobalEntityIdentifier from 'src/services/api/GlobalEntityIdentifier'
-import DisplayFunctions from 'src/services/api/DisplayFunctions'
-import EntityTypes from 'src/api/EntityTypes'
-import MauInputDefaultValues from 'src/components/mau-components/mau-form-inputs/MauInputDefaultValues'
+import GlobalEntityIdentifier from 'renderer/services/api/GlobalEntityIdentifier'
+import DisplayFunctions from 'renderer/services/api/DisplayFunctions'
+import EntityTypes from 'renderer/api/EntityTypes'
+import MauInputDefaultValues from 'renderer/components/mau-components/mau-form-inputs/MauInputDefaultValues'
 
 export default {
   ID: {

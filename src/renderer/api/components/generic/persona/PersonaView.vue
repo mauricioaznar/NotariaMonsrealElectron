@@ -3,7 +3,7 @@
 </template>
 
 <script>
-    import PropertiesReference from 'src/api/propertiesReference/PersonaPropertiesReference'
+    import PropertiesReference from 'renderer/api/propertiesReference/PersonaPropertiesReference'
     export default {
       name: 'MauPersonaView',
       data () {

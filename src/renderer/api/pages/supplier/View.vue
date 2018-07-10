@@ -9,7 +9,7 @@
 </template>
 
 <script>
-  import PersonaView from 'src/api/components/generic/persona/PersonaView.vue'
+  import PersonaView from 'renderer/api/components/generic/persona/PersonaView.vue'
   export default {
     name: 'ViewSupplier',
     data () {

@@ -21,11 +21,11 @@
 
 <script>
   import TransactionForm from '../../components/generic/transaction/TransactionForm.vue'
-  import TransactionPropertiesReference from 'src/api/propertiesReference/TransactionPropertiesReference'
-//  import {ApiRoutes} from 'src/api/ApiRoutes'
-  import RouteObjectHelper from 'src/services/routeObject/RouteObjectHelper'
-  import EntityTypes from 'src/api/EntityTypes'
-  import ChildTypes from 'src/api/ChildTypes'
+  import TransactionPropertiesReference from 'renderer/api/propertiesReference/TransactionPropertiesReference'
+//  import {ApiRoutes} from 'renderer/api/ApiRoutes'
+  import RouteObjectHelper from 'renderer/services/routeObject/RouteObjectHelper'
+  import EntityTypes from 'renderer/api/EntityTypes'
+  import ChildTypes from 'renderer/api/ChildTypes'
   export default {
     name: 'EditExpense',
     data () {

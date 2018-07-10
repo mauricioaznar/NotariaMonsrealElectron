@@ -1,5 +1,5 @@
-import PersonaPropertiesReference from 'src/api/propertiesReference/PersonaPropertiesReference'
-// import DisplayFunctions from 'src/services/functions/displayFunctions'
+import PersonaPropertiesReference from 'renderer/api/propertiesReference/PersonaPropertiesReference'
+// import DisplayFunctions from 'renderer/services/functions/displayFunctions'
 export default [
   {
     name: PersonaPropertiesReference.NAME.name,

@@ -8,7 +8,7 @@
 </template>
 
 <script>
-  import EntityTypes from 'src/api/EntityTypes'
+  import EntityTypes from 'renderer/api/EntityTypes'
   export default {
     name: 'DelSupplier',
     data () {

@@ -1,6 +1,6 @@
-import apiComponentLoader from 'src/services/api/apiComponentLoader'
-import convertFirstCharacterTo from 'src/services/common/ConvertFirstCharacterTo'
-import entityStore from 'src/api/store/entity'
+import apiComponentLoader from 'renderer/services/api/apiComponentLoader'
+import convertFirstCharacterTo from 'renderer/services/common/ConvertFirstCharacterTo'
+import entityStore from 'renderer/api/store/entity'
 
 function createRouteObjectName (entityType, childType) {
   return convertFirstCharacterTo.uppercase(childType.name) + convertFirstCharacterTo.uppercase(entityType.name)

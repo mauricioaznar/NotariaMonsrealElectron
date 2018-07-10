@@ -13,9 +13,9 @@
 
 <script>
   import TableFields from './BagTableFields'
-  import PropertiesReference from 'src/api/propertiesReference/BagPropertiesReference'
-  import {getApiRoute, ApiRouteTypes} from 'src/api/ApiRoutes'
-  import EntityTypes from 'src/api/EntityTypes'
+  import PropertiesReference from 'renderer/api/propertiesReference/BagPropertiesReference'
+  import {getApiRoute, ApiRouteTypes} from 'renderer/api/ApiRoutes'
+  import EntityTypes from 'renderer/api/EntityTypes'
   export default {
     name: 'ListBag',
     data () {

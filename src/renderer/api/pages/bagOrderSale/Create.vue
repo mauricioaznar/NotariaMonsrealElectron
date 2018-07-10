@@ -17,12 +17,12 @@
 </template>
 
 <script>
-  import PropertiesReference from 'src/api/propertiesReference/BagOrderPropertiesReference'
-  import {ApiRoutes} from 'src/api/ApiRoutes'
-  import RouteObjectHelper from 'src/services/routeObject/RouteObjectHelper'
-  import EntityTypes from 'src/api/EntityTypes'
-  import ChildTypes from 'src/api/ChildTypes'
-  import BagOrderForm from 'src/api/components/generic/bagOrder/BagOrderForm.vue'
+  import PropertiesReference from 'renderer/api/propertiesReference/BagOrderPropertiesReference'
+  import {ApiRoutes} from 'renderer/api/ApiRoutes'
+  import RouteObjectHelper from 'renderer/services/routeObject/RouteObjectHelper'
+  import EntityTypes from 'renderer/api/EntityTypes'
+  import ChildTypes from 'renderer/api/ChildTypes'
+  import BagOrderForm from 'renderer/api/components/generic/bagOrder/BagOrderForm.vue'
   export default {
     name: 'CreateBagOrderSale',
     data () {

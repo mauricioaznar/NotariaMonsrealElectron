@@ -9,7 +9,7 @@
 </template>
 
 <script>
-  import PropertiesReference from 'src/api/propertiesReference/BagOrderPropertiesReference'
+  import PropertiesReference from 'renderer/api/propertiesReference/BagOrderPropertiesReference'
   export default {
     name: 'ViewBagOrderProduction',
     data () {

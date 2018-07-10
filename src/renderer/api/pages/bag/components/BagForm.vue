@@ -149,16 +149,16 @@
 
 <script>
   import {mapState} from 'vuex'
-  import PropertiesReference from 'src/api/propertiesReference/BagPropertiesReference'
-  import GlobalEntityIdentifier from 'src/services/api/GlobalEntityIdentifier'
-  import NormalizeObjects from 'src/services/api/NormalizeObjects'
-  import FormSubmitEventBus from 'src/services/form/FormSubmitEventBus'
-  import MauFormInputSelect from 'src/components/mau-components/mau-form-inputs/MauFormInputSelect.vue'
+  import PropertiesReference from 'renderer/api/propertiesReference/BagPropertiesReference'
+  import GlobalEntityIdentifier from 'renderer/services/api/GlobalEntityIdentifier'
+  import NormalizeObjects from 'renderer/services/api/NormalizeObjects'
+  import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
+  import MauFormInputSelect from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelect.vue'
   import MaskedInput from 'vue-text-mask'
-  import MauFormInputNumber from 'src/components/mau-components/mau-form-inputs/MauFormInputNumber.vue'
-  import MauFormInputText from 'src/components/mau-components/mau-form-inputs/MauFormInputText.vue'
-  import ValidatorHelper from 'src/services/form/ValidatorHelper'
-  import getFirstCharactersFromWords from 'src/services/common/getFirstCharactersFromWords'
+  import MauFormInputNumber from 'renderer/components/mau-components/mau-form-inputs/MauFormInputNumber.vue'
+  import MauFormInputText from 'renderer/components/mau-components/mau-form-inputs/MauFormInputText.vue'
+  import ValidatorHelper from 'renderer/services/form/ValidatorHelper'
+  import getFirstCharactersFromWords from 'renderer/services/common/getFirstCharactersFromWords'
   export default {
     name: 'BagForm',
     data () {

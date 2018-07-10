@@ -20,11 +20,11 @@
 
 <script>
   import {mapState} from 'vuex'
-  import RelationshipObjectHelper from 'src/services/form/ManyToManyHelper'
-//  import cloneDeep from 'src/services/common/cloneDeep'
-  import MauFormInputSelect from 'src/components/mau-components/mau-form-inputs/MauFormInputSelect.vue'
-  import MauFormInputMultiSelect from 'src/components/mau-components/mau-form-inputs/MauFormInputMultiSelect.vue'
-  import GlobalEntityIdentifier from 'src/services/api/GlobalEntityIdentifier'
+  import RelationshipObjectHelper from 'renderer/services/form/ManyToManyHelper'
+//  import cloneDeep from 'renderer/services/common/cloneDeep'
+  import MauFormInputSelect from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelect.vue'
+  import MauFormInputMultiSelect from 'renderer/components/mau-components/mau-form-inputs/MauFormInputMultiSelect.vue'
+  import GlobalEntityIdentifier from 'renderer/services/api/GlobalEntityIdentifier'
   export default {
     name: 'MauManyToManySelector',
     inject: ['$validator'],

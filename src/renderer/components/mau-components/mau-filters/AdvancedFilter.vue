@@ -77,13 +77,13 @@
   import {mapState} from 'vuex'
   import VueSelect from 'vue-select'
   import moment from 'moment'
-  import {getApiRoute, ApiRouteTypes} from 'src/api/ApiRoutes'
-  import EntityTypes from 'src/api/EntityTypes'
-  import EntityActions from 'src/api/store/entityActions'
-  import cloneDeep from 'src/services/common/cloneDeep'
-  import isDefined from 'src/services/common/isDefined'
-  import getArrayFromProperty from 'src/services/common/getArrayFromProperty'
-  import MauFormInputSelect from 'src/components/mau-components/mau-form-inputs/MauFormInputSelect.vue'
+  import {getApiRoute, ApiRouteTypes} from 'renderer/api/ApiRoutes'
+  import EntityTypes from 'renderer/api/EntityTypes'
+  import EntityActions from 'renderer/api/store/entityActions'
+  import cloneDeep from 'renderer/services/common/cloneDeep'
+  import isDefined from 'renderer/services/common/isDefined'
+  import getArrayFromProperty from 'renderer/services/common/getArrayFromProperty'
+  import MauFormInputSelect from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelect.vue'
   export default {
     name: 'AdvancedFilter',
     data () {

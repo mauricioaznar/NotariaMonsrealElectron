@@ -1,5 +1,5 @@
-import Masks from 'src/services/form/Masks'
-import MauInputDefaultValues from 'src/components/mau-components/mau-form-inputs/MauInputDefaultValues'
+import Masks from 'renderer/services/form/Masks'
+import MauInputDefaultValues from 'renderer/components/mau-components/mau-form-inputs/MauInputDefaultValues'
 export default {
   UNITS: {
     title: 'Cantidad en kilos',

@@ -11,9 +11,9 @@
 </template>
 
 <script>
-  import {ApiRoutes} from 'src/api/ApiRoutes'
-  import GlobalEntityIdentifier from 'src/services/api/GlobalEntityIdentifier'
-  import PersonaDataTable from 'src/api/components/generic/persona/PersonaDataTable.vue'
+  import {ApiRoutes} from 'renderer/api/ApiRoutes'
+  import GlobalEntityIdentifier from 'renderer/services/api/GlobalEntityIdentifier'
+  import PersonaDataTable from 'renderer/api/components/generic/persona/PersonaDataTable.vue'
   export default {
     name: 'ListClient',
     data () {

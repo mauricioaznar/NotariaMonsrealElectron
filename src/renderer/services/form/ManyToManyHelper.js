@@ -1,4 +1,4 @@
-import GlobalEntityIdentifier from 'src/services/api/GlobalEntityIdentifier'
+import GlobalEntityIdentifier from 'renderer/services/api/GlobalEntityIdentifier'
 
 function createSimpleM2MStructuredObject (object, selectedEntityRelationshipName) {
   return {[selectedEntityRelationshipName]: object[GlobalEntityIdentifier]}

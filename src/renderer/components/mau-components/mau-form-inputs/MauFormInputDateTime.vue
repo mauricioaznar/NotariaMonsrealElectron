@@ -28,7 +28,7 @@
   import flatPickr from 'vue-flatpickr-component'
   import {Spanish} from '../../../../../node_modules/flatpickr/dist/l10n/es'
   import 'flatpickr/dist/flatpickr.css'
-  import ValidatorHelper from 'src/services/form/ValidatorHelper'
+  import ValidatorHelper from 'renderer/services/form/ValidatorHelper'
   const rangeSeparator = ' al '
   Spanish.rangeSeparator = rangeSeparator
   export default {

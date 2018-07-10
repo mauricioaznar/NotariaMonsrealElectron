@@ -31,10 +31,10 @@
 </template>
 
 <script>
-  import ApiOperations from 'src/services/api/ApiOperations'
-  import {ApiRouteTypes, getApiRoute} from 'src/api/ApiRoutes'
-  import EntityTypes from 'src/api/EntityTypes'
-  import Notifications from 'src/services/api/Notifications'
+  import ApiOperations from 'renderer/services/api/ApiOperations'
+  import {ApiRouteTypes, getApiRoute} from 'renderer/api/ApiRoutes'
+  import EntityTypes from 'renderer/api/EntityTypes'
+  import Notifications from 'renderer/services/api/Notifications'
   export default {
     data () {
       return {
@@ -56,7 +56,7 @@
           ApiOperations.create(getApiRoute(EntityTypes.AUTH, ApiRouteTypes.TOKEN), credentials).then(result => {
             let token = result.token
             window.localStorage.setItem('AccessToken', JSON.stringify(token))
-            Notifications.info(_this, 'Bienvendio al sistema de grupo inopack')
+            Notifications.info(_this, 'Bienvendio al sistema de grupo inopack e industria')
             _this.$router.push({path: '*'})
           }).catch(e => {
             console.log(e)

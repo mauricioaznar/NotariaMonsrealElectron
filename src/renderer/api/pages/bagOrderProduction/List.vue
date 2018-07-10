@@ -11,10 +11,10 @@
 </template>
 
 <script>
-  import {ApiRouteTypes, getApiRoute} from 'src/api/ApiRoutes'
-  import EntityTypes from 'src/api/EntityTypes'
-  import TableFields from 'src/api/components/generic/bagOrder/BagOrderTableFields'
-  import PropertiesReference from 'src/api/propertiesReference/BagOrderPropertiesReference'
+  import {ApiRouteTypes, getApiRoute} from 'renderer/api/ApiRoutes'
+  import EntityTypes from 'renderer/api/EntityTypes'
+  import TableFields from 'renderer/api/components/generic/bagOrder/BagOrderTableFields'
+  import PropertiesReference from 'renderer/api/propertiesReference/BagOrderPropertiesReference'
   export default {
     name: 'ListBagOrderProduction',
     data () {

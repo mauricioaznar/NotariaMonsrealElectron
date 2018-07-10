@@ -17,10 +17,10 @@
 
 <script>
   import GrantorForm from './components/GrantorForm.vue'
-  import EntityActions from 'src/api/store/entityActions'
-  import RouteObjectHelper from 'src/services/routeObject/RouteObjectHelper'
-  import EntityTypes from 'src/api/EntityTypes'
-  import ChildTypes from 'src/api/ChildTypes'
+  import EntityActions from 'renderer/api/store/entityActions'
+  import RouteObjectHelper from 'renderer/services/routeObject/RouteObjectHelper'
+  import EntityTypes from 'renderer/api/EntityTypes'
+  import ChildTypes from 'renderer/api/ChildTypes'
   export default {
     name: 'EditGrantor',
     data () {

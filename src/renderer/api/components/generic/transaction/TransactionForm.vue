@@ -69,14 +69,14 @@
 </template>
 
 <script>
-  import ValidatorHelper from 'src/services/form/ValidatorHelper'
+  import ValidatorHelper from 'renderer/services/form/ValidatorHelper'
   import {mapState} from 'vuex'
-  import PropertiesReference from 'src/api/propertiesReference/TransactionPropertiesReference'
-  import GlobalEntityIdentifier from 'src/services/api/GlobalEntityIdentifier'
-  import FormSubmitEventBus from 'src/services/form/FormSubmitEventBus'
-//  import cloneDeep from 'src/services/common/cloneDeep'
-  import MauFormInputSelect from 'src/components/mau-components/mau-form-inputs/MauFormInputSelect.vue'
-  import MauFormInputDateTime from 'src/components/mau-components/mau-form-inputs/MauFormInputDateTime.vue'
+  import PropertiesReference from 'renderer/api/propertiesReference/TransactionPropertiesReference'
+  import GlobalEntityIdentifier from 'renderer/services/api/GlobalEntityIdentifier'
+  import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
+//  import cloneDeep from 'renderer/services/common/cloneDeep'
+  import MauFormInputSelect from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelect.vue'
+  import MauFormInputDateTime from 'renderer/components/mau-components/mau-form-inputs/MauFormInputDateTime.vue'
   export default {
     name: 'AppointmentForm',
     data () {

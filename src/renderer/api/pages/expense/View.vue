@@ -9,7 +9,7 @@
 </template>
 
 <script>
-  import TransactionPropertiesReference from 'src/api/propertiesReference/TransactionPropertiesReference'
+  import TransactionPropertiesReference from 'renderer/api/propertiesReference/TransactionPropertiesReference'
   export default {
     name: 'ViewExpense',
     data () {

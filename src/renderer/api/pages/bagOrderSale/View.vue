@@ -9,8 +9,8 @@
 </template>
 
 <script>
-  import PropertiesReference from 'src/api/propertiesReference/BagOrderPropertiesReference'
-  import OrderSalePropertiesReference from 'src/api/propertiesReference/BagOrderSalePropertiesReference'
+  import PropertiesReference from 'renderer/api/propertiesReference/BagOrderPropertiesReference'
+  import OrderSalePropertiesReference from 'renderer/api/propertiesReference/BagOrderSalePropertiesReference'
   export default {
     name: 'ViewBagOrderSale',
     data () {

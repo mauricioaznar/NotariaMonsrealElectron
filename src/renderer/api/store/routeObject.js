@@ -1,5 +1,5 @@
-import Routes from 'src/api/RouteObjects'
-import RouteObjectActions from 'src/api/store/routeObjectActions'
+import Routes from 'renderer/api/RouteObjects'
+import RouteObjectActions from 'renderer/api/store/routeObjectActions'
 
 const state = {
   currentRouteObject: null,

@@ -99,11 +99,11 @@
 
 <script>
   import PropertiesReference from '../PropertiesReference'
-  import GlobalEntityIdentifier from 'src/services/api/GlobalEntityIdentifier'
-  import ValidatorHelper from 'src/services/form/ValidatorHelper'
-  import DefaultValuesHelper from 'src/services/form/DefaultValuesHelper'
-  import FormSubmitEventBus from 'src/services/form/FormSubmitEventBus'
-  import MauFormInputSelect from 'src/components/mau-components/mau-form-inputs/MauFormInputSelect.vue'
+  import GlobalEntityIdentifier from 'renderer/services/api/GlobalEntityIdentifier'
+  import ValidatorHelper from 'renderer/services/form/ValidatorHelper'
+  import DefaultValuesHelper from 'renderer/services/form/DefaultValuesHelper'
+  import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
+  import MauFormInputSelect from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelect.vue'
   import {mapState} from 'vuex'
   export default {
     name: 'UserForm',

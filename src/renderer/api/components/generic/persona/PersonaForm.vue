@@ -127,10 +127,10 @@
 </template>
 
 <script>
-  import ValidatorHelper from 'src/services/form/ValidatorHelper'
-  import PropertiesReference from 'src/api/propertiesReference/PersonaPropertiesReference'
-  import FormSubmitEventBus from 'src/services/form/FormSubmitEventBus'
-  import DefaultValuesHelper from 'src/services/form/DefaultValuesHelper'
+  import ValidatorHelper from 'renderer/services/form/ValidatorHelper'
+  import PropertiesReference from 'renderer/api/propertiesReference/PersonaPropertiesReference'
+  import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
+  import DefaultValuesHelper from 'renderer/services/form/DefaultValuesHelper'
   import {mapState} from 'vuex'
   export default {
     name: 'MauPersonaForm',

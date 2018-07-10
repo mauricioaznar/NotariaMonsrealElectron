@@ -11,10 +11,10 @@
 </template>
 
 <script>
-  import {ApiRouteTypes, getApiRoute} from 'src/api/ApiRoutes'
-  import EntityTypes from 'src/api/EntityTypes'
-  import BagOrderAdjustmentTableFields from 'src/api/pages/bagOrderAdjustment/BagOrderAdjustmentTableFields'
-  import GlobalEntityIdentifier from 'src/services/api/GlobalEntityIdentifier'
+  import {ApiRouteTypes, getApiRoute} from 'renderer/api/ApiRoutes'
+  import EntityTypes from 'renderer/api/EntityTypes'
+  import BagOrderAdjustmentTableFields from 'renderer/api/pages/bagOrderAdjustment/BagOrderAdjustmentTableFields'
+  import GlobalEntityIdentifier from 'renderer/services/api/GlobalEntityIdentifier'
   export default {
     name: 'ListBagOrderAdjustment',
     created () {

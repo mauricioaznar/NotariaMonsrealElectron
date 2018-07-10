@@ -1,4 +1,4 @@
-import GlobalEntityIdentifier from 'src/services/api/GlobalEntityIdentifier'
+import GlobalEntityIdentifier from 'renderer/services/api/GlobalEntityIdentifier'
 function normalizeObject (object, includedProperties) {
   let newObject = {}
   newObject[GlobalEntityIdentifier] = object[GlobalEntityIdentifier]

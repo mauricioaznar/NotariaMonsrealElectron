@@ -22,8 +22,8 @@
 
 <script>
   import { mapGetters, mapActions } from 'vuex'
-  import Categories from 'src/api/Categories'
-  import RouteObjectHelper from 'src/services/routeObject/RouteObjectHelper'
+  import Categories from 'renderer/api/Categories'
+  import RouteObjectHelper from 'renderer/services/routeObject/RouteObjectHelper'
 
   export default {
     name: 'sidebar',

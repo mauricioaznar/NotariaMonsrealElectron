@@ -11,7 +11,7 @@
 </template>
 
 <script>
-  import PropertiesReference from 'src/api/propertiesReference/BagPropertiesReference'
+  import PropertiesReference from 'renderer/api/propertiesReference/BagPropertiesReference'
   export default {
     name: 'ViewBag',
     data () {

@@ -9,8 +9,8 @@
 </template>
 
 <script>
-  import OrderPropertiesReference from 'src/api/propertiesReference/BagOrderPropertiesReference'
-  import OrderAdjustmentPropertiesReference from 'src/api/propertiesReference/BagOrderAdjustmentPropertiesReference'
+  import OrderPropertiesReference from 'renderer/api/propertiesReference/BagOrderPropertiesReference'
+  import OrderAdjustmentPropertiesReference from 'renderer/api/propertiesReference/BagOrderAdjustmentPropertiesReference'
   export default {
     name: 'ViewOrderAdjustment',
     data () {

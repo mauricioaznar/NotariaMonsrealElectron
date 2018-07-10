@@ -27,8 +27,8 @@
 
 <script>
     import VueSelect from 'vue-select'
-    import ValidatorHelper from 'src/services/form/ValidatorHelper'
-    import cloneDeep from 'src/services/common/cloneDeep'
+    import ValidatorHelper from 'renderer/services/form/ValidatorHelper'
+    import cloneDeep from 'renderer/services/common/cloneDeep'
     export default {
       data () {
         return {

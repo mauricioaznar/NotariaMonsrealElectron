@@ -25,7 +25,7 @@
   import Navbar from './navbar/Navbar'
   import Sidebar from './sidebar/Sidebar'
   import AuthWidget from './auth-widget/AuthWidget.vue'
-  import EntityActions from 'src/api/store/entityActions'
+  import EntityActions from 'renderer/api/store/entityActions'
   export default {
     name: 'layout',
     data () {

@@ -45,11 +45,11 @@
 </template>
 
 <script>
-    import OrderProductPropertiesReference from 'src/api/propertiesReference/BagOrderProductPropertiesReference'
-    import ProductPropertiesReference from 'src/api/propertiesReference/BagPropertiesReference'
-    import MauFormInputRegularNumber from 'src/components/mau-components/mau-form-inputs/MauFormInputRegularNumber.vue'
+    import OrderProductPropertiesReference from 'renderer/api/propertiesReference/BagOrderProductPropertiesReference'
+    import ProductPropertiesReference from 'renderer/api/propertiesReference/BagPropertiesReference'
+    import MauFormInputRegularNumber from 'renderer/components/mau-components/mau-form-inputs/MauFormInputRegularNumber.vue'
     import {mapGetters} from 'vuex'
-    import cloneDeep from 'src/services/common/cloneDeep'
+    import cloneDeep from 'renderer/services/common/cloneDeep'
     export default {
       name: 'BagOrderTable',
       data () {

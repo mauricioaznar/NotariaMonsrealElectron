@@ -1,5 +1,5 @@
-import PropertiesReference from 'src/api/propertiesReference/BagPropertiesReference'
-import DisplayFunctions from 'src/services/api/DisplayFunctions'
+import PropertiesReference from 'renderer/api/propertiesReference/BagPropertiesReference'
+import DisplayFunctions from 'renderer/services/api/DisplayFunctions'
 export default [
   {
     name: PropertiesReference.NAME.name,

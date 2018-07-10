@@ -13,7 +13,7 @@
 </template>
 
 <script>
-  import Masks from 'src/services/form/Masks'
+  import Masks from 'renderer/services/form/Masks'
   export default {
     name: 'MauFormInputRegularNumber',
     $_veeValidate: {

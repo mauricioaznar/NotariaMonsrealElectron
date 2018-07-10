@@ -11,7 +11,7 @@
 </template>
 
 <script>
-  import {ApiRoutes} from 'src/api/ApiRoutes'
+  import {ApiRoutes} from 'renderer/api/ApiRoutes'
   import PropertiesReference from './PropertiesReference'
   import TableFields from './TableFields'
   export default {

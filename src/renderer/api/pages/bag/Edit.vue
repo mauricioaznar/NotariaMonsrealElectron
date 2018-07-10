@@ -17,10 +17,10 @@
 
 <script>
   import BagForm from './components/BagForm.vue'
-  import PropertiesReference from 'src/api/propertiesReference/BagPropertiesReference'
-  import RouteObjectHelper from 'src/services/routeObject/RouteObjectHelper'
-  import EntityTypes from 'src/api/EntityTypes'
-  import ChildTypes from 'src/api/ChildTypes'
+  import PropertiesReference from 'renderer/api/propertiesReference/BagPropertiesReference'
+  import RouteObjectHelper from 'renderer/services/routeObject/RouteObjectHelper'
+  import EntityTypes from 'renderer/api/EntityTypes'
+  import ChildTypes from 'renderer/api/ChildTypes'
   export default {
     name: 'EditBag',
     data () {

@@ -16,8 +16,8 @@
 </template>
 
 <script>
-  import GlobalEntityIdentifier from 'src/services/api/GlobalEntityIdentifier'
-  import RouteObjectHelper from 'src/services/routeObject/RouteObjectHelper'
+  import GlobalEntityIdentifier from 'renderer/services/api/GlobalEntityIdentifier'
+  import RouteObjectHelper from 'renderer/services/routeObject/RouteObjectHelper'
   export default {
     name: 'AuthWidget',
     data () {

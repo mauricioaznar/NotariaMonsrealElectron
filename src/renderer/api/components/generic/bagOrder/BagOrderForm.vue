@@ -107,16 +107,16 @@
 </template>
 
 <script>
-  import OrderPropertiesReference from 'src/api/propertiesReference/BagOrderPropertiesReference'
-  import OrderAdjustmentPropertiesReference from 'src/api/propertiesReference/BagOrderAdjustmentPropertiesReference'
-  import OrderSalePropertiesReference from 'src/api/propertiesReference/BagOrderSalePropertiesReference'
-  import ValidatorHelper from 'src/services/form/ValidatorHelper'
-  import FormSubmitEventBus from 'src/services/form/FormSubmitEventBus'
-  import MauFormInputSelect from 'src/components/mau-components/mau-form-inputs/MauFormInputSelect.vue'
-  import MauFormInputDateTime from 'src/components/mau-components/mau-form-inputs/MauFormInputDateTime.vue'
-  import GlobalEntityIdentifier from 'src/services/api/GlobalEntityIdentifier'
-  import OrderSaleTable from 'src/api/components/generic/bagOrder/components/BagOrderSaleTable.vue'
-  import OrderTable from 'src/api/components/generic/bagOrder/components/BagOrderTable.vue'
+  import OrderPropertiesReference from 'renderer/api/propertiesReference/BagOrderPropertiesReference'
+  import OrderAdjustmentPropertiesReference from 'renderer/api/propertiesReference/BagOrderAdjustmentPropertiesReference'
+  import OrderSalePropertiesReference from 'renderer/api/propertiesReference/BagOrderSalePropertiesReference'
+  import ValidatorHelper from 'renderer/services/form/ValidatorHelper'
+  import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
+  import MauFormInputSelect from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelect.vue'
+  import MauFormInputDateTime from 'renderer/components/mau-components/mau-form-inputs/MauFormInputDateTime.vue'
+  import GlobalEntityIdentifier from 'renderer/services/api/GlobalEntityIdentifier'
+  import OrderSaleTable from 'renderer/api/components/generic/bagOrder/components/BagOrderSaleTable.vue'
+  import OrderTable from 'renderer/api/components/generic/bagOrder/components/BagOrderTable.vue'
   import {mapState} from 'vuex'
   export default {
     name: 'MauSimpleOrderForm',

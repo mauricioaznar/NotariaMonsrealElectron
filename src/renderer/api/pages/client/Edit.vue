@@ -17,11 +17,11 @@
 </template>
 
 <script>
-  import EntityActions from 'src/api/store/entityActions'
-  import RouteObjectHelper from 'src/services/routeObject/RouteObjectHelper'
-  import PersonaForm from 'src/api/components/generic/persona/PersonaForm.vue'
-  import EntityTypes from 'src/api/EntityTypes'
-  import ChildTypes from 'src/api/ChildTypes'
+  import EntityActions from 'renderer/api/store/entityActions'
+  import RouteObjectHelper from 'renderer/services/routeObject/RouteObjectHelper'
+  import PersonaForm from 'renderer/api/components/generic/persona/PersonaForm.vue'
+  import EntityTypes from 'renderer/api/EntityTypes'
+  import ChildTypes from 'renderer/api/ChildTypes'
   export default {
     name: 'EditClient',
     data () {

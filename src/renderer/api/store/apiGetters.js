@@ -1,6 +1,6 @@
-import GlobalEntityIdentifier from 'src/services/api/GlobalEntityIdentifier'
-import isEntityEditable from 'src/services/api/isEntityEditable'
-import RouteObjectHelper from 'src/services/routeObject/RouteObjectHelper'
+import GlobalEntityIdentifier from 'renderer/services/api/GlobalEntityIdentifier'
+import isEntityEditable from 'renderer/services/api/isEntityEditable'
+import RouteObjectHelper from 'renderer/services/routeObject/RouteObjectHelper'
 const user = state => {
   let user = state.auth.user
   return user !== null ? user : ''

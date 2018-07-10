@@ -7,11 +7,11 @@
 </template>
 
 <script>
-    import PropertiesReference from 'src/api/pages/user/PropertiesReference'
-    import ApiOperations from 'src/services/api/ApiOperations'
-    import {getApiRoute, ApiRouteTypes} from 'src/api/ApiRoutes'
-    import Notifications from 'src/services/api/Notifications'
-    import EntityTypes from 'src/api/EntityTypes'
+    import PropertiesReference from 'renderer/api/pages/user/PropertiesReference'
+    import ApiOperations from 'renderer/services/api/ApiOperations'
+    import {getApiRoute, ApiRouteTypes} from 'renderer/api/ApiRoutes'
+    import Notifications from 'renderer/services/api/Notifications'
+    import EntityTypes from 'renderer/api/EntityTypes'
     export default {
       name: 'UserResetPassword',
       data () {

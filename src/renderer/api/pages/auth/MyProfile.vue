@@ -8,10 +8,10 @@
 </template>
 
 <script>
-  import PropertiesReference from 'src/api/pages/user/PropertiesReference'
-  import {ApiRouteTypes, getApiRoute} from 'src/api/ApiRoutes'
-  import EntityTypes from 'src/api/EntityTypes'
-  import ApiOperations from 'src/services/api/ApiOperations'
+  import PropertiesReference from 'renderer/api/pages/user/PropertiesReference'
+  import {ApiRouteTypes, getApiRoute} from 'renderer/api/ApiRoutes'
+  import EntityTypes from 'renderer/api/EntityTypes'
+  import ApiOperations from 'renderer/services/api/ApiOperations'
   export default {
     name: 'MyProfileAuth',
     data () {
