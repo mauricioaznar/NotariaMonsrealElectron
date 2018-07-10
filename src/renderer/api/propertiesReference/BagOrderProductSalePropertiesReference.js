@@ -7,14 +7,18 @@ let OrderProductSalePropertiesReference = {
     title: 'Precio unitario',
     name: 'unit_price',
     display: DisplayFunctions.getValue,
-    required: true,
     defaultValue: MauInputDefaultValues.NUMBER
   },
   TOTAL_COST: {
     title: 'Costo total',
     name: 'total_cost',
     display: DisplayFunctions.getValue,
-    required: true,
+    defaultValue: MauInputDefaultValues.NUMBER
+  },
+  DISCOUNT: {
+    title: 'Descuento',
+    name: 'discount',
+    display: DisplayFunctions.getValue,
     defaultValue: MauInputDefaultValues.NUMBER
   }
 }
