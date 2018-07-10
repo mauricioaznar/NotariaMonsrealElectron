@@ -1,6 +1,6 @@
 {
   "name": "Industria",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Maguas Tupaguas <mauricioaznar94@gmail.com>",
   "description": "An electron-vue project",
   "license": null,
@@ -64,6 +64,7 @@
     "bootstrap": "^4.1.1",
     "bootstrap-vue": "^2.0.0-rc.11",
     "chart.js": "^2.7.2",
+    "electron-updater": "^2.23.3",
     "epic-spinners": "^1.0.2",
     "font-awesome": "^4.7.0",
     "jquery": "^3.3.1",
