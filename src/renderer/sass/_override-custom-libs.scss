@@ -165,3 +165,7 @@
 .chart {
   height: $chart-height;
 }
+
+.table td, .table th {
+  border-top: none !important;
+} 
