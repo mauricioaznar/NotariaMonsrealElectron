@@ -1,123 +1,127 @@
 <template>
     <div>
         <div class="form-group form-row">
-            <div class="col-sm-12 col-md-6 client_name">
-                <label>{{PropertiesReference.NAME.title}}</label>
-                <b-form-input v-model="client.name"
-                              type="text"
-                              class="form-control"
-                              v-validate="'required'"
-                              :class="getBootstrapValidationClass(errors.has(PropertiesReference.NAME.name))"
-                              :data-vv-name="PropertiesReference.NAME.name"
-                              placeholder="Ejemplo: Juan Rodrigo">
-                </b-form-input>
-                <div class="invalid-feedback">
-            <span v-show="errors.has(PropertiesReference.NAME.name)" class="help is-danger">
-              {{ errors.first(PropertiesReference.NAME.name) }}
-            </span>
-                </div>
-            </div>
-            <div class="col-sm-12 col-md-6 client_lastname">
-                <label>{{PropertiesReference.LASTNAME.title}}</label>
-                <b-form-input v-model="client.lastname"
-                              type="text"
-                              placeholder="Ejemplo: Ochoa Campos">
-                </b-form-input>
+            <div class="col-sm-12">
+                <mau-form-input-text
+                        :initialValue="initialValues[PropertiesReference.COMPANYNAME.name]"
+                        v-model="client.companyname"
+                        :label="PropertiesReference.COMPANYNAME.title"
+                        :name="PropertiesReference.COMPANYNAME.name"
+                        :error="errors.first(PropertiesReference.COMPANYNAME.name)"
+                        v-validate="'required'"
+                >
+                </mau-form-input-text>
             </div>
         </div>
         <div class="form-group form-row">
-            <div class="col-md-6 col-sm-12 client_email">
-                <label>{{PropertiesReference.EMAIL.title}}</label>
-                <masked-input
-                        :name="PropertiesReference.EMAIL.name"
+            <div class="col-md-6 col-sm-12">
+                <mau-form-input-text
+                        :initialValue="initialValues[PropertiesReference.FIRSTNAME.name]"
+                        v-model="client.firstname"
+                        :label="PropertiesReference.FIRSTNAME.title"
+                        :name="PropertiesReference.FIRSTNAME.name"
+                        :type="'email'"
+                        :error="errors.first(PropertiesReference.FIRSTNAME.name)"
+                        v-validate="'required'"
+                >
+                </mau-form-input-text>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <mau-form-input-text
+                        :initialValue="initialValues[PropertiesReference.LASTNAME.name]"
+                        v-model="client.lastname"
+                        :label="PropertiesReference.LASTNAME.title"
+                        :name="PropertiesReference.LASTNAME.name"
+                        :type="'housephone'"
+                        :error="errors.first(PropertiesReference.LASTNAME.name)"
+                        v-validate="'required'"
+                >
+                </mau-form-input-text>
+            </div>
+        </div>
+        <div class="form-group form-row">
+            <div class="col-md-4 col-sm-12">
+                <mau-form-input-text
+                        :initialValue="initialValues[PropertiesReference.EMAIL.name]"
                         v-model="client.email"
-                        :value="initialValues[PropertiesReference.EMAIL.name]"
-                        class="form-control"
-                        :guide="true"
-                        :mask="PropertiesReference.EMAIL.mask"
-                        :class="getBootstrapValidationClass(errors.has(PropertiesReference.EMAIL.name))"
-                        :data-vv-name="PropertiesReference.EMAIL.name"
+                        :label="PropertiesReference.EMAIL.title"
+                        :name="PropertiesReference.EMAIL.name"
+                        :type="'email'"
+                        :error="errors.first(PropertiesReference.EMAIL.name)"
                         v-validate="'required'"
-                        :placeholder="'Ejemplo: juanochoa@gmail.com'"
                 >
-                </masked-input>
-                <div class="invalid-feedback">
-            <span v-show="errors.has(PropertiesReference.EMAIL.name)" class="help is-danger">
-              {{ errors.first(PropertiesReference.EMAIL.name) }}
-            </span>
-                </div>
+                </mau-form-input-text>
             </div>
-            <div class="col-md-6 col-sm-12 client_phone">
-                <label>{{PropertiesReference.PHONE.title}}</label>
-                <masked-input
-                        :name="PropertiesReference.PHONE.name"
-                        v-model="client.phone"
-                        :value="initialValues[PropertiesReference.PHONE.name]"
-                        class="form-control"
-                        :guide="true"
-                        :mask="PropertiesReference.PHONE.mask"
-                        :class="getBootstrapValidationClass(errors.has(PropertiesReference.PHONE.name))"
-                        :data-vv-name="PropertiesReference.PHONE.name"
+            <div class="col-md-4 col-sm-12">
+                <mau-form-input-text
+                        :initialValue="initialValues[PropertiesReference.HOUSEPHONE.name]"
+                        v-model="client.housephone"
+                        :label="PropertiesReference.HOUSEPHONE.title"
+                        :name="PropertiesReference.HOUSEPHONE.name"
+                        :type="'housephone'"
+                        :error="errors.first(PropertiesReference.HOUSEPHONE.name)"
                         v-validate="'required'"
-                        :placeholder="'Ejemplo: (999) 6322 542'"
                 >
-                </masked-input>
-                <div class="invalid-feedback">
-            <span v-show="errors.has(PropertiesReference.PHONE.name)" class="help is-danger">
-              {{ errors.first(PropertiesReference.PHONE.name) }}
-            </span>
-                </div>
+                </mau-form-input-text>
+            </div>
+            <div class="col-md-4 col-sm-12">
+                <mau-form-input-text
+                        :initialValue="initialValues[PropertiesReference.CELLPHONE.name]"
+                        v-model="client.cellphone"
+                        :label="PropertiesReference.CELLPHONE.title"
+                        :name="PropertiesReference.CELLPHONE.name"
+                        :type="'cellphone'"
+                        :error="errors.first(PropertiesReference.CELLPHONE.name)"
+                        v-validate="'required'"
+                >
+                </mau-form-input-text>
             </div>
         </div>
         <div class="form-group form-row">
-            <div class="col-sm-12 col-md-4 client_city">
-                <label>{{PropertiesReference.CITY.title}}</label>
-                <b-form-input v-model="client.city"
-                              type="text"
-                              placeholder="Ejemplo: Juan Rodrigo">
-                </b-form-input>
-            </div>
-            <div class="col-sm-12 col-md-4 client_country">
-                <label>{{PropertiesReference.COUNTRY.title}}</label>
-                <b-form-input v-model="client.country"
-                              type="text"
-                              placeholder="Ejemplo: uan Rodrigo">
-                </b-form-input>
-                <div class="invalid-feedback">
-            <span v-show="errors.has(PropertiesReference.COUNTRY.name)" class="help is-danger">
-              {{ errors.first(PropertiesReference.COUNTRY.name) }}
-            </span>
-                </div>
-            </div>
-            <div class="col-sm-12 col-md-4 client_zipcode">
-                <label>{{PropertiesReference.ZIPCODE.title}}</label>
-                <masked-input
-                        :name="PropertiesReference.ZIPCODE.name"
-                        v-model="client.zipcode"
-                        :value="initialValues[PropertiesReference.ZIPCODE.name]"
-                        class="form-control"
-                        :guide="true"
-                        :mask="PropertiesReference.ZIPCODE.mask"
-                        :class="getBootstrapValidationClass(errors.has(PropertiesReference.ZIPCODE.name))"
-                        :data-vv-name="PropertiesReference.ZIPCODE.name"
-                        v-validate="'required'"
-                        :placeholder="'Ejemplo: 99963'"
+            <div class="col-sm-12 col-md-4">
+                <mau-form-input-text
+                        :initialValue="initialValues[PropertiesReference.CITY.name]"
+                        v-model="client.city"
+                        :label="PropertiesReference.CITY.title"
+                        :name="PropertiesReference.CITY.name"
+                        :error="errors.first(PropertiesReference.CITY.name)"
                 >
-                </masked-input>
-                <div class="invalid-feedback">
-        <span v-show="errors.has(PropertiesReference.ZIPCODE.name)" class="help is-danger">
-          {{ errors.first(PropertiesReference.ZIPCODE.name) }}
-        </span>
-                </div>
+                </mau-form-input-text>
+            </div>
+            <div class="col-sm-12 col-md-4">
+                <mau-form-input-text
+                        :initialValue="initialValues[PropertiesReference.COUNTRY.name]"
+                        v-model="client.country"
+                        :label="PropertiesReference.COUNTRY.title"
+                        :name="PropertiesReference.COUNTRY.name"
+                        :error="errors.first(PropertiesReference.COUNTRY.name)"
+                        v-validate="'required'"
+                >
+                </mau-form-input-text>
+            </div>
+            <div class="col-sm-12 col-md-4">
+                <mau-form-input-number
+                        :label="PropertiesReference.ZIPCODE.title"
+                        :name="PropertiesReference.ZIPCODE.name"
+                        :initialValue="initialValues[PropertiesReference.ZIPCODE.name]"
+                        v-model="client.zipcode"
+                        v-validate="'required|min_value:1'"
+                        :error="errors.first(PropertiesReference.ZIPCODE.name)"
+                >
+                </mau-form-input-number>
             </div>
         </div>
-        <div class="form-group">
-            <div class="client_address1">
-                <label>{{PropertiesReference.ADDRESS1.title}}</label>
-                <b-form-input v-model="client.address1"
-                              type="text"
-                              placeholder="Ejemplo: Calle 19 entre 22 y 22-c">
-                </b-form-input>
+        <div class="form-group form-row">
+            <div class="col-sm-12">
+                <mau-form-input-text
+                        :initialValue="initialValues[PropertiesReference.ADDRESS1.name]"
+                        v-model="client.address1"
+                        :label="PropertiesReference.ADDRESS1.title"
+                        :name="PropertiesReference.ADDRESS1.name"
+                        :error="errors.first(PropertiesReference.ADDRESS1.name)"
+                        v-validate="'required'"
+                >
+                </mau-form-input-text>
             </div>
         </div>
         <div class="container mb-2 text-right">
@@ -131,6 +135,8 @@
   import PropertiesReference from 'renderer/api/propertiesReference/PersonaPropertiesReference'
   import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
   import DefaultValuesHelper from 'renderer/services/form/DefaultValuesHelper'
+  import MauFormInputText from 'renderer/components/mau-components/mau-form-inputs/MauFormInputText.vue'
+  import MauFormInputNumber from 'renderer/components/mau-components/mau-form-inputs/MauFormInputNumber.vue'
   import {mapState} from 'vuex'
   export default {
     name: 'MauPersonaForm',
@@ -140,19 +146,23 @@
         client: {
           name: '',
           lastname: '',
+          companyname: '',
+          firstname: '',
           email: '',
           address1: '',
           city: '',
           country: '',
           zipcode: '',
-          phone: ''
+          housephone: '',
+          cellphone: ''
         },
         initialValues: {},
         buttonDisabled: false
       }
     },
     components: {
-
+      MauFormInputText,
+      MauFormInputNumber
     },
     props: {
       initialObject: {
@@ -180,25 +190,29 @@
     methods: {
       getBootstrapValidationClass: ValidatorHelper.getBootstrapValidationClass,
       setInitialValues: function () {
-        this.client.name = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.NAME.name)
-        this.client.lastname = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.LASTNAME.name)
-        this.client.address1 = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.ADDRESS1.name)
-        this.client.email = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.EMAIL.name)
-        this.client.city = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.CITY.name)
-        this.client.country = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.COUNTRY.name)
-        this.client.zipcode = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.ZIPCODE.name)
-        this.client.phone = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.PHONE.name)
+        this.initialValues[PropertiesReference.COMPANYNAME.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.COMPANYNAME.name)
+        this.initialValues[PropertiesReference.FIRSTNAME.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.FIRSTNAME.name)
+        this.initialValues[PropertiesReference.LASTNAME.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.LASTNAME.name)
+        this.initialValues[PropertiesReference.ADDRESS1.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.ADDRESS1.name)
+        this.initialValues[PropertiesReference.EMAIL.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.EMAIL.name)
+        this.initialValues[PropertiesReference.CITY.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.CITY.name)
+        this.initialValues[PropertiesReference.COUNTRY.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.COUNTRY.name)
+        this.initialValues[PropertiesReference.ZIPCODE.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.ZIPCODE.name)
+        this.initialValues[PropertiesReference.HOUSEPHONE.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.HOUSEPHONE.name)
+        this.initialValues[PropertiesReference.CELLPHONE.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.CELLPHONE.name)
       },
       save: function () {
         let directParams = {
-          [PropertiesReference.NAME.name]: this.client.name,
+          [PropertiesReference.COMPANYNAME.name]: this.client.companyname,
+          [PropertiesReference.FIRSTNAME.name]: this.client.firstname,
           [PropertiesReference.LASTNAME.name]: this.client.lastname,
           [PropertiesReference.EMAIL.name]: this.client.email,
           [PropertiesReference.ADDRESS1.name]: this.client.address1,
           [PropertiesReference.CITY.name]: this.client.city,
           [PropertiesReference.COUNTRY.name]: this.client.country,
           [PropertiesReference.ZIPCODE.name]: this.client.zipcode,
-          [PropertiesReference.PHONE.name]: this.client.phone ? this.client.phone.replace(/\D+/g, '') : ''
+          [PropertiesReference.HOUSEPHONE.name]: this.client.housephone ? this.client.housephone.replace(/\D+/g, '') : '',
+          [PropertiesReference.CELLPHONE.name]: this.client.cellphone ? this.client.cellphone.replace(/\D+/g, '') : ''
         }
         let indirectParams = {
         }

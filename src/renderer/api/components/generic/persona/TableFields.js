@@ -2,9 +2,9 @@ import PersonaPropertiesReference from 'renderer/api/propertiesReference/Persona
 // import DisplayFunctions from 'renderer/services/functions/displayFunctions'
 export default [
   {
-    name: PersonaPropertiesReference.NAME.name,
-    title: PersonaPropertiesReference.NAME.title,
-    sortField: PersonaPropertiesReference.NAME.name,
+    name: PersonaPropertiesReference.COMPANYNAME.name,
+    title: PersonaPropertiesReference.COMPANYNAME.title,
+    sortField: PersonaPropertiesReference.COMPANYNAME.name,
     filter: true
   },
   {
@@ -14,9 +14,27 @@ export default [
     filter: true
   },
   {
-    name: PersonaPropertiesReference.PHONE.name,
-    title: PersonaPropertiesReference.PHONE.title,
-    sortField: PersonaPropertiesReference.PHONE.name,
+    name: PersonaPropertiesReference.FIRSTNAME.name,
+    title: PersonaPropertiesReference.FIRSTNAME.title,
+    sortField: PersonaPropertiesReference.FIRSTNAME.name,
+    filter: true
+  },
+  {
+    name: PersonaPropertiesReference.LASTNAME.name,
+    title: PersonaPropertiesReference.LASTNAME.title,
+    sortField: PersonaPropertiesReference.LASTNAME.name,
+    filter: true
+  },
+  {
+    name: PersonaPropertiesReference.HOUSEPHONE.name,
+    title: PersonaPropertiesReference.HOUSEPHONE.title,
+    sortField: PersonaPropertiesReference.HOUSEPHONE.name,
+    filter: true
+  },
+  {
+    name: PersonaPropertiesReference.CELLPHONE.name,
+    title: PersonaPropertiesReference.CELLPHONE.title,
+    sortField: PersonaPropertiesReference.CELLPHONE.name,
     filter: true
   }
 ]

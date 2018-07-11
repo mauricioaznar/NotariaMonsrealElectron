@@ -51,7 +51,7 @@
         <label>{{PropertiesReference.PHONE.title}}</label>
         <masked-input
                 :name="PropertiesReference.PHONE.name"
-                v-model="user.phone"
+                v-model="user.housephone"
                 :value="initialValues[PropertiesReference.PHONE.name]"
                 class="form-control"
                 :guide="true"
@@ -118,7 +118,7 @@
           name: '',
           lastname: '',
           email: '',
-          phone: '',
+          housephone: '',
           role: ''
         },
         initialValues: {},
@@ -157,7 +157,7 @@
       setInitialValues: function () {
         this.user.name = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.COST.name)
         this.user.lastname = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.NICKNAME.name)
-        this.user.phone = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.PHONE.name)
+        this.user.housephone = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.PHONE.name)
         this.user.email = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.EMAIL.name)
         let roleId = this.initialObject !== undefined ? this.initialObject[PropertiesReference.ROLE.name][GlobalEntityIdentifier] : null
         this.initialValues[PropertiesReference.ROLE.name] = roleId !== null ? this.$store.getters.getRoleByRoleId(roleId) : null
@@ -166,7 +166,7 @@
         let directParams = {
           [PropertiesReference.COST.name]: this.user.name,
           [PropertiesReference.NICKNAME.name]: this.user.lastname,
-          [PropertiesReference.PHONE.name]: this.user.phone ? this.user.phone.replace(/\D+/g, '') : '',
+          [PropertiesReference.PHONE.name]: this.user.housephone ? this.user.housephone.replace(/\D+/g, '') : '',
           [PropertiesReference.EMAIL.name]: this.user.email,
           [PropertiesReference.ROLE.relationship_id_name]: this.user.role ? this.user.role[GlobalEntityIdentifier] : 'null'
         }

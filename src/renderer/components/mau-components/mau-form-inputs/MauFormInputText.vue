@@ -24,6 +24,30 @@
                 @input="updateValue"
         >
         </masked-input>
+        <masked-input
+                v-if="type === textInputTypes.HOUSEPHONE"
+                :name="name"
+                v-model="stringValue"
+                class="form-control"
+                :guide="true"
+                :mask="mask"
+                :class="getBootstrapValidationClass(error)"
+                :placeholder="'Ejemplo: 6322 542'"
+                @input="updateValue"
+        >
+        </masked-input>
+        <masked-input
+                v-if="type === textInputTypes.CELLPHONE"
+                :name="name"
+                v-model="stringValue"
+                class="form-control"
+                :guide="true"
+                :mask="mask"
+                :class="getBootstrapValidationClass(error)"
+                :placeholder="'Ejemplo: (999) 6322 542'"
+                @input="updateValue"
+        >
+        </masked-input>
         <div class="invalid-feedback">
             <span v-show="error" class="help is-danger">
               {{ error }}
@@ -37,7 +61,9 @@
     import Masks from 'renderer/services/form/Masks'
     let textInputTypes = {
       EMAIL: 'email',
-      TEXT: 'text'
+      TEXT: 'text',
+      HOUSEPHONE: 'housephone',
+      CELLPHONE: 'cellphone'
     }
     export default {
       data () {
@@ -58,6 +84,12 @@
       created () {
         if (this.type === textInputTypes.EMAIL) {
           this.mask = Masks.email
+        }
+        if (this.type === textInputTypes.HOUSEPHONE) {
+          this.mask = Masks.housephone
+        }
+        if (this.type === textInputTypes.CELLPHONE) {
+          this.mask = Masks.cellphone
         }
         if (this.initialValue !== '') {
           this.stringValue = this.initialValue
@@ -91,7 +123,7 @@
             return textInputTypes.TEXT
           },
           validator: function (value) {
-            return [textInputTypes.TEXT, textInputTypes.EMAIL].indexOf(value) !== -1
+            return [textInputTypes.TEXT, textInputTypes.EMAIL, textInputTypes.HOUSEPHONE, textInputTypes.CELLPHONE].indexOf(value) !== -1
           }
         }
       },

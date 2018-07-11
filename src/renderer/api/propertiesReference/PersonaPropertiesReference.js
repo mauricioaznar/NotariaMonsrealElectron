@@ -10,69 +10,72 @@ export default {
     relationship_id_name: 'client_id',
     defaultValue: MauInputDefaultValues.NUMBER
   },
-  NAME: {
-    title: 'Nombre',
-    name: 'name',
+  COMPANYNAME: {
+    title: 'Nombre de la empresa',
+    name: 'companyname',
     display: DisplayFunctions.getValue,
-    required: true,
+    defaultValue: MauInputDefaultValues.TEXT
+  },
+  FIRSTNAME: {
+    title: 'Nombre',
+    name: 'firstname',
+    display: DisplayFunctions.getValue,
     defaultValue: MauInputDefaultValues.TEXT
   },
   NICKNAME: {
     title: 'Apodo',
     name: 'nickname',
     display: DisplayFunctions.getValue,
-    required: true,
     defaultValue: MauInputDefaultValues.TEXT
   },
   LASTNAME: {
     title: 'Apellidos',
     name: 'lastname',
     display: DisplayFunctions.getValue,
-    required: true,
     defaultValue: MauInputDefaultValues.TEXT
   },
   EMAIL: {
     title: 'Correo Electronico',
     name: 'email',
-    mask: Masks.email,
     display: DisplayFunctions.getValue,
-    required: false,
     defaultValue: MauInputDefaultValues.TEXT
   },
   ADDRESS1: {
     title: 'Direccion',
     name: 'address1',
     display: DisplayFunctions.getValue,
-    required: false,
     defaultValue: MauInputDefaultValues.TEXT
   },
-  PHONE: {
-    title: 'Telefono',
-    name: 'phone',
+  HOUSEPHONE: {
+    title: 'Telefono de la empresa',
+    name: 'housephone',
     display: DisplayFunctions.getValue,
-    required: false,
-    mask: Masks.phone,
+    mask: Masks.housephone,
+    defaultValue: MauInputDefaultValues.NUMBER
+  },
+  CELLPHONE: {
+    title: 'Telefono del contacto',
+    name: 'cellphone',
+    display: DisplayFunctions.getValue,
+    mask: Masks.cellphone,
     defaultValue: MauInputDefaultValues.NUMBER
   },
   COUNTRY: {
     title: 'Pais',
     name: 'country',
     display: DisplayFunctions.getValue,
-    required: false,
     defaultValue: MauInputDefaultValues.TEXT
   },
   CITY: {
     title: 'Ciudad',
     name: 'city',
     display: DisplayFunctions.getValue,
-    required: false,
     defaultValue: MauInputDefaultValues.TEXT
   },
   ZIPCODE: {
     title: 'Codigo Postal',
     name: 'zip_code',
     display: DisplayFunctions.getValue,
-    required: false,
     mask: Masks.regularNumber,
     defaultValue: MauInputDefaultValues.NUMBER
   }

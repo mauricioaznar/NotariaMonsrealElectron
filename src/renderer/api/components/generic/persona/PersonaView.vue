@@ -10,14 +10,16 @@
         return {
           entity: null,
           propertiesReference: [
-            PropertiesReference.NAME,
+            PropertiesReference.COMPANYNAME,
             PropertiesReference.ID,
+            PropertiesReference.FIRSTNAME,
             PropertiesReference.LASTNAME,
             PropertiesReference.COUNTRY,
             PropertiesReference.CITY,
             PropertiesReference.ADDRESS1,
             PropertiesReference.EMAIL,
-            PropertiesReference.PHONE
+            PropertiesReference.HOUSEPHONE,
+            PropertiesReference.CELLPHONE
           ]
         }
       },

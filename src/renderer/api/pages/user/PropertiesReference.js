@@ -37,9 +37,9 @@ export default {
   },
   PHONE: {
     title: 'Telefono',
-    name: 'phone',
+    name: 'housephone',
     display: DisplayFunctions.getValue,
-    mask: Masks.phone,
+    mask: Masks.housephone,
     mauInputType: MauInputTypes.NUMBER,
     defaultValue: ''
   },

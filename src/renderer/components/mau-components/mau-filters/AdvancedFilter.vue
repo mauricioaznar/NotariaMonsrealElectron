@@ -118,7 +118,7 @@
         ],
         contactFilters: [
           {text: 'Nombre', value: 'fullname'},
-          {text: 'Telefono', value: 'phone'},
+          {text: 'Telefono', value: 'housephone'},
           {text: 'Email', value: 'email'}
         ],
         showCollapse: false
@@ -128,7 +128,7 @@
       this.getInitialData()
       this.excelRoute = getApiRoute(EntityTypes.EXCEL, ApiRouteTypes.EXCEL)
       this.documentSelectedFilter = ['folio', 'file_number', 'tome']
-      this.contactSelectedFilter = ['phone', 'email', 'fullname']
+      this.contactSelectedFilter = ['housephone', 'email', 'fullname']
     },
     computed: {
       ...mapState({
