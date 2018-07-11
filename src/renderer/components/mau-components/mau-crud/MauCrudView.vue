@@ -9,7 +9,8 @@
     name: 'MauCrudView',
     data () {
       return {
-        entity: null
+        entity: null,
+        show: true
       }
     },
     props: {

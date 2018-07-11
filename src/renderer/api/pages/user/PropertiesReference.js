@@ -1,4 +1,4 @@
-import GlobalEntityIdentifier from 'renderer/services/api/GlobalEntityIdentifier'
+import {globalEntityIdentificator} from 'renderer/config'
 import DisplayFunctions from 'renderer/services/api/DisplayFunctions'
 import MauInputTypes from 'renderer/components/mau-components/mau-form-inputs/MauInputTypes'
 import MauInputDefaultValues from 'renderer/components/mau-components/mau-form-inputs/MauInputDefaultValues'
@@ -7,20 +7,20 @@ import Masks from 'renderer/services/form/Masks'
 export default {
   ID: {
     title: 'id',
-    name: GlobalEntityIdentifier,
+    name: globalEntityIdentificator,
     display: DisplayFunctions.getValue,
     relationship_id_name: 'user_id',
     mauInputType: MauInputTypes.NUMBER,
     defaultValue: MauInputDefaultValues.NUMBER
   },
-  COST: {
+  NAME: {
     title: 'Nombre',
     name: 'name',
     display: DisplayFunctions.getValue,
     mauInputType: MauInputTypes.TEXT,
     defaultValue: MauInputDefaultValues.TEXT
   },
-  NICKNAME: {
+  LASTNAME: {
     title: 'Apellidos',
     name: 'lastname',
     display: DisplayFunctions.getValue,
@@ -37,9 +37,9 @@ export default {
   },
   PHONE: {
     title: 'Telefono',
-    name: 'housephone',
+    name: 'phone',
     display: DisplayFunctions.getValue,
-    mask: Masks.housephone,
+    mask: Masks.phone,
     mauInputType: MauInputTypes.NUMBER,
     defaultValue: ''
   },

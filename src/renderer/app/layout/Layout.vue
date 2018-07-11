@@ -1,10 +1,10 @@
 <template>
   <div class="layout">
-    <sidebar class="layout-sidebar" v-show="!isLoading"></sidebar>
+    <sidebar class="layout-sidebar" v-show="!isLoading" :class="sidebarHiddenClass"></sidebar>
     <div class="right">
-      <navbar class="layout-navbar" v-show="!isLoading"></navbar>
-      <auth-widget class="layout-auth-widget" v-show="!isLoading"></auth-widget>
-      <div class="layout-content-wrap" id="content-wrap">
+      <navbar class="layout-navbar" :class="sidebarHiddenClass" v-show="!isLoading"></navbar>
+      <auth-widget class="layout-auth-widget" :class="sidebarHiddenClass" v-show="!isLoading"></auth-widget>
+      <div class="layout-content-wrap" :class="sidebarHiddenClass" id="content-wrap">
         <main id="content" class="content" role="main">
           <mau-spinner :tall="true" v-show="isRouteObjectLoading"></mau-spinner>
           <mau-widget v-show="!isRouteObjectLoading && currentRouteObjectUserAuth">
@@ -49,13 +49,16 @@
         toggleSidebar: 'toggleSidebar'
       }),
       getInitialData: function () {
-        this.$store.dispatch(EntityActions.GET_BAGS)
-        this.$store.dispatch(EntityActions.GET_BAG_TYPES)
-        this.$store.dispatch(EntityActions.GET_BAG_PACKINGS)
-        this.$store.dispatch(EntityActions.GET_EXPENSE_TYPES)
-        this.$store.dispatch(EntityActions.GET_ORDER_ADJUSTMENT_TYPES)
-        this.$store.dispatch(EntityActions.GET_SUPPLIERS)
+        this.$store.dispatch(EntityActions.GET_DOCUMENT_TYPES)
+        this.$store.dispatch(EntityActions.GET_DOCUMENT_STATUSES)
+        this.$store.dispatch(EntityActions.GET_OPERATIONS)
+        // this.$store.dispatch(EntityActions.GET_LAWYERS) TODO Erase lawyers
+        this.$store.dispatch(EntityActions.GET_GROUPS)
+        this.$store.dispatch(EntityActions.GET_ATTACHMENTS)
         this.$store.dispatch(EntityActions.GET_CLIENTS)
+        this.$store.dispatch(EntityActions.GET_GRANTORS)
+        this.$store.dispatch(EntityActions.GET_USERS)
+        this.$store.dispatch(EntityActions.GET_ROOMS)
       }
     },
     computed: {

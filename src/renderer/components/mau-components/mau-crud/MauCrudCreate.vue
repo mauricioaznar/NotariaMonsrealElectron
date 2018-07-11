@@ -6,7 +6,7 @@
 
 <script>
   import ApiFunctions from 'renderer/services/api/ApiOperations'
-  import GlobalEntityIdentifier from 'renderer/services/api/GlobalEntityIdentifier'
+  import {globalEntityIdentificator} from 'renderer/config'
   import Notifications from 'renderer/services/api/Notifications'
   import addHostId from 'renderer/services/api/addHostId'
   import convertFirstCharacterTo from 'renderer/services/common/ConvertFirstCharacterTo'
@@ -16,8 +16,8 @@
     name: 'MauCrudCreate',
     data () {
       return {
-        entityApiNameLC: convertFirstCharacterTo.lowercase(this.entityApiName), // todo convert to mixin
-        entityApiNameUC: convertFirstCharacterTo.uppercase(this.entityApiName)
+        entityNameLC: convertFirstCharacterTo.lowercase(this.entityName), // todo convert to mixin
+        entityNameUC: convertFirstCharacterTo.uppercase(this.entityName)
       }
     },
     created () {
@@ -33,7 +33,7 @@
         required: true,
         type: Function
       },
-      entityApiName: {
+      entityName: {
         type: String,
         required: true
       },
@@ -49,10 +49,10 @@
     },
     methods: {
       saveEntity: function (entityObject, relationshipObject) {
-        ApiFunctions.create(ApiRoutes[this.entityApiNameLC].create, entityObject)
+        ApiFunctions.create(ApiRoutes[this.entityNameLC].create, entityObject)
           .then(
             result => {
-              let createdEntityId = result[GlobalEntityIdentifier]
+              let createdEntityId = result[globalEntityIdentificator]
               if (this.callback) {
                 this.callback()
               }
@@ -60,10 +60,10 @@
                 this.$store.dispatch(this.entityAction)
               }
               if (this.relatedEntitiesRoutes) {
-                for (let entityApiName in this.relatedEntitiesRoutes) {
-                  if (this.relatedEntitiesRoutes.hasOwnProperty(entityApiName)) {
-                    let relationshipRoute = this.relatedEntitiesRoutes[entityApiName]
-                    let entityApiCallsContainer = relationshipObject[entityApiName]
+                for (let entityName in this.relatedEntitiesRoutes) {
+                  if (this.relatedEntitiesRoutes.hasOwnProperty(entityName)) {
+                    let relationshipRoute = this.relatedEntitiesRoutes[entityName]
+                    let entityApiCallsContainer = relationshipObject[entityName]
                     if (entityApiCallsContainer.hasOwnProperty('create')) {
                       if (relationshipRoute.hasOwnProperty('create')) {
                         entityApiCallsContainer.create.forEach(structuredObject => {

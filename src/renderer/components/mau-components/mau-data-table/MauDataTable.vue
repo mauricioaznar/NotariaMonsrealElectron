@@ -74,7 +74,7 @@
   import ItemsPerPageDefinition from './data/items-per-page-definition'
   import Vue from 'vue'
   import DataTableStyles from './data/data-table-styles'
-  import {getHeaders} from 'renderer/services/api/ApiHTPPHeaders'
+  import {getHeaders} from 'renderer/config'
   import DisplayFunctions from 'renderer/services/api/DisplayFunctions'
   import isEntityEditable from 'renderer/services/api/isEntityEditable'
 
@@ -86,15 +86,6 @@
       VuetablePagination,
       VuetablePaginationInfo,
       ItemsPerPage
-    },
-    created () {
-      if (!this.tableFields.find(tableField => { return tableField.name === '__slot:actions' })) {
-        this.tableFields.push({
-          name: '__slot:actions',
-          title: 'Acciones',
-          hidden: true
-        })
-      }
     },
     props: {
       apiUrl: {
@@ -195,7 +186,6 @@
       getDateFromDateTime: DisplayFunctions.getDateFromDateTime,
       getDate: DisplayFunctions.getDate,
       getNameArray: DisplayFunctions.getNameArray,
-      getProductWithQuantity: DisplayFunctions.getProductWithQuantity,
       getPersonaArray: DisplayFunctions.getPersonaArray
     }
   }

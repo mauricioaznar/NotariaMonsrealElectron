@@ -7,7 +7,7 @@
 <script>
   import ApiFunctions from 'renderer/services/api/ApiOperations'
   import addHostId from 'renderer/services/api/addHostId'
-  import GlobalEntityIdentifier from 'renderer/services/api/GlobalEntityIdentifier'
+  import {globalEntityIdentificator} from 'renderer/config'
   import Notifications from 'renderer/services/api/Notifications'
   import convertFirstCharacterTo from 'renderer/services/common/ConvertFirstCharacterTo'
   import {ApiRoutes} from 'renderer/api/ApiRoutes'
@@ -17,8 +17,8 @@
     data () {
       return {
         entity: null,
-        entityApiNameLC: convertFirstCharacterTo.lowercase(this.entityApiName),
-        entityApiNameUC: convertFirstCharacterTo.uppercase(this.entityApiName)
+        entityNameLC: convertFirstCharacterTo.lowercase(this.entityName),
+        entityNameUC: convertFirstCharacterTo.uppercase(this.entityName)
       }
     },
     props: {
@@ -29,7 +29,7 @@
         type: Function,
         required: true
       },
-      entityApiName: {
+      entityName: {
         type: String,
         required: true
       },
@@ -57,7 +57,7 @@
     },
     methods: {
       saveFunction: function (entityObject, relationshipObject) {
-        ApiFunctions.edit(ApiRoutes[this.entityApiNameLC].edit, this.id, entityObject)
+        ApiFunctions.edit(ApiRoutes[this.entityNameLC].edit, this.id, entityObject)
           .then(
             result => {
               if (this.callback) {
@@ -67,10 +67,10 @@
                 this.$store.dispatch(this.entityAction)
               }
               if (this.relatedEntitiesRoutes) {
-                for (let entityApiName in this.relatedEntitiesRoutes) {
-                  if (this.relatedEntitiesRoutes.hasOwnProperty(entityApiName)) {
-                    let relationshipRoute = this.relatedEntitiesRoutes[entityApiName]
-                    let entityApiCallsContainer = relationshipObject[entityApiName]
+                for (let entityName in this.relatedEntitiesRoutes) {
+                  if (this.relatedEntitiesRoutes.hasOwnProperty(entityName)) {
+                    let relationshipRoute = this.relatedEntitiesRoutes[entityName]
+                    let entityApiCallsContainer = relationshipObject[entityName]
                     if (entityApiCallsContainer.hasOwnProperty('create')) {
                       if (relationshipRoute.hasOwnProperty('create')) {
                         entityApiCallsContainer.create.forEach(structuredObject => {
@@ -83,7 +83,7 @@
                       if (relationshipRoute.hasOwnProperty('del')) {
                         entityApiCallsContainer.del.forEach(structuredObject => {
                           let modifiedStructuredObject = addHostId(structuredObject, this.relationshipIdName, this.id)
-                          ApiFunctions.del(relationshipRoute.del, modifiedStructuredObject[GlobalEntityIdentifier], modifiedStructuredObject)
+                          ApiFunctions.del(relationshipRoute.del, modifiedStructuredObject[globalEntityIdentificator], modifiedStructuredObject)
                         })
                       }
                     }
@@ -91,7 +91,7 @@
                       if (relationshipRoute.hasOwnProperty('edit')) {
                         entityApiCallsContainer.edit.forEach(structuredObject => {
                           let modifiedStructuredObject = addHostId(structuredObject, this.relationshipIdName, this.id)
-                          ApiFunctions.edit(relationshipRoute.edit, modifiedStructuredObject[GlobalEntityIdentifier], modifiedStructuredObject)
+                          ApiFunctions.edit(relationshipRoute.edit, modifiedStructuredObject[globalEntityIdentificator], modifiedStructuredObject)
                         })
                       }
                     }

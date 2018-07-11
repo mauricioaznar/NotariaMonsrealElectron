@@ -7,3 +7,4 @@ function onEvent (callback) {
   EventBus.$on('FORM_SUBMIT_EVENT', callback)
 }
 export default {emitEvent, onEvent}
+

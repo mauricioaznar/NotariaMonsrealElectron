@@ -17,5 +17,14 @@
 </script>
 
 <style lang="scss">
-
+  .v-table {
+    overflow-x: auto;
+    width: 100%;
+  }
+  td {
+    // white-space: nowrap;
+  }
+  .clickable {
+    cursor: pointer;
+  }
 </style>

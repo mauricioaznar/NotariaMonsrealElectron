@@ -5,8 +5,8 @@ export default {
   FLOAT: 0,
   DATE: '',
   TIME: '',
-  SELECT: {},
+  SELECTOR: null,
   BOOLEAN: false,
   TRIPLE_BOOLEAN: 1,
-  MULTISELECT: []
+  MULTISELECTOR: []
 }

@@ -1,9 +1,31 @@
-import GlobalEntityIdentifier from 'renderer/services/api/GlobalEntityIdentifier'
+import {globalEntityIdentificator} from 'renderer/config'
+import UserPropertiesReference from 'renderer/api/pages/user/PropertiesReference'
 import isEntityEditable from 'renderer/services/api/isEntityEditable'
-import RouteObjectHelper from 'renderer/services/routeObject/RouteObjectHelper'
+import {getRouteObjectMetaPropertyValue} from 'renderer/services/api/RouteObject'
 const user = state => {
   let user = state.auth.user
   return user !== null ? user : ''
+}
+const getUsersInGroups = apiState => (groups) => {
+  let filteredUsers = []
+  let users = apiState.entity.users
+  let usersLength = users.length
+  for (let usersIndex = 0; usersIndex < usersLength; usersIndex++) {
+    let user = users[usersIndex]
+    let userGroups = user[UserPropertiesReference.GROUPS.name]
+    let userGroupsLength = userGroups.length
+    for (let userGroupsIndex = 0; userGroupsIndex < userGroupsLength; userGroupsIndex++) {
+      let userGroup = userGroups[userGroupsIndex]
+      let foundGroup = groups.find(group => {
+        return group[globalEntityIdentificator] === userGroup[globalEntityIdentificator]
+      })
+      if (foundGroup) {
+        filteredUsers.push(user)
+        break
+      }
+    }
+  }
+  return filteredUsers
 }
 const routeObjects = state => state.routeObject.routeObjects
 const authWidgetRouteObjects = state => state.routeObject.authWidgetRouteObjects
@@ -11,18 +33,15 @@ const getRouteObjectsByEntityType = state => (searchedRouteObj) => {
   if (searchedRouteObj.name === null) {
     return []
   }
-  let searchedRouteObjEntityType = RouteObjectHelper.getRouteObjectMetaPropertyValue(searchedRouteObj, 'entityType')
+  let searchedRouteObjEntityType = getRouteObjectMetaPropertyValue(searchedRouteObj, 'entityType')
   return state.routeObject.routeObjects.filter(iRouteObj => {
-    let iRouteObjEntityType = RouteObjectHelper.getRouteObjectMetaPropertyValue(iRouteObj, 'entityType')
+    let iRouteObjEntityType = getRouteObjectMetaPropertyValue(iRouteObj, 'entityType')
     return searchedRouteObjEntityType.name === iRouteObjEntityType.name
   })
 }
-const getDefaultRouteObjectByCategory = state => (category) => {
-  let filteredRouteObjectsByCategory = state.routeObject.routeObjects.filter(routeObj => {
-    return RouteObjectHelper.getRouteObjectMetaPropertyValue(routeObj, 'category').name === category.name
-  })
-  return filteredRouteObjectsByCategory.find(routeObj => {
-    return RouteObjectHelper.getRouteObjectMetaPropertyValue(routeObj, 'categoryDefault')
+const getRouteObjectsBySidebar = state => () => {
+  return state.routeObject.routeObjects.filter(routeObj => {
+    return getRouteObjectMetaPropertyValue(routeObj, 'sidebar')
   })
 }
 const getRoles = state => {
@@ -32,7 +51,7 @@ const getUsers = state => {
   return state.entity.users
 }
 const getRoleByRoleId = state => (roleId) => {
-  return state.entity.roles.find(roleObj => { return roleObj[GlobalEntityIdentifier] === roleId })
+  return state.entity.roles.find(roleObj => { return roleObj[globalEntityIdentificator] === roleId })
 }
 const requestedEntity = state => {
   return state.entity.requestedEntity
@@ -44,20 +63,17 @@ const isRequestedEntityEditable = state => {
   return isEntityEditable(state.entity.requestedEntity)
 }
 
-const getBagById = state => (productId) => {
-  return state.entity.bags.find(productObj => { return productObj[GlobalEntityIdentifier] === productId })
-}
 export {
   user,
   getUsers,
   currentRouteObjectUserAuth,
+  getUsersInGroups,
   getRoles,
   isRequestedEntityEditable,
   getRoleByRoleId,
   authWidgetRouteObjects,
-  getDefaultRouteObjectByCategory,
+  getRouteObjectsBySidebar,
   getRouteObjectsByEntityType,
-  getBagById,
   routeObjects,
   requestedEntity
 }

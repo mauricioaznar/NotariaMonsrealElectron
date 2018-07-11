@@ -1,60 +1,47 @@
 <template>
   <aside class="sidebar">
       <ul class="sidebar-menu">
-        <li v-for="(category, index) in categories">
-          <a
-              @click="goToDefaultCategoryRouteObject(category)"
-             class="sidebar-link"
-             :class="{'router-link-active': category.name === currentCategoryName}">
+        <li v-for="(routeObj, index) in routeObjects" v-if="routeObj.meta.sidebar">
+          <router-link :to="routeObj.path"
+                       class="sidebar-link"
+                       v-if="routeObj.path">
             <div class="d-flex flex-column">
               <span
                       class="sidebar-menu-item-icon"
-                      v-bind:class="category.iconClass">
+                      v-bind:class="routeObj.meta.sidebarIcon ? routeObj.meta.sidebarIcon : routeObj.meta.entityTypeIcon">
 
               </span>
-              <p>{{category.title}}</p>
+              <p>{{routeObj.meta.sidebarTitle}}</p>
             </div>
-          </a>
+          </router-link>
         </li>
       </ul>
   </aside>
 </template>
 
 <script>
-  import { mapGetters, mapActions } from 'vuex'
-  import Categories from 'renderer/api/Categories'
-  import RouteObjectHelper from 'renderer/services/routeObject/RouteObjectHelper'
+  import { mapState, mapActions } from 'vuex'
 
   export default {
     name: 'sidebar',
-    data () {
-      return {
-        routeObjects: [],
-        categories: Categories
-      }
-    },
-    created () {
-    },
+
     components: {
     },
     computed: {
-      ...mapGetters([
-        'getDefaultRouteObjectByCategory'
-      ]),
-      currentCategoryName: function () {
-        let category = RouteObjectHelper.getRouteObjectMetaPropertyValue(this.$route, 'category')
-        return category ? category.name : ''
-      }
+      ...mapState({
+        routeObjects: state => state.api.routeObject.sidebarRouteObjects
+      })
     },
     methods: {
       ...mapActions({
         toggleSidebar: 'toggleSidebar'
-      }),
-      goToDefaultCategoryRouteObject: function (category) {
-        this.$router.push({path: this.getDefaultRouteObjectByCategory(category).path})
-      }
+      })
     },
     watch: {
+    },
+    data () {
+      return {
+      }
     }
   }
 </script>

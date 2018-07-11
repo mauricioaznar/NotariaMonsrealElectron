@@ -16,7 +16,7 @@
 <script>
   import ApiFunctions from 'renderer/services/api/ApiOperations'
   import {getApiRoute, ApiRouteTypes} from 'renderer/api/ApiRoutes'
-  import RouteObjectHelper from 'renderer/services/routeObject/RouteObjectHelper'
+  import {createRouteObjectPath} from 'renderer/services/api/RouteObject'
   import ChildTypes from 'renderer/api/ChildTypes'
   export default {
     name: 'MauCrudDel',
@@ -62,7 +62,7 @@
                 this.callback()
               }
               setTimeout(function () {
-                _this.$router.push(RouteObjectHelper.createPath(_this.entityType, ChildTypes.LIST))
+                _this.$router.push(createRouteObjectPath(_this.entityType, ChildTypes.LIST))
               }, 2000)
             })
           .catch(

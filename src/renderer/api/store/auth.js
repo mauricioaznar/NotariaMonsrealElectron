@@ -1,4 +1,4 @@
-import {getHeaders} from 'renderer/services/api/ApiHTPPHeaders'
+import {getHeaders} from 'renderer/config'
 import Vue from 'vue'
 import authActions from './authActions'
 import {ApiRoutes} from 'renderer/api/ApiRoutes'

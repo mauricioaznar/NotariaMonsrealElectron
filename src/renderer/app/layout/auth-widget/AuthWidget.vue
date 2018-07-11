@@ -16,8 +16,8 @@
 </template>
 
 <script>
-  import GlobalEntityIdentifier from 'renderer/services/api/GlobalEntityIdentifier'
-  import RouteObjectHelper from 'renderer/services/routeObject/RouteObjectHelper'
+  import {globalEntityIdentificator} from 'renderer/config'
+  import {getRouteObjectMetaPropertyValue} from 'renderer/services/api/RouteObject'
   export default {
     name: 'AuthWidget',
     data () {
@@ -32,14 +32,14 @@
     },
     created () {
       let currentRouteObject = this.$route
-      this.widgetTitle = RouteObjectHelper.getRouteObjectMetaPropertyValue(currentRouteObject, 'title')
-      this.widgetIcon = RouteObjectHelper.getRouteObjectMetaPropertyValue(currentRouteObject, 'entityTypeIcon')
+      this.widgetTitle = getRouteObjectMetaPropertyValue(currentRouteObject, 'title')
+      this.widgetIcon = getRouteObjectMetaPropertyValue(currentRouteObject, 'entityTypeIcon')
       this.routeObjects = this.$store.getters['authWidgetRouteObjects']
     },
     watch: {
       $route: function (currentRouteObject) {
-        this.widgetTitle = RouteObjectHelper.getRouteObjectMetaPropertyValue(currentRouteObject, 'title')
-        this.widgetIcon = RouteObjectHelper.getRouteObjectMetaPropertyValue(currentRouteObject, 'entityTypeIcon')
+        this.widgetTitle = getRouteObjectMetaPropertyValue(currentRouteObject, 'title')
+        this.widgetIcon = getRouteObjectMetaPropertyValue(currentRouteObject, 'entityTypeIcon')
         this.routeObjects = this.$store.getters['authWidgetRouteObjects']
       }
     },
@@ -52,9 +52,9 @@
         let paramsLength = params.length
         let currentRoutObject = this.$route
         let newPath = routeObj.path
-        let currentRouteObjectGlobalIdentificator = currentRoutObject.params[GlobalEntityIdentifier]
+        let currentRouteObjectGlobalIdentificator = currentRoutObject.params[globalEntityIdentificator]
         if (currentRouteObjectGlobalIdentificator) {
-          newPath = newPath.replace(':' + GlobalEntityIdentifier, currentRouteObjectGlobalIdentificator)
+          newPath = newPath.replace(':' + globalEntityIdentificator, currentRouteObjectGlobalIdentificator)
         }
         for (let i = 0; i < paramsLength; i++) {
           let iParam = params[i]

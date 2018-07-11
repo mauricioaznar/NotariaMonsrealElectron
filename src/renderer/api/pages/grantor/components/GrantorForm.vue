@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="col-sm-12 col-md-6 grantor_lastname">
-        <label>{{PropertiesReference.NICKNAME.title}}</label>
+        <label>{{PropertiesReference.LASTNAME.title}}</label>
         <b-form-input v-model="grantor.lastname"
                       type="text"
                       placeholder="Ejemplo: Ochoa Campos">
@@ -51,7 +51,7 @@
         <label>{{PropertiesReference.PHONE.title}}</label>
         <masked-input
                 :name="PropertiesReference.PHONE.name"
-                v-model="grantor.housephone"
+                v-model="grantor.phone"
                 :value="initialValues[PropertiesReference.PHONE.name]"
                 class="form-control"
                 :guide="true"
@@ -143,7 +143,7 @@
           city: '',
           country: '',
           zipcode: '',
-          housephone: ''
+          phone: ''
         },
         initialValues: {},
         buttonDisabled: false
@@ -187,8 +187,8 @@
       },
       setInitialValues: function () {
         this.grantor.name = this.initialObject[PropertiesReference.NAME.name]
-        this.grantor.lastname = this.initialObject[PropertiesReference.NICKNAME.name]
-        this.grantor.housephone = this.initialObject[PropertiesReference.PHONE.name]
+        this.grantor.lastname = this.initialObject[PropertiesReference.LASTNAME.name]
+        this.grantor.phone = this.initialObject[PropertiesReference.PHONE.name]
         this.grantor.email = this.initialObject[PropertiesReference.EMAIL.name]
         this.grantor.address1 = this.initialObject[PropertiesReference.ADDRESS1.name]
         this.grantor.city = this.initialObject[PropertiesReference.CITY.name]
@@ -198,8 +198,8 @@
       save: function () {
         let directParams = {
           [PropertiesReference.NAME.name]: this.grantor.name,
-          [PropertiesReference.NICKNAME.name]: this.grantor.lastname,
-          [PropertiesReference.PHONE.name]: this.grantor.housephone ? this.grantor.housephone.replace(/\D+/g, '') : '',
+          [PropertiesReference.LASTNAME.name]: this.grantor.lastname,
+          [PropertiesReference.PHONE.name]: this.grantor.phone ? this.grantor.phone.replace(/\D+/g, '') : '',
           [PropertiesReference.EMAIL.name]: this.grantor.email,
           [PropertiesReference.ADDRESS1.name]: this.grantor.address1,
           [PropertiesReference.CITY.name]: this.grantor.city,

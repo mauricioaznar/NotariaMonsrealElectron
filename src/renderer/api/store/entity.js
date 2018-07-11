@@ -1,5 +1,4 @@
-import { ApiRoutes, getApiRoute, ApiRouteTypes } from 'renderer/api/ApiRoutes'
-import EntityTypes from 'renderer/api/EntityTypes'
+import { ApiRoutes } from 'renderer/api/ApiRoutes'
 import RolesTypes from 'renderer/api/RoleTypes'
 import EntityActions from './entityActions'
 import ApiFunctions from 'renderer/services/api/ApiOperations'
@@ -14,14 +13,16 @@ const state = {
   // General
   requestedEntity: null,
   // Dependencies
-  bagTypes: [],
-  bagPackings: [],
-  bags: [],
-  bagOrderAdjustmentTypes: [],
-  expenseTypes: [],
-  suppliers: [],
+  documentTypes: [],
+  documentStatuses: [],
+  attachments: [],
+  operations: [],
+  lawyers: [],
   clients: [],
+  grantors: [],
+  groups: [],
   users: [],
+  rooms: [],
   roles: roles
 }
 
@@ -29,29 +30,35 @@ const mutations = {
   SET_REQUESTED_ENTITY (state, data) {
     state.requestedEntity = data
   },
-  SET_BAGS (state, data) {
-    state.bags = data
+  SET_DOCUMENT_TYPES (state, data) {
+    state.documentTypes = data
   },
-  SET_BAG_TYPES (state, data) {
-    state.bagTypes = data
+  SET_DOCUMENT_STATUSES (state, data) {
+    state.documentStatuses = data
   },
-  SET_BAG_PACKINGS (state, data) {
-    state.bagPackings = data
+  SET_ATTACHMENTS (state, data) {
+    state.attachments = data
   },
-  SET_EXPENSE_TYPES (state, data) {
-    state.expenseTypes = data
+  SET_OPERATIONS (state, data) {
+    state.operations = data
   },
-  SET_BAG_ORDER_ADJUSTMENT_TYPES (state, data) {
-    state.bagOrderAdjustmentTypes = data
-  },
-  SET_SUPPLIERS (state, data) {
-    state.suppliers = data
+  SET_LAWYERS (state, data) {
+    state.lawyers = data
   },
   SET_CLIENTS (state, data) {
     state.clients = data
   },
+  SET_GRANTORS (state, data) {
+    state.grantors = data
+  },
+  SET_GROUPS (state, data) {
+    state.groups = data
+  },
   SET_USERS (state, data) {
     state.users = data
+  },
+  SET_ROOMS (state, data) {
+    state.rooms = data
   }
 }
 
@@ -62,51 +69,70 @@ const actions = {
   [EntityActions.UNSET_REQUESTED_ENTITY]: function ({commit}) {
     commit('SET_REQUESTED_ENTITY', null)
   },
-  [EntityActions.GET_BAG_TYPES]: function ({commit}) {
-    ApiFunctions.get(getApiRoute(EntityTypes.BAG_TYPE, ApiRouteTypes.LIST) + '?per_page=1000').then(data => {
-      commit('SET_BAG_TYPES', data)
+  [EntityActions.GET_DOCUMENT_TYPES]: function ({commit}) {
+    ApiFunctions.get(ApiRoutes.documentType.list + '?per_page=1000').then(data => {
+      commit('SET_DOCUMENT_TYPES', data)
     }).catch(e => {
       console.log(e)
     })
   },
-  [EntityActions.GET_BAG_PACKINGS]: function ({commit}) {
-    ApiFunctions.get(getApiRoute(EntityTypes.BAG_PACKING, ApiRouteTypes.LIST) + '?per_page=1000').then(data => {
-      commit('SET_BAG_PACKINGS', data)
+  [EntityActions.GET_DOCUMENT_STATUSES]: function ({commit}) {
+    ApiFunctions.get(ApiRoutes.documentStatus.list + '?per_page=1000').then(data => {
+      commit('SET_DOCUMENT_STATUSES', data)
     }).catch(e => {
       console.log(e)
     })
   },
-  [EntityActions.GET_BAGS]: function ({commit}) {
-    ApiFunctions.get(getApiRoute(EntityTypes.BAG, ApiRouteTypes.LIST) + '?per_page=1000').then(data => {
-      commit('SET_BAGS', data)
+  [EntityActions.GET_OPERATIONS]: function ({commit}, documentTypeName) {
+    let extraQuery = ''
+    if (documentTypeName) {
+      extraQuery = '&filter_entity=documentTypes&filter=name&filter_value=' + documentTypeName
+    }
+    ApiFunctions.get(ApiRoutes.operation.list + '?per_page=1000' + extraQuery).then(data => {
+      commit('SET_OPERATIONS', data)
     }).catch(e => {
       console.log(e)
     })
   },
-  [EntityActions.GET_EXPENSE_TYPES]: function ({commit}) {
-    ApiFunctions.get(getApiRoute(EntityTypes.EXPENSE_TYPE, ApiRouteTypes.LIST) + '?per_page=1000').then(data => {
-      commit('SET_EXPENSE_TYPES', data)
+  [EntityActions.GET_LAWYERS]: function ({commit}) {
+    ApiFunctions.get(ApiRoutes.lawyer.list + '?per_page=1000').then(data => {
+      commit('SET_LAWYERS', data)
     }).catch(e => {
       console.log(e)
     })
   },
-  [EntityActions.GET_ORDER_ADJUSTMENT_TYPES]: function ({commit}) {
-    ApiFunctions.get(getApiRoute(EntityTypes.BAG_ORDER_ADJUSTMENT_TYPE, ApiRouteTypes.LIST) + '?per_page=1000').then(data => {
-      commit('SET_BAG_ORDER_ADJUSTMENT_TYPES', data)
-    }).catch(e => {
-      console.log(e)
-    })
-  },
-  [EntityActions.GET_SUPPLIERS]: function ({commit}) {
-    ApiFunctions.get(getApiRoute(EntityTypes.SUPPLIER, ApiRouteTypes.LIST) + '?per_page=1000').then(data => {
-      commit('SET_SUPPLIERS', data)
+  [EntityActions.GET_ATTACHMENTS]: function ({commit}, documentTypeName) {
+    let extraQuery = ''
+    if (documentTypeName) {
+      extraQuery = '&filter_entity=documentTypes&filter=name&filter_value=' + documentTypeName
+    }
+    ApiFunctions.get(ApiRoutes.attachment.list + '?per_page=1000' + extraQuery).then(data => {
+      commit('SET_ATTACHMENTS', data)
     }).catch(e => {
       console.log(e)
     })
   },
   [EntityActions.GET_CLIENTS]: function ({commit}) {
-    ApiFunctions.get(getApiRoute(EntityTypes.CLIENT, ApiRouteTypes.LIST) + '?per_page=1000').then(data => {
+    ApiFunctions.get(ApiRoutes.client.list + '?per_page=1000').then(data => {
       commit('SET_CLIENTS', data)
+    }).catch(e => {
+      console.log(e)
+    })
+  },
+  [EntityActions.GET_GRANTORS]: function ({commit}, clientId) {
+    let extraQuery = ''
+    if (clientId) {
+      extraQuery = '&filter_entity=clients&filter=client_id&filter_value=' + clientId // TODO use client_id instead of id
+    }
+    ApiFunctions.get(ApiRoutes.grantor.list + '?per_page=1000' + extraQuery).then(data => {
+      commit('SET_GRANTORS', data)
+    }).catch(e => {
+      console.log(e)
+    })
+  },
+  [EntityActions.GET_GROUPS]: function ({commit}) {
+    ApiFunctions.get(ApiRoutes.group.list + '?per_page=1000').then(data => {
+      commit('SET_GROUPS', data)
     }).catch(e => {
       console.log(e)
     })
@@ -114,6 +140,13 @@ const actions = {
   [EntityActions.GET_USERS]: function ({commit}) {
     ApiFunctions.get(ApiRoutes.user.list + '?per_page=1000').then(data => {
       commit('SET_USERS', data)
+    }).catch(e => {
+      console.log(e)
+    })
+  },
+  [EntityActions.GET_ROOMS]: function ({commit}) {
+    ApiFunctions.get(ApiRoutes.room.list + '?per_page=1000').then(data => {
+      commit('SET_ROOMS', data)
     }).catch(e => {
       console.log(e)
     })

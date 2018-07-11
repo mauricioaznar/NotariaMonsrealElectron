@@ -2,23 +2,23 @@
   <div>
     <div class="form-group form-row">
       <div class="col-sm-12 col-md-6 user_name">
-        <label>{{PropertiesReference.COST.title}}</label>
+        <label>{{PropertiesReference.NAME.title}}</label>
         <b-form-input v-model="user.name"
                       type="text"
                       class="form-control"
                       v-validate="'required'"
-                      :class="getBootstrapValidationClass(errors.has(PropertiesReference.COST.name))"
-                      :data-vv-name="PropertiesReference.COST.name"
+                      :class="getBootstrapValidationClass(errors.has(PropertiesReference.NAME.name))"
+                      :data-vv-name="PropertiesReference.NAME.name"
                       placeholder="Ejemplo: Juan Rodrigo">
         </b-form-input>
         <div class="invalid-feedback">
-            <span v-show="errors.has(PropertiesReference.COST.name)" class="help is-danger">
-              {{ errors.first(PropertiesReference.COST.name) }}
+            <span v-show="errors.has(PropertiesReference.NAME.name)" class="help is-danger">
+              {{ errors.first(PropertiesReference.NAME.name) }}
             </span>
         </div>
       </div>
       <div class="col-sm-12 col-md-6 user_lastname">
-        <label>{{PropertiesReference.NICKNAME.title}}</label>
+        <label>{{PropertiesReference.LASTNAME.title}}</label>
         <b-form-input v-model="user.lastname"
                       type="text"
                       placeholder="Ejemplo: Ochoa Campos">
@@ -51,7 +51,7 @@
         <label>{{PropertiesReference.PHONE.title}}</label>
         <masked-input
                 :name="PropertiesReference.PHONE.name"
-                v-model="user.housephone"
+                v-model="user.phone"
                 :value="initialValues[PropertiesReference.PHONE.name]"
                 class="form-control"
                 :guide="true"
@@ -99,7 +99,7 @@
 
 <script>
   import PropertiesReference from '../PropertiesReference'
-  import GlobalEntityIdentifier from 'renderer/services/api/GlobalEntityIdentifier'
+  import {globalEntityIdentificator} from 'renderer/config'
   import ValidatorHelper from 'renderer/services/form/ValidatorHelper'
   import DefaultValuesHelper from 'renderer/services/form/DefaultValuesHelper'
   import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
@@ -118,7 +118,7 @@
           name: '',
           lastname: '',
           email: '',
-          housephone: '',
+          phone: '',
           role: ''
         },
         initialValues: {},
@@ -155,20 +155,20 @@
     methods: {
       getBootstrapValidationClass: ValidatorHelper.getBootstrapValidationClass,
       setInitialValues: function () {
-        this.user.name = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.COST.name)
-        this.user.lastname = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.NICKNAME.name)
-        this.user.housephone = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.PHONE.name)
+        this.user.name = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.NAME.name)
+        this.user.lastname = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.LASTNAME.name)
+        this.user.phone = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.PHONE.name)
         this.user.email = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.EMAIL.name)
-        let roleId = this.initialObject !== undefined ? this.initialObject[PropertiesReference.ROLE.name][GlobalEntityIdentifier] : null
+        let roleId = this.initialObject !== undefined ? this.initialObject[PropertiesReference.ROLE.name][globalEntityIdentificator] : null
         this.initialValues[PropertiesReference.ROLE.name] = roleId !== null ? this.$store.getters.getRoleByRoleId(roleId) : null
       },
       save: function () {
         let directParams = {
-          [PropertiesReference.COST.name]: this.user.name,
-          [PropertiesReference.NICKNAME.name]: this.user.lastname,
-          [PropertiesReference.PHONE.name]: this.user.housephone ? this.user.housephone.replace(/\D+/g, '') : '',
+          [PropertiesReference.NAME.name]: this.user.name,
+          [PropertiesReference.LASTNAME.name]: this.user.lastname,
+          [PropertiesReference.PHONE.name]: this.user.phone ? this.user.phone.replace(/\D+/g, '') : '',
           [PropertiesReference.EMAIL.name]: this.user.email,
-          [PropertiesReference.ROLE.relationship_id_name]: this.user.role ? this.user.role[GlobalEntityIdentifier] : 'null'
+          [PropertiesReference.ROLE.relationship_id_name]: this.user.role ? this.user.role[globalEntityIdentificator] : 'null'
         }
         this.$validator.validateAll().then((result) => {
           if (result) {

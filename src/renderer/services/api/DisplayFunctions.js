@@ -1,4 +1,4 @@
-import ConvertDateTimeTo from 'renderer/services/common/ConvertDateTimeTo'
+import ConvertDateTime from 'renderer/services/common/ConvertDateTime'
 import moment from 'moment'
 moment.locale('es')
 
@@ -44,22 +44,15 @@ export default {
     return momentDate.isValid() ? moment(date).format('dddd DD [de] MMMM [del] YYYY') : '-'
   },
   getTimeFromDateTime: function (date) {
-    return ConvertDateTimeTo.time(date)
+    return ConvertDateTime.time(date)
   },
   getDateFromDateTime: function (date) {
-    return ConvertDateTimeTo.date(date)
+    return ConvertDateTime.date(date)
   },
   getDateYear: function (date) {
     return moment(date).format('Y')
   },
   calculateAttachmentCompletion: function (attachmentArray) {
 
-  },
-  getProductWithQuantity: function (array) {
-    let personaArrayHtmlString = '<ul>'
-    for (let i = 0; i < array.length; i++) {
-      personaArrayHtmlString += '<li class="mau-text-left">' + array[i].name + ' - ' + array[i].pivot.quantity + '</li>'
-    }
-    return personaArrayHtmlString + '</ul>'
   }
 }

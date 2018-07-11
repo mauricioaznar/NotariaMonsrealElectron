@@ -34,11 +34,6 @@ export default {
     title: 'Mi Historial',
     icon: 'fa fa-history'
   },
-  DOWNLOADS: {
-    name: 'downloads',
-    title: 'Descargas',
-    icon: 'fa fa-download'
-  },
   TOKEN: {
     name: 'login',
     title: 'Ingreso'
