@@ -11,7 +11,7 @@
 
 <script>
     import VueSelect from 'vue-select'
-    import {globalEntityIdentificator} from 'renderer/config'
+    import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
     import cloneDeep from 'renderer/services/common/cloneDeep'
     import isDefined from 'renderer/services/common/isDefined'
     export default {
@@ -80,7 +80,7 @@
             if (isDefined(initialObjects)) {
               initialObjects.forEach(initialObj => {
                 let newAvailableObjResult = newAvailableObjects.find(newAvailableObj => {
-                  return newAvailableObj[globalEntityIdentificator] === initialObj[globalEntityIdentificator]
+                  return newAvailableObj[globalEntityIdentifier] === initialObj[globalEntityIdentifier]
                 })
                 if (newAvailableObjResult) {
                   newSelectedObjects.push(newAvailableObjResult)

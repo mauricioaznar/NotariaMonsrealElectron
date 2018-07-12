@@ -11,7 +11,7 @@ import {ApiRouteTypes, getApiRoute} from 'renderer/api/ApiRoutes'
 import isEntityEditable from 'renderer/services/api/isEntityEditable'
 import Entites from 'renderer/api/EntityTypes'
 import router from 'renderer/router/index'
-import {globalEntityIdentificator} from 'renderer/config'
+import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
 function createRouteObjectName (entityType, childType) {
   return convertFirstCharacterTo.uppercase(childType.name) + convertFirstCharacterTo.uppercase(entityType.name)
 }
@@ -42,7 +42,7 @@ router.beforeEach(async (to, from, next) => {
       store.dispatch(RouteObjectActions.SET_CURRENT_ROUTE_OBJECT_USER_AUTH, true)
     }
     store.dispatch(RouteObjectActions.SET_CURRENT_ROUTE_OBJECT, to)
-    let idParam = to.params ? (to.params[globalEntityIdentificator] ? to.params[globalEntityIdentificator] : null) : null
+    let idParam = to.params ? (to.params[globalEntityIdentifier] ? to.params[globalEntityIdentifier] : null) : null
     let requestedEntityObj = null
     if (idParam !== null) {
       requestedEntityObj = await ApiOperations.getById(getApiRoute(toEntity, ApiRouteTypes.GET_BY_ID), idParam)

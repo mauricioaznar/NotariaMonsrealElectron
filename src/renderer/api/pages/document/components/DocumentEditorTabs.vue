@@ -56,31 +56,29 @@
                 </mau-form-input-number>
               </div>
               <div class="form-group">
-                <div class="document_type">
-                  <label>{{PropertiesReference.DOCUMENT_TYPE.title}}</label>
-                  <b-form-radio-group
-                          stacked
-                          :id="PropertiesReference.DOCUMENT_TYPE.name"
-                          v-model="document.documentType"
-                          v-validate="'required'"
-                          class="form-control override-outline"
-                          :name="PropertiesReference.DOCUMENT_TYPE.name"
-                          :data-vv-name="PropertiesReference.DOCUMENT_TYPE.name"
-                          :class="getBootstrapValidationClass(errors.has(PropertiesReference.DOCUMENT_TYPE.name))"
+                <label>{{PropertiesReference.DOCUMENT_TYPE.title}}</label>
+                <b-form-radio-group
+                        stacked
+                        :id="PropertiesReference.DOCUMENT_TYPE.name"
+                        v-model="document.documentType"
+                        v-validate="'required'"
+                        class="form-control override-outline"
+                        :name="PropertiesReference.DOCUMENT_TYPE.name"
+                        :data-vv-name="PropertiesReference.DOCUMENT_TYPE.name"
+                        :class="getBootstrapValidationClass(errors.has(PropertiesReference.DOCUMENT_TYPE.name))"
+                >
+                  <b-form-radio
+                          v-for="documentType in availableDocumentTypes"
+                          :value="documentType"
+                          :key="documentType.id"
                   >
-                    <b-form-radio
-                            v-for="documentType in availableDocumentTypes"
-                            :value="documentType"
-                            :key="documentType.id"
-                    >
-                      {{documentType.name}}
-                    </b-form-radio>
-                  </b-form-radio-group>
-                  <div class="invalid-feedback">
-                      <span v-show="errors.has(PropertiesReference.DOCUMENT_TYPE.name)" class="help is-danger">
-                        {{ errors.first(PropertiesReference.DOCUMENT_TYPE.name) }}
-                      </span>
-                  </div>
+                    {{documentType.name}}
+                  </b-form-radio>
+                </b-form-radio-group>
+                <div class="invalid-feedback">
+                    <span v-show="errors.has(PropertiesReference.DOCUMENT_TYPE.name)" class="help is-danger">
+                      {{ errors.first(PropertiesReference.DOCUMENT_TYPE.name) }}
+                    </span>
                 </div>
               </div>
               <div class="form-group">
@@ -434,7 +432,7 @@
 <script>
   import {mapState} from 'vuex'
   import PropertiesReference from '../PropertiesReference'
-  import {globalEntityIdentificator} from 'renderer/config'
+  import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
   import NormalizeObjects from 'renderer/services/api/normalizeObjects'
   import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
   import cloneDeep from 'renderer/services/common/cloneDeep'
@@ -633,9 +631,9 @@
           [PropertiesReference.MARGINAL_NOTES.name]: this.document.marginalNotes,
           [PropertiesReference.PROPERTY.name]: this.document.property,
           // one to many
-          [PropertiesReference.CLIENT.relationship_id_name]: this.document.client ? this.document.client[globalEntityIdentificator] : null,
-          [PropertiesReference.DOCUMENT_TYPE.relationship_id_name]: this.document.documentType ? this.document.documentType[globalEntityIdentificator] : null,
-          [PropertiesReference.DOCUMENT_STATUS.relationship_id_name]: this.document.documentStatus ? this.document.documentStatus[globalEntityIdentificator] : null
+          [PropertiesReference.CLIENT.relationship_id_name]: this.document.client ? this.document.client[globalEntityIdentifier] : null,
+          [PropertiesReference.DOCUMENT_TYPE.relationship_id_name]: this.document.documentType ? this.document.documentType[globalEntityIdentifier] : null,
+          [PropertiesReference.DOCUMENT_STATUS.relationship_id_name]: this.document.documentStatus ? this.document.documentStatus[globalEntityIdentifier] : null
         }
         let groupsRelationshipName = PropertiesReference.GROUPS.relationship_id_name
         let groupsRelationshipObjects = RelationshipObjectsHelper.createRelationshipObjects(this.document.groups, groupsRelationshipName)

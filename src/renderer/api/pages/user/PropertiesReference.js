@@ -1,4 +1,4 @@
-import {globalEntityIdentificator} from 'renderer/config'
+import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
 import DisplayFunctions from 'renderer/services/api/DisplayFunctions'
 import MauInputTypes from 'renderer/components/mau-components/mau-form-inputs/MauInputTypes'
 import MauInputDefaultValues from 'renderer/components/mau-components/mau-form-inputs/MauInputDefaultValues'
@@ -7,7 +7,7 @@ import Masks from 'renderer/services/form/Masks'
 export default {
   ID: {
     title: 'id',
-    name: globalEntityIdentificator,
+    name: globalEntityIdentifier,
     display: DisplayFunctions.getValue,
     relationship_id_name: 'user_id',
     mauInputType: MauInputTypes.NUMBER,

@@ -16,7 +16,7 @@
 </template>
 
 <script>
-  import {globalEntityIdentificator} from 'renderer/config'
+  import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
   import {getRouteObjectMetaPropertyValue} from 'renderer/services/api/RouteObject'
   export default {
     name: 'AuthWidget',
@@ -52,9 +52,9 @@
         let paramsLength = params.length
         let currentRoutObject = this.$route
         let newPath = routeObj.path
-        let currentRouteObjectGlobalIdentificator = currentRoutObject.params[globalEntityIdentificator]
+        let currentRouteObjectGlobalIdentificator = currentRoutObject.params[globalEntityIdentifier]
         if (currentRouteObjectGlobalIdentificator) {
-          newPath = newPath.replace(':' + globalEntityIdentificator, currentRouteObjectGlobalIdentificator)
+          newPath = newPath.replace(':' + globalEntityIdentifier, currentRouteObjectGlobalIdentificator)
         }
         for (let i = 0; i < paramsLength; i++) {
           let iParam = params[i]

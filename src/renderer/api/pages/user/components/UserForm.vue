@@ -99,7 +99,7 @@
 
 <script>
   import PropertiesReference from '../PropertiesReference'
-  import {globalEntityIdentificator} from 'renderer/config'
+  import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
   import ValidatorHelper from 'renderer/services/form/ValidatorHelper'
   import DefaultValuesHelper from 'renderer/services/form/DefaultValuesHelper'
   import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
@@ -159,7 +159,7 @@
         this.user.lastname = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.LASTNAME.name)
         this.user.phone = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.PHONE.name)
         this.user.email = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.EMAIL.name)
-        let roleId = this.initialObject !== undefined ? this.initialObject[PropertiesReference.ROLE.name][globalEntityIdentificator] : null
+        let roleId = this.initialObject !== undefined ? this.initialObject[PropertiesReference.ROLE.name][globalEntityIdentifier] : null
         this.initialValues[PropertiesReference.ROLE.name] = roleId !== null ? this.$store.getters.getRoleByRoleId(roleId) : null
       },
       save: function () {
@@ -168,7 +168,7 @@
           [PropertiesReference.LASTNAME.name]: this.user.lastname,
           [PropertiesReference.PHONE.name]: this.user.phone ? this.user.phone.replace(/\D+/g, '') : '',
           [PropertiesReference.EMAIL.name]: this.user.email,
-          [PropertiesReference.ROLE.relationship_id_name]: this.user.role ? this.user.role[globalEntityIdentificator] : 'null'
+          [PropertiesReference.ROLE.relationship_id_name]: this.user.role ? this.user.role[globalEntityIdentifier] : 'null'
         }
         this.$validator.validateAll().then((result) => {
           if (result) {

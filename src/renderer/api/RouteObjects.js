@@ -2,7 +2,7 @@ import {createRouteObject} from 'renderer/services/api/RouteObject'
 import EntityTypes from 'renderer/api/EntityTypes'
 import ChildTypes from 'renderer/api/ChildTypes'
 import RolesTypes from 'renderer/api/RoleTypes'
-import {globalEntityIdentificator} from 'renderer/config'
+import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
 let routeObjects = []
 
 routeObjects.push(createRouteObject(EntityTypes.AUTH, ChildTypes.TOKEN, RolesTypes, {
@@ -25,17 +25,17 @@ routeObjects.push(createRouteObject(EntityTypes.DOCUMENT, ChildTypes.HISTORY, Ro
 }))
 routeObjects.push(createRouteObject(EntityTypes.DOCUMENT, ChildTypes.EDIT, RolesTypes,
   {
-    params: [globalEntityIdentificator]
+    params: [globalEntityIdentifier]
   }
 ))
 routeObjects.push(createRouteObject(EntityTypes.DOCUMENT, ChildTypes.VIEW, RolesTypes,
   {
-    params: [globalEntityIdentificator]
+    params: [globalEntityIdentifier]
   }
 ))
 routeObjects.push(createRouteObject(EntityTypes.DOCUMENT, ChildTypes.DEL, RolesTypes,
   {
-    params: [globalEntityIdentificator],
+    params: [globalEntityIdentifier],
     security: {
       [RolesTypes.SECRETARY.name]: false,
       [RolesTypes.LAWYER.name]: false,
@@ -62,17 +62,17 @@ routeObjects.push(createRouteObject(EntityTypes.CLIENT, ChildTypes.LIST, RolesTy
 routeObjects.push(createRouteObject(EntityTypes.CLIENT, ChildTypes.CREATE, RolesTypes, {}))
 routeObjects.push(createRouteObject(EntityTypes.CLIENT, ChildTypes.EDIT, RolesTypes,
   {
-    params: [globalEntityIdentificator]
+    params: [globalEntityIdentifier]
   }
 ))
 routeObjects.push(createRouteObject(EntityTypes.CLIENT, ChildTypes.VIEW, RolesTypes,
   {
-    params: [globalEntityIdentificator]
+    params: [globalEntityIdentifier]
   }
 ))
 routeObjects.push(createRouteObject(EntityTypes.CLIENT, ChildTypes.DEL, RolesTypes,
   {
-    params: [globalEntityIdentificator],
+    params: [globalEntityIdentifier],
     security: {
       [RolesTypes.SECRETARY.name]: false,
       [RolesTypes.LAWYER.name]: false,
@@ -90,17 +90,17 @@ routeObjects.push(createRouteObject(EntityTypes.GRANTOR, ChildTypes.LIST, RolesT
 routeObjects.push(createRouteObject(EntityTypes.GRANTOR, ChildTypes.CREATE, RolesTypes, {}))
 routeObjects.push(createRouteObject(EntityTypes.GRANTOR, ChildTypes.EDIT, RolesTypes,
   {
-    params: [globalEntityIdentificator]
+    params: [globalEntityIdentifier]
   }
 ))
 routeObjects.push(createRouteObject(EntityTypes.GRANTOR, ChildTypes.VIEW, RolesTypes,
   {
-    params: [globalEntityIdentificator]
+    params: [globalEntityIdentifier]
   }
 ))
 routeObjects.push(createRouteObject(EntityTypes.GRANTOR, ChildTypes.DEL, RolesTypes,
   {
-    params: [globalEntityIdentificator],
+    params: [globalEntityIdentifier],
     security: {
       [RolesTypes.SECRETARY.name]: false,
       [RolesTypes.LAWYER.name]: false,
@@ -116,17 +116,17 @@ routeObjects.push(createRouteObject(EntityTypes.APPOINTMENT, ChildTypes.DASHBOAR
 }))
 routeObjects.push(createRouteObject(EntityTypes.APPOINTMENT, ChildTypes.EDIT, RolesTypes,
   {
-    params: [globalEntityIdentificator]
+    params: [globalEntityIdentifier]
   }
 ))
 routeObjects.push(createRouteObject(EntityTypes.APPOINTMENT, ChildTypes.VIEW, RolesTypes,
   {
-    params: [globalEntityIdentificator]
+    params: [globalEntityIdentifier]
   }
 ))
 routeObjects.push(createRouteObject(EntityTypes.APPOINTMENT, ChildTypes.DEL, RolesTypes,
   {
-    params: [globalEntityIdentificator],
+    params: [globalEntityIdentifier],
     security: {
       [RolesTypes.SECRETARY.name]: false,
       [RolesTypes.LAWYER.name]: false,
@@ -156,7 +156,7 @@ routeObjects.push(createRouteObject(EntityTypes.USER, ChildTypes.CREATE, RolesTy
 ))
 routeObjects.push(createRouteObject(EntityTypes.USER, ChildTypes.EDIT, RolesTypes,
   {
-    params: [globalEntityIdentificator],
+    params: [globalEntityIdentifier],
     security: {
       [RolesTypes.SECRETARY.name]: false,
       [RolesTypes.LAWYER.name]: false,
@@ -166,7 +166,7 @@ routeObjects.push(createRouteObject(EntityTypes.USER, ChildTypes.EDIT, RolesType
 ))
 routeObjects.push(createRouteObject(EntityTypes.USER, ChildTypes.VIEW, RolesTypes,
   {
-    params: [globalEntityIdentificator],
+    params: [globalEntityIdentifier],
     security: {
       [RolesTypes.SECRETARY.name]: false,
       [RolesTypes.LAWYER.name]: false,
@@ -176,7 +176,7 @@ routeObjects.push(createRouteObject(EntityTypes.USER, ChildTypes.VIEW, RolesType
 ))
 routeObjects.push(createRouteObject(EntityTypes.USER, ChildTypes.DEL, RolesTypes,
   {
-    params: [globalEntityIdentificator],
+    params: [globalEntityIdentifier],
     security: {
       [RolesTypes.SECRETARY.name]: false,
       [RolesTypes.LAWYER.name]: false,
@@ -204,7 +204,7 @@ routeObjects.push(createRouteObject(EntityTypes.GROUP, ChildTypes.CREATE, RolesT
 }))
 routeObjects.push(createRouteObject(EntityTypes.GROUP, ChildTypes.EDIT, RolesTypes,
   {
-    params: [globalEntityIdentificator],
+    params: [globalEntityIdentifier],
     security: {
       [RolesTypes.SECRETARY.name]: false,
       [RolesTypes.LAWYER.name]: false,
@@ -214,7 +214,7 @@ routeObjects.push(createRouteObject(EntityTypes.GROUP, ChildTypes.EDIT, RolesTyp
 ))
 routeObjects.push(createRouteObject(EntityTypes.GROUP, ChildTypes.VIEW, RolesTypes,
   {
-    params: [globalEntityIdentificator],
+    params: [globalEntityIdentifier],
     security: {
       [RolesTypes.SECRETARY.name]: false,
       [RolesTypes.LAWYER.name]: false,
@@ -224,7 +224,7 @@ routeObjects.push(createRouteObject(EntityTypes.GROUP, ChildTypes.VIEW, RolesTyp
 ))
 routeObjects.push(createRouteObject(EntityTypes.GROUP, ChildTypes.DEL, RolesTypes,
   {
-    params: [globalEntityIdentificator],
+    params: [globalEntityIdentifier],
     security: {
       [RolesTypes.SECRETARY.name]: false,
       [RolesTypes.LAWYER.name]: false,

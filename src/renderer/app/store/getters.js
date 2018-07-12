@@ -1,4 +1,4 @@
-// import {globalEntityIdentificator} from 'renderer/config'
+// import globalEntityIdentifier from 'renderer/config'
 // import UserPropertiesReference from 'renderer/api/pages/user/PropertiesReference'
 const sidebarOpened = state => state.app.sidebar.opened
 const toggleWithoutAnimation = state => state.app.sidebar.withoutAnimation

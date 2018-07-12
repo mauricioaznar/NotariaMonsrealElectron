@@ -1,7 +1,7 @@
-import {globalEntityIdentificator} from 'renderer/config'
+import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
 function normalizeObject (object, includedProperties) {
   let newObject = {}
-  newObject[globalEntityIdentificator] = object[globalEntityIdentificator]
+  newObject[globalEntityIdentifier] = object[globalEntityIdentifier]
   let includedPropertiesLength = includedProperties.length
   for (let i = 0; i < includedPropertiesLength; i++) {
     let includedProperty = includedProperties[i]

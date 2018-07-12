@@ -1,4 +1,4 @@
-import {globalEntityIdentificator} from 'renderer/config'
+import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
 import DisplayFunctions from 'renderer/services/api/DisplayFunctions'
 import MauInputTypes from 'renderer/components/mau-components/mau-form-inputs/MauInputTypes'
 import MauInputDefaultValues from 'renderer/components/mau-components/mau-form-inputs/MauInputDefaultValues'
@@ -6,7 +6,7 @@ import MauInputDefaultValues from 'renderer/components/mau-components/mau-form-i
 export default {
   ID: {
     title: 'id',
-    name: globalEntityIdentificator,
+    name: globalEntityIdentifier,
     display: DisplayFunctions.getValue,
     relationship_id_name: 'group_id',
     mauInputType: MauInputTypes.NUMBER,
@@ -25,7 +25,7 @@ export default {
     name: 'users',
     entityName: 'userGroup',
     relationship_id_name: 'user_id',
-    ID: globalEntityIdentificator,
+    ID: globalEntityIdentifier,
     display: DisplayFunctions.getPersonaArray,
     defaultValue: MauInputDefaultValues.MULTISELECTOR
   },
@@ -33,7 +33,7 @@ export default {
     title: 'Lider',
     name: 'user',
     relationship_id_name: 'user_id',
-    ID: globalEntityIdentificator,
+    ID: globalEntityIdentifier,
     display: DisplayFunctions.getPersona,
     mauInputType: MauInputTypes.SELECTOR,
     defaultValue: MauInputDefaultValues.SELECTOR

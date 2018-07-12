@@ -41,8 +41,9 @@
   import defaultRelationshipStructure from 'renderer/services/api/defaultRelationshipStructure'
   import getRelationData from 'renderer/services/api/getRelationData'
   import MauFormInputSelect from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelect.vue'
+  import MauFormInputMultiSelect from 'renderer/components/mau-components/mau-form-inputs/MauFormInputMultiSelect.vue'
   import Vue from 'vue'
-  import {globalEntityIdentificator} from 'renderer/config'
+  import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
   export default {
     name: 'MauRelationshipsForm', // TODO realtionshipForm doesnt have validate function
     inject: {
@@ -50,7 +51,7 @@
     },
     data () {
       return {
-        identificationName: globalEntityIdentificator, // TODO move to computed values
+        identificationName: globalEntityIdentifier, // TODO move to computed values
         selectedObjects: [],
         initialObjects: [],
         structuredObjects: [],
@@ -69,7 +70,8 @@
       }
     },
     components: {
-      MauFormInputSelect
+      MauFormInputSelect,
+      MauFormInputMultiSelect
     },
     props: {
       label: {
@@ -139,9 +141,9 @@
         }
         for (let i = 0; i < this.selectableObjects.length; i++) {
           let selectableObj = this.selectableObjects[i]
-          let relationshipStructure = defaultRelationshipStructure(this.relatedRelationshipName, selectableObj[globalEntityIdentificator])
+          let relationshipStructure = defaultRelationshipStructure(this.relatedRelationshipName, selectableObj[globalEntityIdentifier])
           let initialFormattedObj = initialFormattedObjects.find(initialFormattedObj => {
-            let found = initialFormattedObj[this.relatedRelationshipName] === selectableObj[globalEntityIdentificator]
+            let found = initialFormattedObj[this.relatedRelationshipName] === selectableObj[globalEntityIdentifier]
             return found
           })
           if (initialFormattedObj) {
@@ -172,7 +174,7 @@
       selectedObjectsValidation: selectedObjectsValidation,
       isValueInSelectedObjects: function (value) {
         let selectedObjectsIndex = this.selectedObjects.findIndex(object => {
-          return object[globalEntityIdentificator] === value[globalEntityIdentificator]
+          return object[globalEntityIdentifier] === value[globalEntityIdentifier]
         })
         return selectedObjectsIndex !== -1
       },
@@ -184,7 +186,7 @@
         let selectedObjects = self.structuredObjects.filter(structuredObj => {
           let structuredObjId = structuredObj[self.relatedRelationshipName]
           let selectedObjectsIndex = self.selectedObjects.findIndex(selectedObjectsObj => {
-            let selectedObjectsObjId = selectedObjectsObj[globalEntityIdentificator]
+            let selectedObjectsObjId = selectedObjectsObj[globalEntityIdentifier]
             return structuredObjId === selectedObjectsObjId
           })
           return selectedObjectsIndex !== -1
@@ -249,7 +251,7 @@
           this.selectableObjects = availableObjs
           this.selectedObjects = this.initialObjects.filter(initialObj => {
             let selectableObj = this.selectableObjects.find(selectableObj => {
-              return selectableObj[globalEntityIdentificator] === initialObj[globalEntityIdentificator]
+              return selectableObj[globalEntityIdentifier] === initialObj[globalEntityIdentifier]
             })
             return selectableObj !== undefined && selectableObj !== null
           })

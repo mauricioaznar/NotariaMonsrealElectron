@@ -159,7 +159,7 @@
   import ValidatorHelper from 'renderer/services/form/ValidatorHelper'
   import {mapState} from 'vuex'
   import PropertiesReference from '../PropertiesReference'
-  import {globalEntityIdentificator} from 'renderer/config'
+  import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
   import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
   import ConvertDateTime from 'renderer/services/common/ConvertDateTime'
   import cloneDeep from 'renderer/services/common/cloneDeep'
@@ -248,8 +248,8 @@
           [PropertiesReference.START_DATE.name]: this.appointment.startDate + ' ' + this.appointment.startTime + ':00',
           [PropertiesReference.END_DATE.name]: this.appointment.startDate + ' ' + this.appointment.endTime + ':00',
           // todo CREAR UNA FUNCION PARA LA MANDAR NULL COMO STRING
-          [PropertiesReference.CLIENTS.relationship_id_name]: this.appointment.clients ? this.appointment.clients[globalEntityIdentificator] : null,
-          [PropertiesReference.ROOM.relationship_id_name]: this.appointment.room ? this.appointment.room[globalEntityIdentificator] : null
+          [PropertiesReference.CLIENTS.relationship_id_name]: this.appointment.clients ? this.appointment.clients[globalEntityIdentifier] : null,
+          [PropertiesReference.ROOM.relationship_id_name]: this.appointment.room ? this.appointment.room[globalEntityIdentifier] : null
         }
         let filteredUsers = RelationshipObjectsHelper.compareAndFilterEntityObjects(
           this.initialValues[PropertiesReference.USERS.name],

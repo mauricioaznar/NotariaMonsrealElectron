@@ -77,7 +77,7 @@ const actions = {
     })
   },
   [EntityActions.GET_DOCUMENT_STATUSES]: function ({commit}) {
-    ApiFunctions.get(ApiRoutes.documentStatus.list + '?per_page=1000').then(data => {
+    ApiFunctions.get(ApiRoutes.documentStatus.list + '?paginate=false').then(data => {
       commit('SET_DOCUMENT_STATUSES', data)
     }).catch(e => {
       console.log(e)

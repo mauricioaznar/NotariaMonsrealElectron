@@ -30,7 +30,7 @@
 
 <script>
   import ApiFunctions from 'renderer/services/api/ApiOperations'
-  import {globalEntityIdentificator} from 'renderer/config'
+  import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
   import {mapState} from 'vuex'
   import moment from 'moment'
   import {ApiRoutes} from 'renderer/api/ApiRoutes'
@@ -74,7 +74,7 @@
         let categoriesIds = []
         this.rooms.forEach((roomObj, index) => {
           categoriesNames.push(roomObj.name)
-          categoriesIds.push(roomObj[globalEntityIdentificator])
+          categoriesIds.push(roomObj[globalEntityIdentifier])
         })
         let categoriesDetails = []
         categoriesIds.forEach(categorieId => {

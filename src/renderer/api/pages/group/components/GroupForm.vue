@@ -72,7 +72,7 @@
   import MauFormInputSelect from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelect.vue'
   import RelationshipObjectsHelper from 'renderer/services/form/RelationshipObjectHelper'
   import {mapState} from 'vuex'
-  import {globalEntityIdentificator} from 'renderer/config'
+  import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
   export default {
     name: 'GroupForm',
     data () {
@@ -134,7 +134,7 @@
       save: function () {
         let directParams = {
           [PropertiesReference.NAME.name]: this.group.name,
-          [PropertiesReference.USER.relationship_id_name]: this.group.user ? this.group.user[globalEntityIdentificator] : 'null'
+          [PropertiesReference.USER.relationship_id_name]: this.group.user ? this.group.user[globalEntityIdentifier] : 'null'
         }
         let filteredUsers = RelationshipObjectsHelper.compareAndFilterEntityObjects(
           this.initialValues[PropertiesReference.USERS.name],

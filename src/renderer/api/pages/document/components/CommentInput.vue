@@ -9,7 +9,7 @@
     import isDefined from 'renderer/services/common/isDefined'
     import UserPropertiesReference from 'renderer/api/pages/user/PropertiesReference'
     import DocumentCommentPropertiesReference from '../DocumentCommentPropertiesReference'
-    import {globalEntityIdentificator} from 'renderer/config'
+    import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
     export default {
       name: 'CommentInput',
       data () {
@@ -54,11 +54,11 @@
             del: []
           }
           commentStructuredObj[DocumentCommentPropertiesReference.COMMENT.name] = newComment
-          commentStructuredObj[DocumentCommentPropertiesReference.USER.relationship_id_name] = this.user[globalEntityIdentificator]
-          let initialCommentId = isDefined(this.initialCommentObject) ? this.initialCommentObject[globalEntityIdentificator] : null
+          commentStructuredObj[DocumentCommentPropertiesReference.USER.relationship_id_name] = this.user[globalEntityIdentifier]
+          let initialCommentId = isDefined(this.initialCommentObject) ? this.initialCommentObject[globalEntityIdentifier] : null
           let hasCommentChanged = this.initialComment !== this.comment
           if (initialCommentId && hasCommentChanged) {
-            commentStructuredObj[globalEntityIdentificator] = initialCommentId
+            commentStructuredObj[globalEntityIdentifier] = initialCommentId
             crudOperations.edit.push(commentStructuredObj)
           } else if (this.comment !== '' && hasCommentChanged) {
             crudOperations.create.push(commentStructuredObj)
@@ -70,7 +70,7 @@
         getUserComment: function () {
           if (isDefined(this.user)) {
             this.initialCommentObject = this.commentObjects.find((commentObj) => {
-              return commentObj[UserPropertiesReference.ID.relationship_id_name] === this.user[globalEntityIdentificator]
+              return commentObj[UserPropertiesReference.ID.relationship_id_name] === this.user[globalEntityIdentifier]
             })
             if (isDefined(this.initialCommentObject)) {
               this.initialComment = this.initialCommentObject[DocumentCommentPropertiesReference.COMMENT.name]

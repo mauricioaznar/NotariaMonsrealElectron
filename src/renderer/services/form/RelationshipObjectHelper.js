@@ -1,11 +1,11 @@
-import {globalEntityIdentificator} from 'renderer/config'
+import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
 
 function createRelationshipObject (object, relationshipName, newProperties = {}) {
   let relationshipObject = {}
-  relationshipObject[relationshipName] = object[globalEntityIdentificator]
+  relationshipObject[relationshipName] = object[globalEntityIdentifier]
   let pivotProperties = object.pivot
   if (pivotProperties) {
-    relationshipObject[globalEntityIdentificator] = pivotProperties[globalEntityIdentificator]
+    relationshipObject[globalEntityIdentifier] = pivotProperties[globalEntityIdentifier]
   }
   for (let newPropertyKey in newProperties) {
     if (newProperties.hasOwnProperty(newPropertyKey)) {

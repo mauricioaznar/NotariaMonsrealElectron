@@ -6,7 +6,7 @@
 
 <script>
   import ApiFunctions from 'renderer/services/api/ApiOperations'
-  import {globalEntityIdentificator} from 'renderer/config'
+  import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
   import Notifications from 'renderer/services/api/Notifications'
   import addHostId from 'renderer/services/api/addHostId'
   import convertFirstCharacterTo from 'renderer/services/common/ConvertFirstCharacterTo'
@@ -52,7 +52,7 @@
         ApiFunctions.create(ApiRoutes[this.entityNameLC].create, entityObject)
           .then(
             result => {
-              let createdEntityId = result[globalEntityIdentificator]
+              let createdEntityId = result[globalEntityIdentifier]
               if (this.callback) {
                 this.callback()
               }

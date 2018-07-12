@@ -1,4 +1,4 @@
-import {globalEntityIdentificator} from 'renderer/config'
+import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
 import UserPropertiesReference from 'renderer/api/pages/user/PropertiesReference'
 import isEntityEditable from 'renderer/services/api/isEntityEditable'
 import {getRouteObjectMetaPropertyValue} from 'renderer/services/api/RouteObject'
@@ -17,7 +17,7 @@ const getUsersInGroups = apiState => (groups) => {
     for (let userGroupsIndex = 0; userGroupsIndex < userGroupsLength; userGroupsIndex++) {
       let userGroup = userGroups[userGroupsIndex]
       let foundGroup = groups.find(group => {
-        return group[globalEntityIdentificator] === userGroup[globalEntityIdentificator]
+        return group[globalEntityIdentifier] === userGroup[globalEntityIdentifier]
       })
       if (foundGroup) {
         filteredUsers.push(user)
@@ -51,7 +51,7 @@ const getUsers = state => {
   return state.entity.users
 }
 const getRoleByRoleId = state => (roleId) => {
-  return state.entity.roles.find(roleObj => { return roleObj[globalEntityIdentificator] === roleId })
+  return state.entity.roles.find(roleObj => { return roleObj[globalEntityIdentifier] === roleId })
 }
 const requestedEntity = state => {
   return state.entity.requestedEntity

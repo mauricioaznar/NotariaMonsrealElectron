@@ -7,7 +7,7 @@
 <script>
   import ApiFunctions from 'renderer/services/api/ApiOperations'
   import addHostId from 'renderer/services/api/addHostId'
-  import {globalEntityIdentificator} from 'renderer/config'
+  import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
   import Notifications from 'renderer/services/api/Notifications'
   import convertFirstCharacterTo from 'renderer/services/common/ConvertFirstCharacterTo'
   import {ApiRoutes} from 'renderer/api/ApiRoutes'
@@ -83,7 +83,7 @@
                       if (relationshipRoute.hasOwnProperty('del')) {
                         entityApiCallsContainer.del.forEach(structuredObject => {
                           let modifiedStructuredObject = addHostId(structuredObject, this.relationshipIdName, this.id)
-                          ApiFunctions.del(relationshipRoute.del, modifiedStructuredObject[globalEntityIdentificator], modifiedStructuredObject)
+                          ApiFunctions.del(relationshipRoute.del, modifiedStructuredObject[globalEntityIdentifier], modifiedStructuredObject)
                         })
                       }
                     }
@@ -91,7 +91,7 @@
                       if (relationshipRoute.hasOwnProperty('edit')) {
                         entityApiCallsContainer.edit.forEach(structuredObject => {
                           let modifiedStructuredObject = addHostId(structuredObject, this.relationshipIdName, this.id)
-                          ApiFunctions.edit(relationshipRoute.edit, modifiedStructuredObject[globalEntityIdentificator], modifiedStructuredObject)
+                          ApiFunctions.edit(relationshipRoute.edit, modifiedStructuredObject[globalEntityIdentifier], modifiedStructuredObject)
                         })
                       }
                     }
