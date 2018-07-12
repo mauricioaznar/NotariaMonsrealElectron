@@ -8,91 +8,52 @@
         <div slot="Generales">
           <div class="container">
               <div class="form-group">
-                <div class="file_number">
-                  <label>{{PropertiesReference.FILE_NUMBER.title}}</label>
-                  <masked-input
-                          :name="PropertiesReference.FILE_NUMBER.name"
-                          v-model="document.fileNumber"
-                          v-validate="'required'"
-                          :data-vv-name="PropertiesReference.FILE_NUMBER.name"
-                          :value="initialValues[PropertiesReference.FILE_NUMBER.name]"
-                          class="form-control"
-                          :class="getBootstrapValidationClass(errors.has(PropertiesReference.FILE_NUMBER.name))"
-                          :mask="PropertiesReference.FILE_NUMBER.mask"
-                          :placeholder="'Ejemplo: 139'"
-                  >
-                  </masked-input>
-                  <div class="invalid-feedback">
-                    <span v-show="errors.has(PropertiesReference.FILE_NUMBER.name)" class="help is-danger">
-                      {{ errors.first(PropertiesReference.FILE_NUMBER.name) }}
-                    </span>
-                  </div>
-                </div>
+                <mau-form-input-number
+                        :name="PropertiesReference.FILE_NUMBER.name"
+                        :error="errors.first(PropertiesReference.FILE_NUMBER.name)"
+                        :label="PropertiesReference.FILE_NUMBER.title"
+                        :data-vv-as="PropertiesReference.FILE_NUMBER.title"
+                        v-model="document.fileNumber"
+                        :initialValue="initialValues[PropertiesReference.FILE_NUMBER.name]"
+                        v-validate="'numeric'"
+                >
+                </mau-form-input-number>
               </div>
               <div class="form-group">
-                <div class="date">
-                  <label>{{PropertiesReference.DATE.title}}</label>
-                  <mau-form-input-date-time
-                          :id="PropertiesReference.DATE.name"
-                          :name="PropertiesReference.DATE.name"
-                          :data-vv-name="PropertiesReference.DATE.name"
-                          v-model="document.date"
-                          :initialValue="initialValues[PropertiesReference.DATE.name]"
-                          :class="getBootstrapValidationClass(errors.has(PropertiesReference.DATE.name))"
-                          class="form-control override-form-control"
-                          v-validate="'required'"
-                  >
-                  </mau-form-input-date-time>
-                  <div class="invalid-feedback">
-                        <span v-show="errors.has(PropertiesReference.DATE.name)" class="help is-danger">
-                          {{ errors.first(PropertiesReference.DATE.name) }}
-                        </span>
-                  </div>
-                </div>
+                <mau-form-input-date-time
+                        :label="PropertiesReference.DATE.title"
+                        :name="PropertiesReference.DATE.name"
+                        :data-vv-as="PropertiesReference.DATE.title"
+                        v-model="document.date"
+                        :initialValue="initialValues[PropertiesReference.DATE.name]"
+                        :error="errors.first(PropertiesReference.DATE.name)"
+                        v-validate="'required'"
+                >
+                </mau-form-input-date-time>
               </div>
               <div class="form-group">
-                <div class="tome">
-                  <label>{{PropertiesReference.TOME.title}}</label>
-                  <masked-input
-                          :name="PropertiesReference.TOME.name"
-                          v-model="document.tome"
-                          v-validate="'required'"
-                          :data-vv-name="PropertiesReference.TOME.name"
-                          :value="initialValues[PropertiesReference.TOME.name]"
-                          class="form-control"
-                          :class="getBootstrapValidationClass(errors.has(PropertiesReference.TOME.name))"
-                          :mask="PropertiesReference.TOME.mask"
-                          :placeholder="'Ejemplo: 2-XV'"
-                  >
-                  </masked-input>
-                  <div class="invalid-feedback">
-                      <span v-show="errors.has(PropertiesReference.TOME.name)" class="help is-danger">
-                        {{ errors.first(PropertiesReference.TOME.name) }}
-                      </span>
-                  </div>
-                </div>
+                <mau-form-input-text
+                        :name="PropertiesReference.TOME.name"
+                        :error="errors.first(PropertiesReference.TOME.name)"
+                        :label="PropertiesReference.TOME.title"
+                        v-model="document.tome"
+                        :data-vv-as="PropertiesReference.TOME.title"
+                        :initialValue="initialValues[PropertiesReference.TOME.name]"
+                        v-validate="'alpha_dash'"
+                >
+                </mau-form-input-text>
               </div>
               <div class="form-group">
-                <div class="folio">
-                  <label>{{PropertiesReference.FOLIO.title}}</label>
-                  <masked-input
-                          :name="PropertiesReference.FOLIO.name"
-                          v-model="document.folio"
-                          :value="initialValues[PropertiesReference.FOLIO.name]"
-                          class="form-control"
-                          :mask="PropertiesReference.FOLIO.mask"
-                          :class="getBootstrapValidationClass(errors.has(PropertiesReference.FOLIO.name))"
-                          :data-vv-name="PropertiesReference.FOLIO.name"
-                          v-validate="'required'"
-                          :placeholder="'Ejemplo: 139'"
-                  >
-                  </masked-input>
-                  <div class="invalid-feedback">
-                    <span v-show="errors.has(PropertiesReference.FOLIO.name)" class="help is-danger">
-                      {{ errors.first(PropertiesReference.FOLIO.name) }}
-                    </span>
-                  </div>
-                </div>
+                <mau-form-input-number
+                        :name="PropertiesReference.FOLIO.name"
+                        :error="errors.first(PropertiesReference.FOLIO.name)"
+                        :label="PropertiesReference.FOLIO.title"
+                        :data-vv-as="PropertiesReference.FOLIO.title"
+                        v-model="document.folio"
+                        :initialValue="initialValues[PropertiesReference.FOLIO.name]"
+                        v-validate="'numeric'"
+                >
+                </mau-form-input-number>
               </div>
               <div class="form-group">
                 <div class="document_type">
@@ -179,35 +140,16 @@
                 </div>
               </div>
               <div class="form-group">
-                <div class="document_property">
-                  <label>{{PropertiesReference.PROPERTY.title}}</label>
-                  <b-form-input v-model="document.property"
-                                type="text"
-                                placeholder="Ejemplo: Casa #34, entre calle 22 y 22-c">
-                  </b-form-input>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="electronic_folio">
-                  <label>{{PropertiesReference.ELECTRONIC_FOLIO.title}}</label>
-                  <masked-input
-                          :name="PropertiesReference.ELECTRONIC_FOLIO.name"
-                          v-model="document.electronicFolio"
-                          v-validate="'required'"
-                          :data-vv-name="PropertiesReference.ELECTRONIC_FOLIO.name"
-                          :value="initialValues[PropertiesReference.ELECTRONIC_FOLIO.name]"
-                          class="form-control"
-                          :class="getBootstrapValidationClass(errors.has(PropertiesReference.ELECTRONIC_FOLIO.name))"
-                          :mask="PropertiesReference.ELECTRONIC_FOLIO.mask"
-                          :placeholder="'Ejemplo: 29'"
-                  >
-                  </masked-input>
-                  <div class="invalid-feedback">
-                    <span v-show="errors.has(PropertiesReference.ELECTRONIC_FOLIO.name)" class="help is-danger">
-                      {{ errors.first(PropertiesReference.ELECTRONIC_FOLIO.name) }}
-                    </span>
-                  </div>
-                </div>
+                <mau-form-input-text
+                        :name="PropertiesReference.PROPERTY.name"
+                        :error="errors.first(PropertiesReference.PROPERTY.name)"
+                        :label="PropertiesReference.PROPERTY.title"
+                        v-model="document.property"
+                        :data-vv-as="PropertiesReference.PROPERTY.title"
+                        :initialValue="initialValues[PropertiesReference.PROPERTY.name]"
+                        placeholder="Ejemplo: Casa #34, entre calle 22 y 22-c"
+                >
+                </mau-form-input-text>
               </div>
               <div class="form-group">
                 <div class="document_money_laundering">
@@ -440,41 +382,29 @@
         <div slot="Registro Publico">
           <div class="container">
             <div class="form-group form-row">
-              <div class="col-sm-12 col-md-6 public_registry_entry_date">
-                <label>{{PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.title}}</label>
+              <div class="col-sm-12 col-md-6">
                 <mau-form-input-date-time
+                        :label="PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.title"
                         :name="PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name"
-                        :data-vv-name="PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name"
+                        :data-vv-as="PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.title"
                         v-model="document.publicRegistryEntryDate"
                         :initialValue="initialValues[PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name]"
-                        :class="getBootstrapValidationClass(errors.has(PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name))"
-                        class="form-control override-form-control"
-                        v-validate="''"
+                        :error="errors.first(PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name)"
+                        v-validate="'required'"
                 >
                 </mau-form-input-date-time>
-                <div class="invalid-feedback">
-                    <span v-show="errors.has(PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name)" class="help is-danger">
-                      {{ errors.first(PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name) }}
-                    </span>
-                </div>
               </div>
               <div class="col-sm-12 col-md-6 public_registry_exit_date">
-                <label>{{PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.title}}</label>
                 <mau-form-input-date-time
+                        :label="PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.title"
                         :name="PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.name"
-                        :data-vv-name="PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.name"
+                        :data-vv-as="PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.title"
                         v-model="document.publicRegistryExitDate"
                         :initialValue="initialValues[PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.name]"
-                        :class="getBootstrapValidationClass(errors.has(PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.name))"
-                        class="form-control override-form-control"
-                        v-validate="''"
+                        :error="errors.first(PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.name)"
+                        v-validate="'required'"
                 >
                 </mau-form-input-date-time>
-                <div class="invalid-feedback">
-                    <span v-show="errors.has(PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.name)" class="help is-danger">
-                      {{ errors.first(PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.name) }}
-                    </span>
-                </div>
               </div>
             </div>
           </div>
@@ -509,6 +439,8 @@
   import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
   import cloneDeep from 'renderer/services/common/cloneDeep'
   import isDefined from 'renderer/services/common/isDefined'
+  import MauFormInputText from 'renderer/components/mau-components/mau-form-inputs/MauFormInputText.vue'
+  import MauFormInputNumber from 'renderer/components/mau-components/mau-form-inputs/MauFormInputNumber.vue'
   import EntityActions from 'renderer/api/store/entityActions'
   import DocumentDocumentAttachmentPropertiesReference from '../DocumentDocumentAttachmentPropertiesReference'
   import CommentList from '../components/CommentList.vue'
@@ -579,6 +511,8 @@
       CommentList,
       CommentInput,
       MauFormInputSelect,
+      MauFormInputNumber,
+      MauFormInputText,
       MaskedInput,
       CreateClient,
       CreateGrantor
@@ -652,9 +586,10 @@
         this.initialValues['exitUsers'] = []
       },
       setInitialValues: function () {
-        this.document.folio = this.initialObject[PropertiesReference.FOLIO.name]
+        this.initialValues[PropertiesReference.FILE_NUMBER.name] = this.initialObject[PropertiesReference.FILE_NUMBER.name]
         this.initialValues[PropertiesReference.DATE.name] = this.initialObject[PropertiesReference.DATE.name]
-        this.document.tome = this.initialObject[PropertiesReference.TOME.name]
+        this.initialValues[PropertiesReference.TOME.name] = this.initialObject[PropertiesReference.TOME.name]
+        this.initialValues[PropertiesReference.FOLIO.name] = this.initialObject[PropertiesReference.FOLIO.name]
         this.document.electronicFolio = this.initialObject[PropertiesReference.ELECTRONIC_FOLIO.name]
         this.document.fileNumber = this.initialObject[PropertiesReference.FILE_NUMBER.name]
         this.document.documentType = NormalizeObjects.normalizeObject(this.initialObject[PropertiesReference.DOCUMENT_TYPE.name], ['name'])
@@ -670,7 +605,7 @@
         this.initialValues[PropertiesReference.PERSONALITIES.name] = DefaultValuesHelper.tripleboolean(this.initialObject, PropertiesReference.PERSONALITIES.name)
         this.initialValues[PropertiesReference.PUBLIC_REGISTRY_PATENT.name] = DefaultValuesHelper.tripleboolean(this.initialObject, PropertiesReference.PUBLIC_REGISTRY_PATENT.name)
         this.initialValues[PropertiesReference.MARGINAL_NOTES.name] = this.initialObject[PropertiesReference.MARGINAL_NOTES.name]
-        this.document.property = this.initialObject[PropertiesReference.PROPERTY.name]
+        this.initialValues[PropertiesReference.PROPERTY.name] = this.initialObject[PropertiesReference.PROPERTY.name]
         this.initialValues[PropertiesReference.OPERATIONS.name] = this.initialObject[PropertiesReference.OPERATIONS.name]
         this.initialValues[PropertiesReference.GROUPS.name] = this.initialObject[PropertiesReference.GROUPS.name]
         this.initialValues[PropertiesReference.GRANTORS.name] = this.initialObject[PropertiesReference.GRANTORS.name]

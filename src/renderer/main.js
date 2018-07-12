@@ -11,6 +11,8 @@ import VueResource from 'vue-resource'
 import moment from 'moment'
 import Notifications from 'vue-notification'
 import VeeValidate, { Validator } from 'vee-validate'
+import VeeValidateDictionary from 'renderer/services/form/VeeValidateDictionary'
+import VeeValidateCustomRules from 'renderer/services/form/VeeValidateCustomRules'
 import esLocale from 'vee-validate/dist/locale/es'
 Vue.use(Notifications)
 moment.locale('es', {
@@ -26,10 +28,13 @@ moment.locale('es', {
 Vue.use(MauPlugin)
 Vue.use(BootstrapVue)
 Vue.use(VueResource)
-Validator.localize(esLocale)
+Validator.localize('es', esLocale)
+Validator.extend('object_required', VeeValidateCustomRules.objectRequired)
+Validator.extend('array_required', VeeValidateCustomRules.arrayRequired)
 Vue.use(VeeValidate, {
   fieldsBagName: 'formFields',
-  locale: 'es'
+  locale: 'es',
+  dictionary: VeeValidateDictionary
 })
 
 sync(store, router)

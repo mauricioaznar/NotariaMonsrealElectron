@@ -35,6 +35,11 @@ export default [
     filter: true
   },
   {
+    name: PropertiesReference.DOCUMENT_STATUS.name,
+    title: PropertiesReference.DOCUMENT_STATUS.title,
+    callback: PropertiesReference.DOCUMENT_STATUS.display
+  },
+  {
     name: PropertiesReference.CLIENT.name,
     title: PropertiesReference.CLIENT.title,
     callback: DisplayFunctions.getPersona

@@ -1,21 +1,26 @@
 <template>
   <div>
-    <flat-pickr
-            v-model="value"
-            :config="config"
-            class="form-control"
-            :class="className"
+    <label
+            v-if="label"
+            class="form__label">
+      {{ label }}
+    </label>
+    <div class="override-form-control form-control"
+         :class="getBootstrapValidationClass(error)"
     >
-    </flat-pickr>
-      <!--<div class="input-group">-->
-        <!--<div class="input-group-btn">-->
-          <!--<button class="btn btn-default" type="button" title="Clear" @click="clear" data-clear>-->
-            <!--<i class="fa fa-times">-->
-              <!--<span aria-hidden="true" class="sr-only">Clear</span>-->
-            <!--</i>-->
-          <!--</button>-->
-        <!--</div>-->
-      <!--</div>-->
+      <flat-pickr
+              v-model="date"
+              :config="config"
+              @input="updateValue"
+              @change="updateValue"
+      >
+      </flat-pickr>
+    </div>
+    <div class="invalid-feedback">
+                  <span v-show="error" class="help is-danger">
+                    {{error}}
+                  </span>
+    </div>
   </div>
 </template>
 
@@ -23,13 +28,14 @@
   import flatPickr from 'vue-flatpickr-component'
   import {Spanish} from '../../../../../node_modules/flatpickr/dist/l10n/es'
   import 'flatpickr/dist/flatpickr.css'
+  import ValidatorHelper from 'renderer/services/form/ValidatorHelper'
   const rangeSeparator = ' al '
   Spanish.rangeSeparator = rangeSeparator
   export default {
     name: 'MauFormInputDateTime',
     data () {
       return {
-        value: '',
+        date: '',
         recentlyCreated: true,
         config: {
         },
@@ -56,40 +62,46 @@
         }
       }
     },
+    $_veeValidate: {
+      name () {
+        return this.name
+      },
+      value () {
+        return this.date
+      }
+    },
     props: {
+      value: String,
+      initialValue: String,
+      name: String,
+      error: {
+        type: String,
+        required: false
+      },
       label: {
         type: String
-      },
-      initialValue: {
-      },
-      hasError: {
-        type: Function
       },
       inputType: {
         type: String,
         default: function () {
           return 'date'
         }
-      },
-      className: {
-        type: Object
       }
     },
     components: {
       flatPickr
     },
     methods: {
-      clear: function () {
-        this.value = ''
-      }
-    },
-    watch: {
-      value: function (value) {
-        this.$emit('input', value)
+      getBootstrapValidationClass: ValidatorHelper.getBootstrapValidationClass,
+      updateValue: function (val) {
+        this.$emit('input', val)
       }
     },
     created () {
-      this.value = this.initialValue
+      this.date = this.value
+      if (this.initialValue && this.initialValue !== '0000-00-00') {
+        this.date = this.initialValue
+      }
       if (this.inputType === 'date') {
         this.config = this.dateConfig
       } else if (this.inputType === 'time') {
@@ -99,6 +111,7 @@
       } else {
         console.log('please specify a valid dateTime input type')
       }
+      this.updateValue(this.date)
     }
   }
 </script>
