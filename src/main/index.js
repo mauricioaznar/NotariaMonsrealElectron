@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, dialog } from 'electron'
 import { autoUpdater } from 'electron-updater'
 
 /**
@@ -61,8 +61,24 @@ app.on('activate', () => {
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
  */
 
+
+autoUpdater.on('update-available', () => {
+  dialog.showMessageBox({
+    type: 'info',
+    message: 'Se esta descargando la nueva actualizacion'
+  })
+})
+
 autoUpdater.on('update-downloaded', () => {
-  autoUpdater.quitAndInstall()
+  dialog.showMessageBox({
+    type: 'info',
+    message: 'Hay una nueva actualizacion disponible, desea descargarla?',
+    buttons: ['Si', 'No']
+  }, (response) => {
+    if (response === 0) {
+      autoUpdater.quitAndInstall()
+    }
+  })
 })
 
 app.on('ready', () => {
