@@ -29,6 +29,11 @@ function createWindow () {
     }
   })
   mainWindow.loadURL(winURL)
+  mainWindow.webContents.on('did-finish-load', () => {
+    let version = app.getVersion()
+    let title = app.getName()
+    mainWindow.setTitle(title + ' v' + version)
+  })
   mainWindow.on('closed', () => {
     mainWindow = null
   })
