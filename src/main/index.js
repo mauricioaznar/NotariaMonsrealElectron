@@ -29,7 +29,6 @@ function createWindow () {
     }
   })
   mainWindow.loadURL(winURL)
-  mainWindow.webContents.openDevTools()
   mainWindow.webContents.on('did-finish-load', () => {
     let version = app.getVersion()
     let title = app.getName()
