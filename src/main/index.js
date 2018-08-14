@@ -73,7 +73,7 @@ autoUpdater.on('update-downloaded', () => {
   dialog.showMessageBox({
     type: 'info',
     message: 'Hay una nueva actualizacion disponible, desea descargarla?',
-    buttons: ['Si', 'No']
+    buttons: ['Yes', 'No']
   }, (response) => {
     if (response === 0) {
       autoUpdater.quitAndInstall()
