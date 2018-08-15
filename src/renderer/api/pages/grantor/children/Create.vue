@@ -2,7 +2,7 @@
   <div class="container">
     <mau-crud-create
       :entityName="'Grantor'"
-      :entityAction="EntityActions.GET_GRANTORS"
+      :entityAction="entityAction"
       :callback="callback"
     >
       <template slot-scope="params">
@@ -22,7 +22,7 @@
     name: 'CreateGrantor',
     data () {
       return {
-        EntityActions: EntityActions
+        entityAction: EntityActions.GET_GRANTORS
       }
     },
     components: {

@@ -3,6 +3,7 @@
     <mau-crud-edit
       :id="id"
       :entityName="'Group'"
+      :entityAction="entityAction"
       :relatedEntitiesRoutes="relatedEntitiesRoutes"
       :relationshipIdName="hostRelationshipIdName"
       :callback="callback">
@@ -22,13 +23,15 @@
   import {ApiRoutes} from 'renderer/api/ApiRoutes'
   import {createRouteObjectPath} from 'renderer/services/api/RouteObject'
   import EntityTypes from 'renderer/api/EntityTypes'
+  import EntityActions from 'renderer/api/store/entityActions'
   import ChildTypes from 'renderer/api/ChildTypes'
   export default {
     name: 'EditGroup',
     data () {
       return {
         relatedEntitiesRoutes: {[PropertiesReference.USERS.entityName]: ApiRoutes.userGroup},
-        hostRelationshipIdName: PropertiesReference.ID.relationship_id_name
+        hostRelationshipIdName: PropertiesReference.ID.relationship_id_name,
+        entityAction: EntityActions.GET_GROUPS
       }
     },
     props: {

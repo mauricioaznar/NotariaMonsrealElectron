@@ -2,7 +2,7 @@
   <div class="container">
     <mau-crud-create
       :entityName="'User'"
-      :entityAction="EntityActions.GET_USERS"
+      :entityAction="entityAction"
       :callback="callback"
     >
       <template slot-scope="params">
@@ -22,7 +22,7 @@
     name: 'CreateUser',
     data () {
       return {
-        EntityActions: EntityActions
+        entityAction: EntityActions.GET_USERS
       }
     },
     components: {

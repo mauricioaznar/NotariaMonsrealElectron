@@ -3,7 +3,7 @@
     <mau-crud-edit
       :id="id"
       :entityName="'Grantor'"
-      :entityAction="EntityActions.GET_GRANTORS"
+      :entityAction="entityAction"
       :callback="callback">
       <template slot-scope="params">
         <grantor-form
@@ -25,7 +25,7 @@
     name: 'EditGrantor',
     data () {
       return {
-        EntityActions: EntityActions,
+        entityAction: EntityActions.GET_GRANTORS,
         client: null
       }
     },

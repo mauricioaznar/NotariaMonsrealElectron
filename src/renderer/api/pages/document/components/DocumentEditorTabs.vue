@@ -9,12 +9,12 @@
           <div class="container">
               <div class="form-group">
                 <mau-form-input-number
-                        :name="PropertiesReference.FILE_NUMBER.name"
-                        :error="errors.first(PropertiesReference.FILE_NUMBER.name)"
-                        :label="PropertiesReference.FILE_NUMBER.title"
-                        :data-vv-as="PropertiesReference.FILE_NUMBER.title"
-                        v-model="document.fileNumber"
-                        :initialValue="initialValues[PropertiesReference.FILE_NUMBER.name]"
+                        :name="PropertiesReference.FOLIO.name"
+                        :error="errors.first(PropertiesReference.FOLIO.name)"
+                        :label="PropertiesReference.FOLIO.title"
+                        :data-vv-as="PropertiesReference.FOLIO.title"
+                        v-model="document.folio"
+                        :initialValue="initialValues[PropertiesReference.FOLIO.name]"
                         v-validate="'numeric'"
                 >
                 </mau-form-input-number>
@@ -32,6 +32,18 @@
                 </mau-form-input-date-time>
               </div>
               <div class="form-group">
+                <mau-form-input-number
+                        :name="PropertiesReference.FILE_NUMBER.name"
+                        :error="errors.first(PropertiesReference.FILE_NUMBER.name)"
+                        :label="PropertiesReference.FILE_NUMBER.title"
+                        :data-vv-as="PropertiesReference.FILE_NUMBER.title"
+                        v-model="document.fileNumber"
+                        :initialValue="initialValues[PropertiesReference.FILE_NUMBER.name]"
+                        v-validate="'numeric'"
+                >
+                </mau-form-input-number>
+              </div>
+              <div class="form-group">
                 <mau-form-input-text
                         :name="PropertiesReference.TOME.name"
                         :error="errors.first(PropertiesReference.TOME.name)"
@@ -44,21 +56,8 @@
                 </mau-form-input-text>
               </div>
               <div class="form-group">
-                <mau-form-input-number
-                        :name="PropertiesReference.FOLIO.name"
-                        :error="errors.first(PropertiesReference.FOLIO.name)"
-                        :label="PropertiesReference.FOLIO.title"
-                        :data-vv-as="PropertiesReference.FOLIO.title"
-                        v-model="document.folio"
-                        :initialValue="initialValues[PropertiesReference.FOLIO.name]"
-                        v-validate="'numeric'"
-                >
-                </mau-form-input-number>
-              </div>
-              <div class="form-group">
                 <label>{{PropertiesReference.DOCUMENT_TYPE.title}}</label>
                 <b-form-radio-group
-                        stacked
                         :id="PropertiesReference.DOCUMENT_TYPE.name"
                         v-model="document.documentType"
                         v-validate="'required'"
@@ -379,31 +378,28 @@
         </div>
         <div slot="Registro Publico">
           <div class="container">
-            <div class="form-group form-row">
-              <div class="col-sm-12 col-md-6">
-                <mau-form-input-date-time
-                        :label="PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.title"
-                        :name="PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name"
-                        :data-vv-as="PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.title"
-                        v-model="document.publicRegistryEntryDate"
-                        :initialValue="initialValues[PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name]"
-                        :error="errors.first(PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name)"
-                        v-validate="'required'"
-                >
-                </mau-form-input-date-time>
-              </div>
-              <div class="col-sm-12 col-md-6 public_registry_exit_date">
-                <mau-form-input-date-time
-                        :label="PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.title"
-                        :name="PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.name"
-                        :data-vv-as="PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.title"
-                        v-model="document.publicRegistryExitDate"
-                        :initialValue="initialValues[PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.name]"
-                        :error="errors.first(PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.name)"
-                        v-validate="'required'"
-                >
-                </mau-form-input-date-time>
-              </div>
+            <div class="form-group">
+              <mau-form-input-date-time
+                      :label="PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.title"
+                      :name="PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name"
+                      :data-vv-as="PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.title"
+                      v-model="document.publicRegistryEntryDate"
+                      :initialValue="initialValues[PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name]"
+                      :error="errors.first(PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name)"
+                      v-validate="'required'"
+              >
+              </mau-form-input-date-time>
+            </div>
+            <div class="form-group">
+              <mau-form-input-date-time
+                      :label="PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.title"
+                      :name="PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.name"
+                      :data-vv-as="PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.title"
+                      v-model="document.publicRegistryExitDate"
+                      :initialValue="initialValues[PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.name]"
+                      :error="errors.first(PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.name)"
+              >
+              </mau-form-input-date-time>
             </div>
           </div>
         </div>

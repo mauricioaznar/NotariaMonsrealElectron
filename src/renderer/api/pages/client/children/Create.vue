@@ -2,7 +2,7 @@
   <div class="container">
     <mau-crud-create
       :entityName="'Client'"
-      :entityAction="EntityActions.GET_CLIENTS"
+      :entityAction="entityAction"
       :callback="callback"
       :relationshipIdName="hostRelationshipIdName"
       :relatedEntitiesRoutes="relatedEntitiesRoutes"
@@ -26,7 +26,7 @@
     name: 'CreateClient',
     data () {
       return {
-        EntityActions: EntityActions,
+        entityAction: EntityActions.GET_CLIENTS,
         hostRelationshipIdName: PropertiesReference.ID.relationship_id_name,
         relatedEntitiesRoutes: {[PropertiesReference.GRANTORS.entityName]: ApiRoutes.clientGrantor}
       }

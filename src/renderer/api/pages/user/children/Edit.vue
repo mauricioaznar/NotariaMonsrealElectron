@@ -3,7 +3,7 @@
     <mau-crud-edit
       :id="id"
       :entityName="'User'"
-      :entityAction="EntityActions.GET_USERS"
+      :entityAction="entityAction"
       :callback="callback">
       <template slot-scope="params">
         <user-form
@@ -25,7 +25,7 @@
     name: 'EditUser',
     data () {
       return {
-        EntityActions: EntityActions,
+        entityAction: EntityActions.GET_USERS,
         user: null
       }
     },
