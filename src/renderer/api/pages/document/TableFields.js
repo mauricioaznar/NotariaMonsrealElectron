@@ -8,6 +8,20 @@ export default [
     filter: true
   },
   {
+    name: PropertiesReference.DATE.name,
+    title: 'Año',
+    sortField: PropertiesReference.DATE.name,
+    callback: DisplayFunctions.getDateYear,
+    filter: true
+  },
+  {
+    name: PropertiesReference.DATE.name,
+    title: PropertiesReference.DATE.title,
+    sortField: PropertiesReference.DATE.name,
+    callback: PropertiesReference.DATE.display,
+    filter: true
+  },
+  {
     name: PropertiesReference.FOLIO.name,
     title: PropertiesReference.FOLIO.title,
     sortField: PropertiesReference.FOLIO.name,
@@ -43,13 +57,6 @@ export default [
     name: PropertiesReference.CLIENT.name,
     title: PropertiesReference.CLIENT.title,
     callback: DisplayFunctions.getPersona
-  },
-  {
-    name: PropertiesReference.DATE.name,
-    title: PropertiesReference.DATE.title,
-    sortField: PropertiesReference.DATE.name,
-    callback: PropertiesReference.DATE.display,
-    filter: true
   },
   {
     name: '__slot:actions',

@@ -3,10 +3,10 @@ function tripleboolean (initialObject, propertyName) {
     return -1
   }
   let propertyValue = initialObject[propertyName]
-  if (propertyValue === 0) {
-    return propertyValue
-  } else if (propertyValue === 1) {
-    return propertyValue
+  if (propertyValue === 0 || propertyValue === '0') {
+    return 0
+  } else if (propertyValue === 1 || propertyValue === '1') {
+    return 1
   } else {
     return -1
   }

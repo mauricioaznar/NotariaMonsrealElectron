@@ -185,6 +185,7 @@
       getTimeFromDateTime: DisplayFunctions.getTimeFromDateTime,
       getDateFromDateTime: DisplayFunctions.getDateFromDateTime,
       getDate: DisplayFunctions.getDate,
+      getDateYear: DisplayFunctions.getDateYear,
       getNameArray: DisplayFunctions.getNameArray,
       getPersonaArray: DisplayFunctions.getPersonaArray
     }

@@ -4,7 +4,7 @@
         <b-form-checkbox
                 v-if="!tripleboolean"
                 v-model="selected"
-                value="1"
+                value="0"
                 unchecked-value="0">
         </b-form-checkbox>
     </div>
@@ -30,10 +30,7 @@
     },
     props: {
       initialValue: {
-        type: Number,
-        default: function () {
-          return -1
-        }
+        type: Number
       },
       tripleboolean: {
         type: Boolean,

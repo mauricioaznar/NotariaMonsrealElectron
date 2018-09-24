@@ -50,7 +50,7 @@ export default {
     name: 'phone',
     display: DisplayFunctions.getValue,
     required: false,
-    mask: Masks.housephone,
+    mask: Masks.cellphone,
     mauInputType: MauInputTypes.NUMBER,
     defaultValue: ''
   },

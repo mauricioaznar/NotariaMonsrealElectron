@@ -9,12 +9,12 @@
           <div class="container">
               <div class="form-group">
                 <mau-form-input-number
-                        :name="PropertiesReference.FOLIO.name"
-                        :error="errors.first(PropertiesReference.FOLIO.name)"
-                        :label="PropertiesReference.FOLIO.title"
-                        :data-vv-as="PropertiesReference.FOLIO.title"
-                        v-model="document.folio"
-                        :initialValue="initialValues[PropertiesReference.FOLIO.name]"
+                        :name="PropertiesReference.FILE_NUMBER.name"
+                        :error="errors.first(PropertiesReference.FILE_NUMBER.name)"
+                        :label="PropertiesReference.FILE_NUMBER.title"
+                        :data-vv-as="PropertiesReference.FILE_NUMBER.title"
+                        v-model="document.fileNumber"
+                        :initialValue="initialValues[PropertiesReference.FILE_NUMBER.name]"
                         v-validate="'numeric'"
                 >
                 </mau-form-input-number>
@@ -32,18 +32,6 @@
                 </mau-form-input-date-time>
               </div>
               <div class="form-group">
-                <mau-form-input-number
-                        :name="PropertiesReference.FILE_NUMBER.name"
-                        :error="errors.first(PropertiesReference.FILE_NUMBER.name)"
-                        :label="PropertiesReference.FILE_NUMBER.title"
-                        :data-vv-as="PropertiesReference.FILE_NUMBER.title"
-                        v-model="document.fileNumber"
-                        :initialValue="initialValues[PropertiesReference.FILE_NUMBER.name]"
-                        v-validate="'numeric'"
-                >
-                </mau-form-input-number>
-              </div>
-              <div class="form-group">
                 <mau-form-input-text
                         :name="PropertiesReference.TOME.name"
                         :error="errors.first(PropertiesReference.TOME.name)"
@@ -54,6 +42,18 @@
                         v-validate="'alpha_dash'"
                 >
                 </mau-form-input-text>
+              </div>
+              <div class="form-group">
+                <mau-form-input-number
+                        :name="PropertiesReference.FOLIO.name"
+                        :error="errors.first(PropertiesReference.FOLIO.name)"
+                        :label="PropertiesReference.FOLIO.title"
+                        :data-vv-as="PropertiesReference.FOLIO.title"
+                        v-model="document.folio"
+                        :initialValue="initialValues[PropertiesReference.FOLIO.name]"
+                        v-validate="'numeric'"
+                >
+                </mau-form-input-number>
               </div>
               <div class="form-group">
                 <label>{{PropertiesReference.DOCUMENT_TYPE.title}}</label>
@@ -144,6 +144,7 @@
                         v-model="document.property"
                         :data-vv-as="PropertiesReference.PROPERTY.title"
                         :initialValue="initialValues[PropertiesReference.PROPERTY.name]"
+                        v-validate="isPropertySelected ? 'required' : ''"
                         placeholder="Ejemplo: Casa #34, entre calle 22 y 22-c"
                 >
                 </mau-form-input-text>
@@ -166,7 +167,7 @@
                 </div>
               </div>
               <div class="form-group">
-                <div class="money_laundering_expiration_date" v-show="document.moneyLaundering !== -1">
+                <div class="money_laundering_expiration_date" v-show="moneyLaunderingApplies">
                   <label>{{PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.title}}</label>
                   <mau-form-input-date-time
                           :name="PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name"
@@ -175,13 +176,30 @@
                           :initialValue="initialValues[PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name]"
                           :class="getBootstrapValidationClass(errors.has(PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name))"
                           class="form-control override-form-control"
-                          v-validate="''"
+                          v-validate="moneyLaunderingApplies ? 'required' : ''"
                   >
                   </mau-form-input-date-time>
                   <div class="invalid-feedback">
                     <span v-show="errors.has(PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name)" class="help is-danger">
                       {{ errors.first(PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name) }}
                     </span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div>
+                  <label>{{PropertiesReference.MARGINAL_NOTES.title}}</label>
+                  <mau-form-input-boolean
+                          v-model="document.marginalNotes"
+                          :tripleboolean="true"
+                          :initialValue="initialValues[PropertiesReference.MARGINAL_NOTES.name]"
+                          class="form-control override-form-control"
+                  >
+                  </mau-form-input-boolean>
+                  <div class="invalid-feedback">
+                      <span v-show="errors.has(PropertiesReference.MARGINAL_NOTES.name)" class="help is-danger">
+                        {{ errors.first(PropertiesReference.MARGINAL_NOTES.name) }}
+                      </span>
                   </div>
                 </div>
               </div>
@@ -259,7 +277,7 @@
               </div>
           </div>
         </div>
-        <div slot="Entregables">
+        <div slot="Anexos">
           <div class="container">
             <div class="form-group">
               <div class="document_identifications">
@@ -386,7 +404,7 @@
                       v-model="document.publicRegistryEntryDate"
                       :initialValue="initialValues[PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name]"
                       :error="errors.first(PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name)"
-                      v-validate="'required'"
+                      v-validate="isPublicRegistrySelected ? 'required' : ''"
               >
               </mau-form-input-date-time>
             </div>
@@ -403,15 +421,6 @@
             </div>
           </div>
         </div>
-        <div slot="Notas Marginales">
-        <div class="container">
-          <mau-editor
-                  :id="'marginales'"
-                  v-model="document.marginalNotes"
-                  :initialValue="this.initialValues[PropertiesReference.MARGINAL_NOTES.name]">
-          </mau-editor>
-        </div>
-      </div>
         <div slot="Comentarios">
           <div class="container">
             <comment-list :commentObjects="availableComments"></comment-list>
@@ -492,10 +501,9 @@
         DocumentDocumentAttachmentPropertiesReference: DocumentDocumentAttachmentPropertiesReference,
         mauTabsNames: [
           'Generales',
-          'Entregables',
+          'Anexos',
           'Abogados',
           'Registro Publico',
-          'Notas Marginales',
           'Comentarios'
         ],
         mauTabsErrorNames: []
@@ -549,7 +557,16 @@
         availableGroups: state => cloneDeep(state.api.entity.groups),
         availableGrantors: state => state.api.entity.grantors,
         availableUsers: state => state.api.entity.users
-      })
+      }),
+      isPropertySelected: function () {
+        return this.document.documentType && this.document.documentType['id'] === 1
+      },
+      moneyLaunderingApplies: function () {
+        return this.document.moneyLaundering !== -1
+      },
+      isPublicRegistrySelected: function () {
+        return this.document.documentStatus && this.document.documentStatus['id'] === 2
+      }
     },
     methods: {
       onTheFlyCreateClient: function () {
@@ -598,7 +615,7 @@
         this.document.documentTypeOther = this.initialObject[PropertiesReference.DOCUMENT_TYPE_OTHER.name]
         this.initialValues[PropertiesReference.PERSONALITIES.name] = DefaultValuesHelper.tripleboolean(this.initialObject, PropertiesReference.PERSONALITIES.name)
         this.initialValues[PropertiesReference.PUBLIC_REGISTRY_PATENT.name] = DefaultValuesHelper.tripleboolean(this.initialObject, PropertiesReference.PUBLIC_REGISTRY_PATENT.name)
-        this.initialValues[PropertiesReference.MARGINAL_NOTES.name] = this.initialObject[PropertiesReference.MARGINAL_NOTES.name]
+        this.initialValues[PropertiesReference.MARGINAL_NOTES.name] = DefaultValuesHelper.tripleboolean(this.initialObject, PropertiesReference.MARGINAL_NOTES.name)
         this.initialValues[PropertiesReference.PROPERTY.name] = this.initialObject[PropertiesReference.PROPERTY.name]
         this.initialValues[PropertiesReference.OPERATIONS.name] = this.initialObject[PropertiesReference.OPERATIONS.name]
         this.initialValues[PropertiesReference.GROUPS.name] = this.initialObject[PropertiesReference.GROUPS.name]
@@ -609,6 +626,7 @@
         this.availableComments = this.initialObject[PropertiesReference.COMMENTS.name]
       },
       save: function () {
+        console.log(this.document.marginalNotes)
         let directParams = {
           [PropertiesReference.FOLIO.name]: this.document.folio,
           [PropertiesReference.DATE.name]: this.document.date,
@@ -624,7 +642,7 @@
           [PropertiesReference.PERSONALITIES.name]: this.document.personalities,
           [PropertiesReference.IDENTIFICATIONS.name]: this.document.identifications,
           [PropertiesReference.PUBLIC_REGISTRY_PATENT.name]: this.document.publicRegistryPatent,
-          [PropertiesReference.MARGINAL_NOTES.name]: this.document.marginalNotes,
+          [PropertiesReference.MARGINAL_NOTES.name]: this.document.marginalNotes.toString(),
           [PropertiesReference.PROPERTY.name]: this.document.property,
           // one to many
           [PropertiesReference.CLIENT.relationship_id_name]: this.document.client ? this.document.client[globalEntityIdentifier] : null,
@@ -652,6 +670,7 @@
           [PropertiesReference.GRANTORS.entityName]: this.document.grantors,
           [PropertiesReference.COMMENTS.entityName]: this.document.comment
         }
+        console.log(directParams)
         this.$validator.validateAll().then((result) => {
           if (result) {
             this.buttonDisabled = true

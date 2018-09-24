@@ -131,7 +131,7 @@ export default {
     defaultValue: MauInputDefaultValues.DATE
   },
   MONEY_LAUNDERING_EXPIRATION_DATE: {
-    title: 'Fecha lavado de dinero',
+    title: 'Fecha de vencimiento de lavado de dinero',
     name: 'money_laundering_expiration_date',
     display: DisplayFunctions.getDate,
     required: false,

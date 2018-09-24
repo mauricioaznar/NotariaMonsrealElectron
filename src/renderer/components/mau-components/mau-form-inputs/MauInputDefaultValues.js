@@ -7,6 +7,6 @@ export default {
   TIME: '',
   SELECTOR: null,
   BOOLEAN: false,
-  TRIPLE_BOOLEAN: 1,
+  TRIPLE_BOOLEAN: 0,
   MULTISELECTOR: []
 }
