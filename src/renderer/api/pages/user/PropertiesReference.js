@@ -39,7 +39,7 @@ export default {
     title: 'Telefono',
     name: 'phone',
     display: DisplayFunctions.getValue,
-    mask: Masks.housephone,
+    mask: Masks.cellphone,
     mauInputType: MauInputTypes.NUMBER,
     defaultValue: ''
   },
