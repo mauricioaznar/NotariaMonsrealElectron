@@ -1,436 +1,424 @@
 <template>
   <div>
-    <mau-tabs
-      :names="mauTabsNames"
-      ref="tabs"
-      :errorNames="mauTabsErrorNames"
-    >
-        <div slot="Generales">
-          <div class="container">
-              <div class="form-group">
-                <mau-form-input-number
-                        :name="PropertiesReference.FILE_NUMBER.name"
-                        :error="errors.first(PropertiesReference.FILE_NUMBER.name)"
-                        :label="PropertiesReference.FILE_NUMBER.title"
-                        :data-vv-as="PropertiesReference.FILE_NUMBER.title"
-                        v-model="document.fileNumber"
-                        :initialValue="initialValues[PropertiesReference.FILE_NUMBER.name]"
-                        v-validate="'numeric'"
-                >
-                </mau-form-input-number>
-              </div>
-              <div class="form-group">
-                <mau-form-input-date-time
-                        :label="PropertiesReference.DATE.title"
-                        :name="PropertiesReference.DATE.name"
-                        :data-vv-as="PropertiesReference.DATE.title"
-                        v-model="document.date"
-                        :initialValue="initialValues[PropertiesReference.DATE.name]"
-                        :error="errors.first(PropertiesReference.DATE.name)"
-                        v-validate="'required'"
-                >
-                </mau-form-input-date-time>
-              </div>
-              <div class="form-group">
-                <mau-form-input-text
-                        :name="PropertiesReference.TOME.name"
-                        :error="errors.first(PropertiesReference.TOME.name)"
-                        :label="PropertiesReference.TOME.title"
-                        v-model="document.tome"
-                        :data-vv-as="PropertiesReference.TOME.title"
-                        :initialValue="initialValues[PropertiesReference.TOME.name]"
-                        v-validate="'alpha_dash'"
-                >
-                </mau-form-input-text>
-              </div>
-              <div class="form-group">
-                <mau-form-input-number
-                        :name="PropertiesReference.FOLIO.name"
-                        :error="errors.first(PropertiesReference.FOLIO.name)"
-                        :label="PropertiesReference.FOLIO.title"
-                        :data-vv-as="PropertiesReference.FOLIO.title"
-                        v-model="document.folio"
-                        :initialValue="initialValues[PropertiesReference.FOLIO.name]"
-                        v-validate="'numeric'"
-                >
-                </mau-form-input-number>
-              </div>
-              <div class="form-group">
-                <label>{{PropertiesReference.DOCUMENT_TYPE.title}}</label>
-                <b-form-radio-group
-                        :id="PropertiesReference.DOCUMENT_TYPE.name"
-                        v-model="document.documentType"
-                        v-validate="'required'"
-                        class="form-control override-outline"
-                        :name="PropertiesReference.DOCUMENT_TYPE.name"
-                        :data-vv-name="PropertiesReference.DOCUMENT_TYPE.name"
-                        :class="getBootstrapValidationClass(errors.has(PropertiesReference.DOCUMENT_TYPE.name))"
-                >
-                  <b-form-radio
-                          v-for="documentType in availableDocumentTypes"
-                          :value="documentType"
-                          :key="documentType.id"
-                  >
-                    {{documentType.name}}
-                  </b-form-radio>
-                </b-form-radio-group>
-                <div class="invalid-feedback">
-                    <span v-show="errors.has(PropertiesReference.DOCUMENT_TYPE.name)" class="help is-danger">
-                      {{ errors.first(PropertiesReference.DOCUMENT_TYPE.name) }}
-                    </span>
-                </div>
-              </div>
-              <div class="form-group">
-                <label>{{PropertiesReference.OPERATIONS.title}}</label>
-                <div v-show="document.documentType">
-                  <mau-relationships-form
-                          v-show="document.documentType"
-                          :ref="PropertiesReference.OPERATIONS.name"
-                          v-model="document.operations"
-                          :label="'name'"
-                          :required="PropertiesReference.OPERATIONS.required"
-                          :initialObjectsProp="initialValues[PropertiesReference.OPERATIONS.name]"
-                          :relatedRelationshipName="PropertiesReference.OPERATIONS.relationship_id_name"
-                          :availableObjects="availableOperations"
-                          @selection-changed="operationsChange"
-                  >
-                  </mau-relationships-form>
-                </div>
-                <div v-if="!document.documentType" class="mau-text-center">
-                  <p>Se necesita seleccionar un tipo de documento</p>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="document_type_other" v-if="isOtherOperationSelected">
-                  <label>Escriba el nombre del contrato</label>
-                  <b-form-input
-                          v-model="document.documentTypeOther"
-                  >
-                  </b-form-input>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="document_status">
-                  <label>{{PropertiesReference.DOCUMENT_STATUS.title}}</label>
-                  <b-form-radio-group
-                          :id="PropertiesReference.DOCUMENT_STATUS.name"
-                          v-model="document.documentStatus"
-                          v-validate="'required'"
-                          class="form-control override-outline"
-                          :name="PropertiesReference.DOCUMENT_STATUS.name"
-                          :data-vv-name="PropertiesReference.DOCUMENT_STATUS.name"
-                          :class="getBootstrapValidationClass(errors.has(PropertiesReference.DOCUMENT_STATUS.name))"
-                  >
-                    <b-form-radio
-                            v-for="documentStatus in availableDocumentStatuses"
-                            :value="documentStatus"
-                            :key="documentStatus.id"
-                    >
-                      {{documentStatus.name}}
-                    </b-form-radio>
-                  </b-form-radio-group>
-                  <div class="invalid-feedback">
-                    <span v-show="errors.has(PropertiesReference.DOCUMENT_STATUS.name)" class="help is-danger">
-                      {{ errors.first(PropertiesReference.DOCUMENT_STATUS.name) }}
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <mau-form-input-text
-                        :name="PropertiesReference.PROPERTY.name"
-                        :error="errors.first(PropertiesReference.PROPERTY.name)"
-                        :label="PropertiesReference.PROPERTY.title"
-                        v-model="document.property"
-                        :data-vv-as="PropertiesReference.PROPERTY.title"
-                        :initialValue="initialValues[PropertiesReference.PROPERTY.name]"
-                        v-validate="isPropertySelected ? 'required' : ''"
-                        placeholder="Ejemplo: Casa #34, entre calle 22 y 22-c"
-                >
-                </mau-form-input-text>
-              </div>
-              <div class="form-group">
-                <div class="document_money_laundering">
-                  <label>{{PropertiesReference.MONEY_LAUNDERING.title}}</label>
-                  <mau-form-input-boolean
-                          :tripleboolean="true"
-                          v-model="document.moneyLaundering"
-                          :initialValue="initialValues[PropertiesReference.MONEY_LAUNDERING.name]"
-                          class="form-control override-form-control"
-                  >
-                  </mau-form-input-boolean>
-                  <div class="invalid-feedback">
-                      <span v-show="errors.has(PropertiesReference.MONEY_LAUNDERING.name)" class="help is-danger">
-                        {{ errors.first(PropertiesReference.MONEY_LAUNDERING.name) }}
-                      </span>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="money_laundering_expiration_date" v-show="moneyLaunderingApplies">
-                  <label>{{PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.title}}</label>
-                  <mau-form-input-date-time
-                          :name="PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name"
-                          :data-vv-name="PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name"
-                          v-model="document.moneyLaunderingExpirationDate"
-                          :initialValue="initialValues[PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name]"
-                          :class="getBootstrapValidationClass(errors.has(PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name))"
-                          class="form-control override-form-control"
-                          v-validate="moneyLaunderingApplies ? 'required' : ''"
-                  >
-                  </mau-form-input-date-time>
-                  <div class="invalid-feedback">
-                    <span v-show="errors.has(PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name)" class="help is-danger">
-                      {{ errors.first(PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name) }}
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <div>
-                  <label>{{PropertiesReference.MARGINAL_NOTES.title}}</label>
-                  <mau-form-input-boolean
-                          v-model="document.marginalNotes"
-                          :tripleboolean="true"
-                          :initialValue="initialValues[PropertiesReference.MARGINAL_NOTES.name]"
-                          class="form-control override-form-control"
-                  >
-                  </mau-form-input-boolean>
-                  <div class="invalid-feedback">
-                      <span v-show="errors.has(PropertiesReference.MARGINAL_NOTES.name)" class="help is-danger">
-                        {{ errors.first(PropertiesReference.MARGINAL_NOTES.name) }}
-                      </span>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="client">
-                  <div class="d-flex justify-content-start">
-                    <label>{{PropertiesReference.CLIENT.title}}</label>
-                    <div class="ml-2 icon-button no-padding" v-b-modal.createClientModal>
-                      <span class="fa fa-plus">
-                      </span>
-                    </div>
-                    <b-modal class="mau-custom-modal" id="createClientModal" ref="createClientModal" title="Crear un cliente">
-                      <create-client :onTheFly="onTheFlyCreateClient" :key="clientsCreated"></create-client>
-                      <div slot="modal-footer">
-                      </div>
-                    </b-modal>
-                  </div>
-                  <mau-form-input-select
-                          :availableObjects="availableClients"
-                          :initialObject="initialValues[PropertiesReference.CLIENT.name]"
-                          :label="'fullname'"
-                          v-model="document.client"
-                          class="override-form-control form-control"
-                          :name="PropertiesReference.CLIENT.name"
-                          v-validate="'required'"
-                          :data-vv-name="PropertiesReference.CLIENT.name"
-                          :class="getBootstrapValidationClass(errors.has(PropertiesReference.CLIENT.name))"
-                  >
-                  </mau-form-input-select>
-                  <div class="invalid-feedback">
-                      <span v-show="errors.has(PropertiesReference.CLIENT.name)" class="help is-danger">
-                        {{ errors.first(PropertiesReference.CLIENT.name) }}
-                      </span>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="grantors">
-                  <div class="d-flex justify-content-start">
-                    <label>{{PropertiesReference.GRANTORS.title}}</label>
-                    <div class="ml-2 icon-button no-padding" v-b-modal.createGrantorModal>
-                      <span class="fa fa-plus">
-                      </span>
-                    </div>
-                    <b-modal class="mau-custom-modal" id="createGrantorModal" ref="createGrantorModal" title="Crear un otorgante">
-                      <create-grantor :onTheFly="onTheFlyCreateGrantor" :key="grantorsCreated">
-                      </create-grantor>
-                      <div slot="modal-footer" class="no-padding">
-                      </div>
-                    </b-modal>
-                  </div>
-                  <mau-relationships-form
-                          v-model="document.grantors"
-                          :initialObjectsProp="initialValues[PropertiesReference.GRANTORS.name]"
-                          :relatedRelationshipName="PropertiesReference.GRANTORS.relationship_id_name"
-                          :availableObjects="availableGrantors"
-                          :label="'fullname'"
-                  >
-                  </mau-relationships-form>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="groups">
-                  <label>Grupos</label>
-                  <mau-form-input-select
-                          :availableObjects="availableGroups"
-                          :initialObjects="initialValues[PropertiesReference.GROUPS.name]"
-                          :multiselect="true"
-                          :display="PropertiesReference.GROUPS.display"
-                          v-model="document.groups"
-                          class=" form-control override-form-control"
-                  >
-                  </mau-form-input-select>
-                </div>
-              </div>
+      <div class="generales">
+        <h3 class="mb-3">Generales</h3>
+        <div class="form-group">
+          <mau-form-input-number
+                  :name="PropertiesReference.FILE_NUMBER.name"
+                  :error="errors.first(PropertiesReference.FILE_NUMBER.name)"
+                  :label="PropertiesReference.FILE_NUMBER.title"
+                  :data-vv-as="PropertiesReference.FILE_NUMBER.title"
+                  v-model="document.fileNumber"
+                  :initialValue="initialValues[PropertiesReference.FILE_NUMBER.name]"
+                  v-validate="'required|numeric'"
+          >
+          </mau-form-input-number>
+        </div>
+        <div class="form-group">
+          <mau-form-input-date-time
+                  :label="PropertiesReference.DATE.title"
+                  :name="PropertiesReference.DATE.name"
+                  :data-vv-as="PropertiesReference.DATE.title"
+                  v-model="document.date"
+                  :initialValue="initialValues[PropertiesReference.DATE.name]"
+                  :error="errors.first(PropertiesReference.DATE.name)"
+                  v-validate="'required'"
+          >
+          </mau-form-input-date-time>
+        </div>
+        <div class="form-group">
+          <mau-form-input-text
+                  :name="PropertiesReference.TOME.name"
+                  :error="errors.first(PropertiesReference.TOME.name)"
+                  :label="PropertiesReference.TOME.title"
+                  v-model="document.tome"
+                  :data-vv-as="PropertiesReference.TOME.title"
+                  :initialValue="initialValues[PropertiesReference.TOME.name]"
+                  v-validate="'required|alpha_dash'"
+          >
+          </mau-form-input-text>
+        </div>
+        <div class="form-group">
+          <mau-form-input-number
+                  :name="PropertiesReference.FOLIO.name"
+                  :error="errors.first(PropertiesReference.FOLIO.name)"
+                  :label="PropertiesReference.FOLIO.title"
+                  :data-vv-as="PropertiesReference.FOLIO.title"
+                  v-model="document.folio"
+                  :initialValue="initialValues[PropertiesReference.FOLIO.name]"
+                  v-validate="'required|numeric'"
+          >
+          </mau-form-input-number>
+        </div>
+        <div class="form-group">
+          <label>{{PropertiesReference.DOCUMENT_TYPE.title}}</label>
+          <b-form-radio-group
+                  :id="PropertiesReference.DOCUMENT_TYPE.name"
+                  v-model="document.documentType"
+                  v-validate="'required'"
+                  class="form-control override-outline"
+                  :name="PropertiesReference.DOCUMENT_TYPE.name"
+                  :data-vv-name="PropertiesReference.DOCUMENT_TYPE.name"
+                  :class="getBootstrapValidationClass(errors.has(PropertiesReference.DOCUMENT_TYPE.name))"
+          >
+            <b-form-radio
+                    v-for="documentType in availableDocumentTypes"
+                    :value="documentType"
+                    :key="documentType.id"
+            >
+              {{documentType.name}}
+            </b-form-radio>
+          </b-form-radio-group>
+          <div class="invalid-feedback">
+                <span v-show="errors.has(PropertiesReference.DOCUMENT_TYPE.name)" class="help is-danger">
+                  {{ errors.first(PropertiesReference.DOCUMENT_TYPE.name) }}
+                </span>
           </div>
         </div>
-        <div slot="Anexos">
-          <div class="container">
-            <div class="form-group">
-              <div class="document_identifications">
-                <label>{{PropertiesReference.IDENTIFICATIONS.title}}</label>
-                <mau-form-input-boolean
-                        v-show="document.documentType"
-                        v-model="document.identifications"
-                        :tripleboolean="true"
-                        :initialValue="initialValues[PropertiesReference.IDENTIFICATIONS.name]"
-                        class="form-control override-form-control"
-                >
+        <div class="form-group">
+          <label>{{PropertiesReference.OPERATIONS.title}}</label>
+          <div v-show="document.documentType">
+            <mau-relationships-form
+                    v-show="document.documentType"
+                    :ref="PropertiesReference.OPERATIONS.name"
+                    v-model="document.operations"
+                    :label="'name'"
+                    :required="PropertiesReference.OPERATIONS.required"
+                    :initialObjectsProp="initialValues[PropertiesReference.OPERATIONS.name]"
+                    :relatedRelationshipName="PropertiesReference.OPERATIONS.relationship_id_name"
+                    :availableObjects="availableOperations"
+                    @selection-changed="operationsChange"
+            >
+            </mau-relationships-form>
+          </div>
+          <div v-if="!document.documentType" class="mau-text-center">
+            <p>Se necesita seleccionar un tipo de documento</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="document_type_other" v-if="isOtherOperationSelected">
+            <label>Escriba el nombre del contrato</label>
+            <b-form-input
+                    v-model="document.documentTypeOther"
+            >
+            </b-form-input>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="document_status">
+            <label>{{PropertiesReference.DOCUMENT_STATUS.title}}</label>
+            <b-form-radio-group
+                    :id="PropertiesReference.DOCUMENT_STATUS.name"
+                    v-model="document.documentStatus"
+                    v-validate="'required'"
+                    class="form-control override-outline"
+                    :name="PropertiesReference.DOCUMENT_STATUS.name"
+                    :data-vv-name="PropertiesReference.DOCUMENT_STATUS.name"
+                    :class="getBootstrapValidationClass(errors.has(PropertiesReference.DOCUMENT_STATUS.name))"
+            >
+              <b-form-radio
+                      v-for="documentStatus in availableDocumentStatuses"
+                      :value="documentStatus"
+                      :key="documentStatus.id"
+              >
+                {{documentStatus.name}}
+              </b-form-radio>
+            </b-form-radio-group>
+            <div class="invalid-feedback">
+                <span v-show="errors.has(PropertiesReference.DOCUMENT_STATUS.name)" class="help is-danger">
+                  {{ errors.first(PropertiesReference.DOCUMENT_STATUS.name) }}
+                </span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <mau-form-input-text
+                  :name="PropertiesReference.PROPERTY.name"
+                  :error="errors.first(PropertiesReference.PROPERTY.name)"
+                  :label="PropertiesReference.PROPERTY.title"
+                  v-model="document.property"
+                  :data-vv-as="PropertiesReference.PROPERTY.title"
+                  :initialValue="initialValues[PropertiesReference.PROPERTY.name]"
+                  v-validate="isPropertySelected ? 'required' : ''"
+                  placeholder="Ejemplo: Casa #34, entre calle 22 y 22-c"
+          >
+          </mau-form-input-text>
+        </div>
+        <div class="form-group">
+          <div class="document_money_laundering">
+            <label>{{PropertiesReference.MONEY_LAUNDERING.title}}</label>
+            <mau-form-input-boolean
+                    :tripleboolean="true"
+                    v-model="document.moneyLaundering"
+                    :initialValue="initialValues[PropertiesReference.MONEY_LAUNDERING.name]"
+                    class="form-control override-form-control"
+            >
+            </mau-form-input-boolean>
+            <div class="invalid-feedback">
+                  <span v-show="errors.has(PropertiesReference.MONEY_LAUNDERING.name)" class="help is-danger">
+                    {{ errors.first(PropertiesReference.MONEY_LAUNDERING.name) }}
+                  </span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="money_laundering_expiration_date" v-show="moneyLaunderingApplies">
+            <label>{{PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.title}}</label>
+            <mau-form-input-date-time
+                    :name="PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name"
+                    :data-vv-name="PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name"
+                    v-model="document.moneyLaunderingExpirationDate"
+                    :initialValue="initialValues[PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name]"
+                    :class="getBootstrapValidationClass(errors.has(PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name))"
+                    class="form-control override-form-control"
+                    v-validate="moneyLaunderingApplies ? 'required' : ''"
+            >
+            </mau-form-input-date-time>
+            <div class="invalid-feedback">
+                <span v-show="errors.has(PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name)" class="help is-danger">
+                  {{ errors.first(PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name) }}
+                </span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div>
+            <label>{{PropertiesReference.MARGINAL_NOTES.title}}</label>
+            <mau-form-input-boolean
+                    v-model="document.marginalNotes"
+                    :tripleboolean="true"
+                    :initialValue="initialValues[PropertiesReference.MARGINAL_NOTES.name]"
+                    class="form-control override-form-control"
+            >
+            </mau-form-input-boolean>
+            <div class="invalid-feedback">
+                  <span v-show="errors.has(PropertiesReference.MARGINAL_NOTES.name)" class="help is-danger">
+                    {{ errors.first(PropertiesReference.MARGINAL_NOTES.name) }}
+                  </span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="client">
+            <div class="d-flex justify-content-start">
+              <label>{{PropertiesReference.CLIENT.title}}</label>
+              <div class="ml-2 icon-button no-padding" v-b-modal.createClientModal>
+                  <span class="fa fa-plus">
+                  </span>
+              </div>
+              <b-modal class="mau-custom-modal" id="createClientModal" ref="createClientModal" title="Crear un cliente">
+                <create-client :onTheFly="onTheFlyCreateClient" :key="clientsCreated"></create-client>
+                <div slot="modal-footer">
+                </div>
+              </b-modal>
+            </div>
+            <mau-form-input-select
+                    :availableObjects="availableClients"
+                    :initialObject="initialValues[PropertiesReference.CLIENT.name]"
+                    :label="'fullname'"
+                    v-model="document.client"
+                    class="override-form-control form-control"
+                    :name="PropertiesReference.CLIENT.name"
+                    v-validate="'required'"
+                    :data-vv-name="PropertiesReference.CLIENT.name"
+                    :class="getBootstrapValidationClass(errors.has(PropertiesReference.CLIENT.name))"
+            >
+            </mau-form-input-select>
+            <div class="invalid-feedback">
+                  <span v-show="errors.has(PropertiesReference.CLIENT.name)" class="help is-danger">
+                    {{ errors.first(PropertiesReference.CLIENT.name) }}
+                  </span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="grantors">
+            <div class="d-flex justify-content-start">
+              <label>{{PropertiesReference.GRANTORS.title}}</label>
+              <div class="ml-2 icon-button no-padding" v-b-modal.createGrantorModal>
+                  <span class="fa fa-plus">
+                  </span>
+              </div>
+              <b-modal class="mau-custom-modal" id="createGrantorModal" ref="createGrantorModal" title="Crear un otorgante">
+                <create-grantor :onTheFly="onTheFlyCreateGrantor" :key="grantorsCreated">
+                </create-grantor>
+                <div slot="modal-footer" class="no-padding">
+                </div>
+              </b-modal>
+            </div>
+            <mau-relationships-form
+                    v-model="document.grantors"
+                    :initialObjectsProp="initialValues[PropertiesReference.GRANTORS.name]"
+                    :relatedRelationshipName="PropertiesReference.GRANTORS.relationship_id_name"
+                    :availableObjects="availableGrantors"
+                    :label="'fullname'"
+            >
+            </mau-relationships-form>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="groups">
+            <label>Grupos</label>
+            <mau-form-input-select
+                    :availableObjects="availableGroups"
+                    :initialObjects="initialValues[PropertiesReference.GROUPS.name]"
+                    :multiselect="true"
+                    :display="PropertiesReference.GROUPS.display"
+                    v-model="document.groups"
+                    class=" form-control override-form-control"
+            >
+            </mau-form-input-select>
+          </div>
+        </div>
+      </div>
+      <div class="Anexos">
+        <h3 class="mb-3">Anexos</h3>
+        <div class="form-group">
+          <div class="document_identifications">
+            <label>{{PropertiesReference.IDENTIFICATIONS.title}}</label>
+            <mau-form-input-boolean
+                    v-show="document.documentType"
+                    v-model="document.identifications"
+                    :tripleboolean="true"
+                    :initialValue="initialValues[PropertiesReference.IDENTIFICATIONS.name]"
+                    class="form-control override-form-control"
+            >
 
-                </mau-form-input-boolean>
-                <div class="invalid-feedback">
-                    <span v-show="errors.has(PropertiesReference.IDENTIFICATIONS.name)" class="help is-danger">
-                      {{ errors.first(PropertiesReference.IDENTIFICATIONS.name) }}
-                    </span>
-                </div>
-                <div v-show="!document.documentType" class="mau-text-center">
-                  <p>Se necesita seleccionar un tipo de documento</p>
-                </div>
-              </div>
+            </mau-form-input-boolean>
+            <div class="invalid-feedback">
+                <span v-show="errors.has(PropertiesReference.IDENTIFICATIONS.name)" class="help is-danger">
+                  {{ errors.first(PropertiesReference.IDENTIFICATIONS.name) }}
+                </span>
             </div>
-            <div class="form-group">
-              <div class="document_personalities">
-                <label>{{PropertiesReference.PERSONALITIES.title}}</label>
-                <mau-form-input-boolean
-                        :tripleboolean="true"
-                        v-show="document.documentType"
-                        v-model="document.personalities"
-                        :initialValue="initialValues[PropertiesReference.PERSONALITIES.name]"
-                        class="form-control override-form-control"
-                >
-                </mau-form-input-boolean>
-                <div class="invalid-feedback">
-                      <span v-show="errors.has(PropertiesReference.PERSONALITIES.name)" class="help is-danger">
-                        {{ errors.first(PropertiesReference.PERSONALITIES.name) }}
-                      </span>
-                </div>
-                <div v-show="!document.documentType" class="mau-text-center">
-                  <p>Se necesita seleccionar un tipo de documento</p>
-                </div>
-              </div>
+            <div v-show="!document.documentType" class="mau-text-center">
+              <p>Se necesita seleccionar un tipo de documento</p>
             </div>
-            <div class="form-group">
-              <div class="document_type_other">
-                <label>{{PropertiesReference.PUBLIC_REGISTRY_PATENT.title}}</label>
-                <mau-form-input-boolean
-                        v-show="document.documentType"
-                        :tripleboolean="true"
-                        v-model="document.publicRegistryPatent"
-                        :initialValue="initialValues[PropertiesReference.PUBLIC_REGISTRY_PATENT.name]"
-                        class="form-control override-form-control"
-                >
-                </mau-form-input-boolean>
-                <div v-show="!document.documentType" class="mau-text-center">
-                  <p>Se necesita seleccionar un tipo de documento</p>
-                </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="grantors">
-                <label>{{PropertiesReference.DOCUMENT_ATTACHMENTS.title}}</label>
-                <div v-show="document.documentType">
-                  <mau-relationships-form
-                          v-model="document.documentAttachments"
-                          :initialObjectsProp="initialValues[PropertiesReference.DOCUMENT_ATTACHMENTS.name]"
-                          :relatedRelationshipName="PropertiesReference.DOCUMENT_ATTACHMENTS.relationship_id_name"
-                          :availableObjects="availableAttachments"
-                          :relationshipPropertiesReference="DocumentDocumentAttachmentPropertiesReference"
-                  >
-                  </mau-relationships-form>
-                </div>
-                <div v-show="!document.documentType" class="mau-text-center">
-                  <p>Se necesita seleccionar un tipo de documento</p>
-                </div>
-              </div>
-            </div>
-            <!--</mau-relationships-form>-->
           </div>
         </div>
-        <div slot="Abogados">
-          <div class="container">
-            <div class="form-group">
-              <div class="document_entry_users">
-                <label>Abogado(s) responsable de acta</label>
-                <mau-form-input-select
-                        :availableObjects="availableUsers"
-                        :initialObjects="initialValues['entryUsers']"
-                        :multiselect="true"
-                        :label="'fullname'"
-                        :display="PropertiesReference.USERS.display"
-                        v-model="document.entryUsers"
-                        class="override-form-control form-control"
-                        :name="PropertiesReference.USERS.name"
-                >
-                </mau-form-input-select>
-              </div>
+        <div class="form-group">
+          <div class="document_personalities">
+            <label>{{PropertiesReference.PERSONALITIES.title}}</label>
+            <mau-form-input-boolean
+                    :tripleboolean="true"
+                    v-show="document.documentType"
+                    v-model="document.personalities"
+                    :initialValue="initialValues[PropertiesReference.PERSONALITIES.name]"
+                    class="form-control override-form-control"
+            >
+            </mau-form-input-boolean>
+            <div class="invalid-feedback">
+                  <span v-show="errors.has(PropertiesReference.PERSONALITIES.name)" class="help is-danger">
+                    {{ errors.first(PropertiesReference.PERSONALITIES.name) }}
+                  </span>
             </div>
-            <div class="form-group">
-              <div class="document_exit_users">
-              <label>Abogado(s) responsable de cierre</label>
-              <mau-form-input-select
-                      :availableObjects="availableUsers"
-                      :initialObjects="initialValues['exitUsers']"
-                      :multiselect="true"
-                      :label="'fullname'"
-                      v-model="document.exitUsers"
-                      class="override-form-control form-control"
-                      :name="PropertiesReference.USERS.name"
+            <div v-show="!document.documentType" class="mau-text-center">
+              <p>Se necesita seleccionar un tipo de documento</p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="document_type_other">
+            <label>{{PropertiesReference.PUBLIC_REGISTRY_PATENT.title}}</label>
+            <mau-form-input-boolean
+                    v-show="document.documentType"
+                    :tripleboolean="true"
+                    v-model="document.publicRegistryPatent"
+                    :initialValue="initialValues[PropertiesReference.PUBLIC_REGISTRY_PATENT.name]"
+                    class="form-control override-form-control"
+            >
+            </mau-form-input-boolean>
+            <div v-show="!document.documentType" class="mau-text-center">
+              <p>Se necesita seleccionar un tipo de documento</p>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="grantors">
+            <label>{{PropertiesReference.DOCUMENT_ATTACHMENTS.title}}</label>
+            <div v-show="document.documentType">
+              <mau-relationships-form
+                      v-model="document.documentAttachments"
+                      :initialObjectsProp="initialValues[PropertiesReference.DOCUMENT_ATTACHMENTS.name]"
+                      :relatedRelationshipName="PropertiesReference.DOCUMENT_ATTACHMENTS.relationship_id_name"
+                      :availableObjects="availableAttachments"
+                      :relationshipPropertiesReference="DocumentDocumentAttachmentPropertiesReference"
               >
-              </mau-form-input-select>
+              </mau-relationships-form>
             </div>
-            </div>
-          </div>
-        </div>
-        <div slot="Registro Publico">
-          <div class="container">
-            <div class="form-group">
-              <mau-form-input-date-time
-                      :label="PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.title"
-                      :name="PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name"
-                      :data-vv-as="PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.title"
-                      v-model="document.publicRegistryEntryDate"
-                      :initialValue="initialValues[PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name]"
-                      :error="errors.first(PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name)"
-                      v-validate="isPublicRegistrySelected ? 'required' : ''"
-              >
-              </mau-form-input-date-time>
-            </div>
-            <div class="form-group">
-              <mau-form-input-date-time
-                      :label="PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.title"
-                      :name="PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.name"
-                      :data-vv-as="PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.title"
-                      v-model="document.publicRegistryExitDate"
-                      :initialValue="initialValues[PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.name]"
-                      :error="errors.first(PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.name)"
-              >
-              </mau-form-input-date-time>
+            <div v-show="!document.documentType" class="mau-text-center">
+              <p>Se necesita seleccionar un tipo de documento</p>
             </div>
           </div>
         </div>
-        <div slot="Comentarios">
-          <div class="container">
-            <comment-list :commentObjects="availableComments"></comment-list>
-            <comment-input :id="'comment-editor'" :commentObjects="availableComments" v-model="document.comment"></comment-input>
+      </div>
+      <div class="Abogados">
+        <h3 class="mb-3">Abogados</h3>
+        <div class="form-group">
+          <div class="document_entry_users">
+            <label>Abogado(s) responsable de acta</label>
+            <mau-form-input-select
+                    :availableObjects="availableUsers"
+                    :initialObjects="initialValues['entryUsers']"
+                    :multiselect="true"
+                    :label="'fullname'"
+                    :display="PropertiesReference.USERS.display"
+                    v-model="document.entryUsers"
+                    class="override-form-control form-control"
+                    :name="PropertiesReference.USERS.name"
+            >
+            </mau-form-input-select>
           </div>
         </div>
-    </mau-tabs>
-    <div class="container mb-2 text-right">
-      <b-button :disabled="buttonDisabled" @click="save" type="button" variant="primary">Guardar</b-button>
-    </div>
+        <div class="form-group">
+          <div class="document_exit_users">
+            <label>Abogado(s) responsable de cierre</label>
+            <mau-form-input-select
+                    :availableObjects="availableUsers"
+                    :initialObjects="initialValues['exitUsers']"
+                    :multiselect="true"
+                    :label="'fullname'"
+                    v-model="document.exitUsers"
+                    class="override-form-control form-control"
+                    :name="PropertiesReference.USERS.name"
+            >
+            </mau-form-input-select>
+          </div>
+        </div>
+      </div>
+      <div class="Registro Publico">
+        <h3 class="mb-3">Registro publico</h3>
+        <div class="form-group">
+          <mau-form-input-date-time
+                  :label="PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.title"
+                  :name="PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name"
+                  :data-vv-as="PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.title"
+                  v-model="document.publicRegistryEntryDate"
+                  :initialValue="initialValues[PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name]"
+                  :error="errors.first(PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name)"
+                  v-validate="isPublicRegistrySelected ? 'required' : ''"
+          >
+          </mau-form-input-date-time>
+        </div>
+        <div class="form-group">
+          <mau-form-input-date-time
+                  :label="PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.title"
+                  :name="PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.name"
+                  :data-vv-as="PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.title"
+                  v-model="document.publicRegistryExitDate"
+                  :initialValue="initialValues[PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.name]"
+                  :error="errors.first(PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.name)"
+          >
+          </mau-form-input-date-time>
+        </div>
+      </div>
+      <div class="Comentarios">
+          <h3 class="mb-3">Comentarios</h3>
+          <comment-list :commentObjects="availableComments"></comment-list>
+          <comment-input :id="'comment-editor'" :commentObjects="availableComments" v-model="document.comment"></comment-input>
+        </div>
+      <div class="mb-2 text-right">
+        <b-button :disabled="buttonDisabled" @click="save" type="button" variant="primary">Guardar</b-button>
+      </div>
   </div>
 </template>
 
@@ -498,15 +486,7 @@
         PropertiesReference: PropertiesReference,
         filteredGrantors: [],
         availableComments: [],
-        DocumentDocumentAttachmentPropertiesReference: DocumentDocumentAttachmentPropertiesReference,
-        mauTabsNames: [
-          'Generales',
-          'Anexos',
-          'Abogados',
-          'Registro Publico',
-          'Comentarios'
-        ],
-        mauTabsErrorNames: []
+        DocumentDocumentAttachmentPropertiesReference: DocumentDocumentAttachmentPropertiesReference
       }
     },
     components: {

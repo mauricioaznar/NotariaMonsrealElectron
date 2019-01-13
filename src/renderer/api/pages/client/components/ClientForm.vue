@@ -21,8 +21,18 @@
         <label>{{PropertiesReference.LASTNAME.title}}</label>
         <b-form-input v-model="client.lastname"
                       type="text"
-                      placeholder="Ejemplo: Ochoa Campos">
+                      placeholder="Ejemplo: Ochoa Campos"
+                      class="form-control"
+                      v-validate="'required'"
+                      :class="getBootstrapValidationClass(errors.has(PropertiesReference.LASTNAME.name))"
+                      :data-vv-name="PropertiesReference.LASTNAME.name"
+        >
         </b-form-input>
+        <div class="invalid-feedback">
+            <span v-show="errors.has(PropertiesReference.LASTNAME.name)" class="help is-danger">
+              {{ errors.first(PropertiesReference.LASTNAME.name) }}
+            </span>
+        </div>
       </div>
     </div>
     <div class="form-group form-row">
@@ -100,7 +110,6 @@
                 :mask="PropertiesReference.ZIPCODE.mask"
                 :class="getBootstrapValidationClass(errors.has(PropertiesReference.ZIPCODE.name))"
                 :data-vv-name="PropertiesReference.ZIPCODE.name"
-                v-validate="'required'"
                 :placeholder="'Ejemplo: 99963'"
         >
         </masked-input>
