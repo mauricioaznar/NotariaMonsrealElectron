@@ -210,6 +210,15 @@ export default {
     mauInputType: MauInputTypes.TEXT,
     defaultValue: MauInputDefaultValues.TEXT
   },
+  DOCUMENT_PROPERTIES: {
+    title: 'Propiedades',
+    name: 'properties',
+    display: DisplayFunctions.getArrayLength,
+    required: false,
+    entityName: 'documentProperty',
+    mauInputType: MauInputTypes.MULTISELECTOR,
+    defaultValue: MauInputDefaultValues.MULTISELECTOR
+  },
   DATE: {
     title: 'Fecha',
     name: 'date',

@@ -182,6 +182,14 @@
           </div>
         </div>
         <div class="form-group">
+          <label>{{PropertiesReference.DOCUMENT_PROPERTIES.title}}</label>
+          <document-properties
+                  :initialProperties="initialValues[PropertiesReference.DOCUMENT_PROPERTIES.name]"
+                  v-model="document.documentProperties"
+          >
+          </document-properties>
+        </div>
+        <div class="form-group">
           <div>
             <label>{{PropertiesReference.MARGINAL_NOTES.title}}</label>
             <mau-form-input-boolean
@@ -436,6 +444,7 @@
   import DocumentDocumentAttachmentPropertiesReference from '../DocumentDocumentAttachmentPropertiesReference'
   import CommentList from '../components/CommentList.vue'
   import CommentInput from '../components/CommentInput.vue'
+  import DocumentProperties from 'renderer/api/pages/document/components/DocumentProperty.vue'
   import MauFormInputSelect from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelect.vue'
   import MaskedInput from 'vue-text-mask'
   import RelationshipObjectsHelper from 'renderer/services/form/RelationshipObjectHelper'
@@ -460,6 +469,7 @@
           moneyLaundering: '',
           documentStatus: '',
           documentAttachments: '',
+          documentProperties: '',
           identifications: '',
           lawyers: '',
           property: '',
@@ -497,7 +507,8 @@
       MauFormInputText,
       MaskedInput,
       CreateClient,
-      CreateGrantor
+      CreateGrantor,
+      DocumentProperties
     },
     props: {
       initialObject: {
@@ -598,6 +609,7 @@
         this.initialValues[PropertiesReference.MARGINAL_NOTES.name] = DefaultValuesHelper.tripleboolean(this.initialObject, PropertiesReference.MARGINAL_NOTES.name)
         this.initialValues[PropertiesReference.PROPERTY.name] = this.initialObject[PropertiesReference.PROPERTY.name]
         this.initialValues[PropertiesReference.OPERATIONS.name] = this.initialObject[PropertiesReference.OPERATIONS.name]
+        this.initialValues[PropertiesReference.DOCUMENT_PROPERTIES.name] = this.initialObject[PropertiesReference.DOCUMENT_PROPERTIES.name]
         this.initialValues[PropertiesReference.GROUPS.name] = this.initialObject[PropertiesReference.GROUPS.name]
         this.initialValues[PropertiesReference.GRANTORS.name] = this.initialObject[PropertiesReference.GRANTORS.name]
         let initialUsers = this.initialObject[PropertiesReference.USERS.name]
@@ -606,7 +618,6 @@
         this.availableComments = this.initialObject[PropertiesReference.COMMENTS.name]
       },
       save: function () {
-        console.log(this.document.marginalNotes)
         let directParams = {
           [PropertiesReference.FOLIO.name]: this.document.folio,
           [PropertiesReference.DATE.name]: this.document.date,
@@ -648,9 +659,9 @@
           [PropertiesReference.GROUPS.entityName]: filteredGroups,
           [PropertiesReference.USERS.entityName]: filteredUsers,
           [PropertiesReference.GRANTORS.entityName]: this.document.grantors,
-          [PropertiesReference.COMMENTS.entityName]: this.document.comment
+          [PropertiesReference.COMMENTS.entityName]: this.document.comment,
+          [PropertiesReference.DOCUMENT_PROPERTIES.entityName]: this.document.documentProperties
         }
-        console.log(directParams)
         this.$validator.validateAll().then((result) => {
           if (result) {
             this.buttonDisabled = true
@@ -676,7 +687,6 @@
       },
       'document.moneyLaundering': function (moneyLaundering) {
         if (moneyLaundering === -1) {
-          console.log(moneyLaundering)
           this.document.moneyLaunderingExpirationDate = ''
         }
       }
