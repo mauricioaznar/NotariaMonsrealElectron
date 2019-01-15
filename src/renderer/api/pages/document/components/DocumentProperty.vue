@@ -23,8 +23,18 @@
                                 type="text"
                                 class="form-control"
                                 @input="itemChanged"
+                                :name="'property' + index"
+                                v-validate="'required'"
+                                :data-vv-name="'property' + index"
+                                :data-vv-as="'predio'"
+                                :class="getBootstrapValidationClass(errors.has('property' + index))"
                         >
                         </b-form-input>
+                        <div class="invalid-feedback">
+                          <span v-show="errors.has('property' + index)" class="help is-danger">
+                            {{ errors.first('property' + index) }}
+                          </span>
+                        </div>
                     </td>
                     <td>
                         <b-form-input
@@ -32,8 +42,17 @@
                                 type="text"
                                 class="form-control"
                                 @input="itemChanged"
+                                v-validate="'required'"
+                                :data-vv-name="'electronic_folio' + index"
+                                :data-vv-as="'folio electronico'"
+                                :class="getBootstrapValidationClass(errors.has('electronic_folio' + index))"
                         >
                         </b-form-input>
+                        <div class="invalid-feedback">
+                          <span v-show="errors.has('electronic_folio' + index)" class="help is-danger">
+                            {{ errors.first('electronic_folio' + index) }}
+                          </span>
+                        </div>
                     </td>
                     <td>
                         <a href="#" class="icon-button danger" @click.prevent="removeItem(item)">
