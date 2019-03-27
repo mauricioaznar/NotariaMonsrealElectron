@@ -66,6 +66,7 @@ export const ApiRoutes = {
   [EntityTypes.DOCUMENT_USER.name]: createDefaultRoutes(EntityTypes.DOCUMENT_USER),
   [EntityTypes.DOCUMENT_GRANTOR.name]: createDefaultRoutes(EntityTypes.DOCUMENT_GRANTOR),
   [EntityTypes.DOCUMENT_COMMENT.name]: createDefaultRoutes(EntityTypes.DOCUMENT_COMMENT),
+  [EntityTypes.DOCUMENT_PROPERTY.name]: createDefaultRoutes(EntityTypes.DOCUMENT_PROPERTY),
   [EntityTypes.APPOINTMENT.name]: createDefaultRoutes(EntityTypes.APPOINTMENT),
   [EntityTypes.APPOINTMENT_USER.name]: createDefaultRoutes(EntityTypes.APPOINTMENT_USER),
   [EntityTypes.APPOINTMENT_CLIENT.name]: createDefaultRoutes(EntityTypes.APPOINTMENT_CLIENT),

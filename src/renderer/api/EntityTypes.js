@@ -92,6 +92,10 @@ export default {
     name: 'documentComment',
     title: 'Comentarios de los documentos'
   },
+  DOCUMENT_PROPERTY: {
+    name: 'documentProperty',
+    title: 'Propiedades de los documentos'
+  },
   APPOINTMENT_USER: {
     name: 'appointmentUser',
     title: 'Usuarios de las citas'

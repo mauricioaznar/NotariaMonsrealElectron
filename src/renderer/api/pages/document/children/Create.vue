@@ -31,7 +31,8 @@
           [PropertiesReference.GROUPS.entityName]: ApiRoutes.documentGroup,
           [PropertiesReference.USERS.entityName]: ApiRoutes.documentUser,
           [PropertiesReference.GRANTORS.entityName]: ApiRoutes.documentGrantor,
-          [PropertiesReference.COMMENTS.entityName]: ApiRoutes.documentComment
+          [PropertiesReference.COMMENTS.entityName]: ApiRoutes.documentComment,
+          [PropertiesReference.DOCUMENT_PROPERTIES.entityName]: ApiRoutes.documentProperty
         }
       }
     },

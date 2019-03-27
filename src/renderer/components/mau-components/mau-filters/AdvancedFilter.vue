@@ -26,10 +26,6 @@
                 </a>
             </div>
             <b-modal class="mau-custom-modal" id="advancedSearchModal" ref="advancedSearchModal" title="Busqueda Avanzada">
-                <!--<div class="form-group">-->
-                    <!--<vue-select v-model="users" class="form-control" :multiple="true" :options="availableUsers">-->
-                    <!--</vue-select>-->
-                <!--</div>-->
                 <div class="form-group mb-3">
                     <label>Operacion</label>
                     <b-form-select v-model="operation" :options="availableOperations" class="form-control" :select-size="1"></b-form-select>
@@ -38,18 +34,6 @@
                     <label>Entidad</label>
                     <b-form-select v-model="entitySelectedFilter" :options="entityFilters" class="form-control" :select-size="1"></b-form-select>
                 </div>
-                <!--<div class="form-group">-->
-                    <!--<vue-select v-model="attachments" class="form-control" :multiple="false" :options="availableAttachments">-->
-                    <!--</vue-select>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                    <!--<vue-select v-model="groups" class="form-control" :multiple="false" :options="availableGroups">-->
-                    <!--</vue-select>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                    <!--<vue-select v-model="grantors" class="form-control" :multiple="false" :options="availableGrantors">-->
-                    <!--</vue-select>-->
-                <!--</div>-->
                 <div class="form-group mb-3">
                     <label>Filtros de documento</label>
                     <b-form-checkbox-group v-model="documentSelectedFilter" class="form-control" :options="documentFilters"></b-form-checkbox-group>
@@ -109,7 +93,9 @@
         documentFilters: [
           {text: 'Folio', value: 'folio'},
           {text: 'Numero de acta', value: 'file_number'},
-          {text: 'Tomo/Libro', value: 'tome'}
+          {text: 'Tomo/Libro', value: 'tome'},
+          {text: 'Folio electronico', value: 'electronic_folio'},
+          {text: 'Predio', value: 'property'}
         ],
         entityFilters: [
           {text: 'Cliente', value: 'client'},
@@ -127,7 +113,7 @@
     created () {
       this.getInitialData()
       this.excelRoute = getApiRoute(EntityTypes.EXCEL, ApiRouteTypes.EXCEL)
-      this.documentSelectedFilter = ['folio', 'file_number', 'tome']
+      this.documentSelectedFilter = ['folio', 'file_number', 'tome', 'electronic_folio', 'property']
       this.contactSelectedFilter = ['phone', 'email', 'fullname']
     },
     computed: {
@@ -155,7 +141,6 @@
     methods: {
       getInitialData: function () {
         this.$store.dispatch(EntityActions.GET_OPERATIONS)
-        // this.$store.dispatch(EntityActions.GET_LAWYERS) TODO Erase lawyers
       },
       getRangeDate: function () {
         let startDate
