@@ -1,6 +1,11 @@
 <template>
     <div>
-        <vue-select v-model="selected" :multiple="multiselect" :label="label" :track-by="'id'" :options="availableObjects">
+        <vue-select
+                v-model="selected"
+                :multiple="multiselect"
+                :label="label"
+                :track-by="'id'"
+                :options="availableObjects">
             <template slot="option" slot-scope="option">
                 {{option[label]}}
             </template>

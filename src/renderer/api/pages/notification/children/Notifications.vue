@@ -22,8 +22,7 @@
 
 <script>
     import ApiOperations from 'renderer/services/api/ApiOperations'
-    import {ApiRouteTypes, getApiRoute} from 'renderer/api/ApiRoutes'
-    import EntityTypes from 'renderer/api/EntityTypes'
+    import ApiUrls from 'renderer/services/api/ApiUrls'
     export default {
       data () {
         return {
@@ -33,7 +32,7 @@
       },
       created () {
         this.isDataLoading = true
-        ApiOperations.get(getApiRoute(EntityTypes.NOTIFICATION, ApiRouteTypes.NOTIFICATIONS)).then(result => {
+        ApiOperations.get(ApiUrls.createNotificationsUrl()).then(result => {
           this.notifications = result.data
           this.isDataLoading = false
         })

@@ -33,7 +33,8 @@
   import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
   import {mapState} from 'vuex'
   import moment from 'moment'
-  import {ApiRoutes} from 'renderer/api/ApiRoutes'
+  import ApiUrls from 'renderer/services/api/ApiUrls'
+  import EntityTypes from 'renderer/api/EntityTypes'
   export default {
     name: 'Dashboard',
     data () {
@@ -111,7 +112,7 @@
           extraQuery = '?filter=start_date&filter_value=' + date
         }
         let self = this
-        ApiFunctions.get(ApiRoutes.appointment.list + extraQuery).then(function (result) {
+        ApiFunctions.get(ApiUrls.createListUrl(EntityTypes.APPOINTMENT.apiName) + extraQuery).then(function (result) {
           self.appointments = result
           self.setCategories()
           self.isDataLoading = false

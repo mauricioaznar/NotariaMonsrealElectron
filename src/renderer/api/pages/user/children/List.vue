@@ -8,12 +8,13 @@
 
 <script>
   import UserList from '../components/UserList.vue'
-  import {ApiRoutes} from 'renderer/api/ApiRoutes'
+  import ApiUrls from 'renderer/services/api/ApiUrls'
+  import EntityTypes from 'renderer/api/EntityTypes'
   export default {
     name: 'ListUser',
     data () {
       return {
-        apiUrl: ApiRoutes.user.list,
+        apiUrl: ApiUrls.createListUrl(EntityTypes.USER.apiName),
         canEdit: true
       }
     },

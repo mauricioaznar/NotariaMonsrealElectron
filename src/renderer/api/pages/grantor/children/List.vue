@@ -8,12 +8,13 @@
 
 <script>
   import GrantorList from '../components/GrantorList.vue'
-  import {ApiRoutes} from 'renderer/api/ApiRoutes'
+  import ApiUrls from 'renderer/services/api/ApiUrls'
+  import EntityTypes from 'renderer/api/EntityTypes'
   export default {
     name: 'ListGrantor',
     data () {
       return {
-        apiUrl: ApiRoutes.grantor.list,
+        apiUrl: ApiUrls.createListUrl(EntityTypes.GRANTOR.apiName),
         canEdit: true
       }
     },

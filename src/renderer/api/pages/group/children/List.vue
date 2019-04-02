@@ -8,12 +8,13 @@
 
 <script>
   import GroupList from '../components/GroupList.vue'
-  import {ApiRoutes} from 'renderer/api/ApiRoutes'
+  import ApiUrls from 'renderer/services/api/ApiUrls'
+  import EntityTypes from 'renderer/api/EntityTypes'
   export default {
     name: 'ListGroup',
     data () {
       return {
-        apiUrl: ApiRoutes.group.list,
+        apiUrl: ApiUrls.createListUrl(EntityTypes.GROUP.apiName),
         canEdit: true
       }
     },

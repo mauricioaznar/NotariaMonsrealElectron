@@ -4,7 +4,10 @@
       <template slot-scope="params">
         <div class="d-flex flex-column justify-content-around flex-lg-row">
           <div class="flex-same-width mr-lg-3">
-            <mau-entity-view :entity="params.entity" :propertiesReference="propertiesReference" :hiddenPropertiesReference="hiddenProperties"></mau-entity-view>
+            <mau-entity-view
+                    :entity="params.entity"
+                    :propertiesReference="propertiesReference"
+                    :hiddenPropertiesReference="hiddenProperties"></mau-entity-view>
           </div>
           <div class="flex-same-width ml-lg-3">
             <div class="cards">
@@ -19,7 +22,6 @@
 
 <script>
   import PropertiesReference from '../PropertiesReference'
-  import {ApiRoutes} from 'renderer/api/ApiRoutes'
   import { VueEditor } from 'vue2-editor'
   import CommentList from '../components/CommentList.vue'
   export default {
@@ -27,8 +29,7 @@
     data () {
       return {
         propertiesReference: PropertiesReference,
-        hiddenProperties: [PropertiesReference.COMMENTS],
-        routeObjects: ApiRoutes
+        hiddenProperties: [PropertiesReference.COMMENTS]
       }
     },
     components: {

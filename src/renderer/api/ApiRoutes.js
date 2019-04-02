@@ -70,9 +70,6 @@ export const ApiRoutes = {
   [EntityTypes.APPOINTMENT.name]: createDefaultRoutes(EntityTypes.APPOINTMENT),
   [EntityTypes.APPOINTMENT_USER.name]: createDefaultRoutes(EntityTypes.APPOINTMENT_USER),
   [EntityTypes.APPOINTMENT_CLIENT.name]: createDefaultRoutes(EntityTypes.APPOINTMENT_CLIENT),
-  [EntityTypes.EXCEL.name]: {
-    [ApiRouteTypes.EXCEL]: apiDomain + 'export/excel?'
-  },
   [EntityTypes.ROOM.name]: createDefaultRoutes(EntityTypes.ROOM),
   [EntityTypes.AUTH.name]: {
     [ApiRouteTypes.USER]: apiDomain + EntityTypes.AUTH.name + '/user',

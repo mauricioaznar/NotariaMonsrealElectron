@@ -78,8 +78,7 @@
 
 <script>
   import DocumentList from '../components/DocumentList.vue'
-  import {getApiRoute, ApiRouteTypes} from 'renderer/api/ApiRoutes'
-  import EntityTypes from 'renderer/api/EntityTypes'
+  import ApiUrls from 'renderer/services/api/ApiUrls'
   import ApiFunctions from 'renderer/services/api/ApiOperations'
   export default {
     name: 'AnalyticsDocument',
@@ -90,7 +89,7 @@
       }
     },
     created () {
-      ApiFunctions.get(getApiRoute(EntityTypes.DOCUMENT, ApiRouteTypes.ANALYTICS)).then(result => {
+      ApiFunctions.get(ApiUrls.createBaseUrl('data/me')).then(result => {
         this.apiResult = result
       })
     },

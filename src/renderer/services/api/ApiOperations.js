@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import {getHeaders} from 'renderer/config'
+import ApiDomain from 'renderer/services/api/ApiDomain'
 
 export function get (url) {
   return Vue.http.get(url, {headers: getHeaders()}).then(getServerResponseData)
@@ -22,6 +23,10 @@ export function del (url, id, object) {
   return Vue.http.put(url + id, object, {headers: getHeaders()}).then(getServerResponseData)
 }
 
+export function generateToken (credentials) {
+  return Vue.http.post(ApiDomain + 'auth/login', credentials, {headers: getHeaders()}).then(getServerResponseData)
+}
+
 function getServerResponseData (response) {
   let responseDataData = (((response) && response.data) && response.data.data)
   if (!responseDataData) {
@@ -34,4 +39,11 @@ export function catchError (e) {
   console.log('error')
   return e
 }
-export default {getById, get, edit, create, del}
+export default {
+  getById: getById,
+  get: get,
+  edit: edit,
+  create: create,
+  del: del,
+  generateToken: generateToken
+}

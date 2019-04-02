@@ -61,8 +61,7 @@
   import {mapState} from 'vuex'
   import VueSelect from 'vue-select'
   import moment from 'moment'
-  import {getApiRoute, ApiRouteTypes} from 'renderer/api/ApiRoutes'
-  import EntityTypes from 'renderer/api/EntityTypes'
+  import ApiUrls from 'renderer/services/api/ApiUrls'
   import EntityActions from 'renderer/api/store/entityActions'
   import cloneDeep from 'renderer/services/common/cloneDeep'
   import isDefined from 'renderer/services/common/isDefined'
@@ -112,7 +111,7 @@
     },
     created () {
       this.getInitialData()
-      this.excelRoute = getApiRoute(EntityTypes.EXCEL, ApiRouteTypes.EXCEL)
+      this.excelRoute = ApiUrls.createBaseUrl('export/excel?')
       this.documentSelectedFilter = ['folio', 'file_number', 'tome', 'electronic_folio', 'property']
       this.contactSelectedFilter = ['phone', 'email', 'fullname']
     },
