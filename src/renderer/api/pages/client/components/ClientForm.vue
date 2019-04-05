@@ -132,14 +132,15 @@
     <div class="form-group">
       <div class="client_grantors">
         <label>{{PropertiesReference.GRANTORS.title}}</label>
-        <mau-relationships-form
+        <mau-form-input-select
                 v-model="client.grantors"
-                :initialObjectsProp="initialValues[PropertiesReference.GRANTORS.name]"
+                :initialObjects="initialValues[PropertiesReference.GRANTORS.name]"
                 :relatedRelationshipName="PropertiesReference.GRANTORS.relationship_id_name"
-                :availableObjects="availableGrantors"
+                :url="grantorsUrl"
+                :multiselect="true"
                 :label="'fullname'"
         >
-        </mau-relationships-form>
+        </mau-form-input-select>
       </div>
     </div>
     <div class="container mb-2 text-right">
@@ -153,7 +154,10 @@
   import PropertiesReference from '../PropertiesReference'
   import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
   import DefaultValuesHelper from 'renderer/services/form/DefaultValuesHelper'
-  import {mapState} from 'vuex'
+  import MauFormInputSelect from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelect'
+  import ManyToManyHelper from 'renderer/services/api/ManyToManyHelper'
+  import ApiUrls from 'renderer/services/api/ApiUrls'
+  import EntityTypes from 'renderer/api/EntityTypes'
   export default {
     name: 'ClientForm',
     data () {
@@ -170,12 +174,13 @@
           phone: '',
           grantors: []
         },
+        grantorsUrl: ApiUrls.createListUrl(EntityTypes.GRANTOR.apiName) + '?paginate=false',
         initialValues: {},
         buttonDisabled: false
       }
     },
     components: {
-
+      MauFormInputSelect
     },
     props: {
       initialObject: {
@@ -197,9 +202,6 @@
       this.setInitialValues()
     },
     computed: {
-      ...mapState({
-        availableGrantors: state => state.api.entity.grantors
-      })
     },
     methods: {
       getBootstrapValidationClass: ValidatorHelper.getBootstrapValidationClass,
@@ -225,8 +227,11 @@
           [PropertiesReference.ZIPCODE.name]: this.client.zipcode,
           [PropertiesReference.PHONE.name]: this.client.phone ? this.client.phone.replace(/\D+/g, '') : ''
         }
+        let m2MGrantors = ManyToManyHelper.createM2MStructuredObjects(this.client.grantors, PropertiesReference.GRANTORS.relationship_id_name)
+        let initialM2MGrantors = ManyToManyHelper.createM2MStructuredObjects(this.initialValues[PropertiesReference.GRANTORS.name], PropertiesReference.GRANTORS.relationship_id_name)
+        let filteredM2MGrantors = ManyToManyHelper.filterM2MStructuredObjectsByApiOperations(initialM2MGrantors, m2MGrantors, PropertiesReference.GRANTORS.relationship_id_name)
         let indirectParams = {
-          [PropertiesReference.GRANTORS.entityName]: this.client.grantors
+          [PropertiesReference.GRANTORS.entityName]: filteredM2MGrantors
         }
         this.$validator.validateAll().then((result) => {
           if (result) {

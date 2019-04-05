@@ -24,6 +24,12 @@ export default {
     icon: 'fa fa-user',
     apiName: 'user'
   },
+  ROLE: {
+    name: 'role',
+    title: 'Roles',
+    icon: 'fa fa-user',
+    apiName: 'role'
+  },
   GROUP: {
     name: 'group',
     title: 'Grupos',
@@ -123,9 +129,9 @@ export default {
     apiName: 'appointmentUser'
   },
   APPOINTMENT_CLIENT: {
-    name: 'appointmentUser',
+    name: 'appointmentClient',
     title: 'Clientes de las citas',
-    apiName: 'appointmentUser'
+    apiName: 'appointmentClient'
   },
   ROOM: {
     name: 'room',

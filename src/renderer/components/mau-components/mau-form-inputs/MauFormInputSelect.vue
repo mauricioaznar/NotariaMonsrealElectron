@@ -4,8 +4,9 @@
                 v-model="selected"
                 :multiple="multiselect"
                 :label="label"
+                :onSearch="search"
                 :track-by="'id'"
-                :options="availableObjects">
+                :options="options">
             <template slot="option" slot-scope="option">
                 {{option[label]}}
             </template>
@@ -16,25 +17,20 @@
 
 <script>
     import VueSelect from 'vue-select'
-    import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
     import cloneDeep from 'renderer/services/common/cloneDeep'
-    import isDefined from 'renderer/services/common/isDefined'
+    import ApiOperations from 'renderer/services/api/ApiOperations'
+    import _ from 'lodash'
     export default {
       data () {
         return {
-          selected: null
+          selected: null,
+          options: []
         }
       },
       props: {
-        availableObjects: {
-          type: Array,
+        url: {
+          type: String,
           required: true
-        },
-        display: {
-          type: Function,
-          default: function (object) {
-            return object.name
-          }
         },
         label: {
           type: String,
@@ -42,16 +38,16 @@
             return 'name'
           }
         },
-        initialObject: {
-          type: Object,
-          default: function () {
-            return {}
-          }
-        },
         multiselect: {
           type: Boolean,
           default: function () {
             return false
+          }
+        },
+        initialObject: {
+          type: Object,
+          default: function () {
+            return {}
           }
         },
         initialObjects: {
@@ -67,9 +63,30 @@
         } else {
           this.selected = cloneDeep(this.initialObjects)
         }
+        ApiOperations.get(this.url).then(res => {
+          this.options = res
+        }).catch(e => {
+          console.log(e)
+        })
       },
       components: {
         VueSelect
+      },
+      methods: {
+        search: function (search, loading) {
+          if (this.url) {
+            loading(true)
+            this.getOptions(search, loading, this)
+          }
+        },
+        getOptions: _.debounce((search, loading, vm) => {
+          ApiOperations.get(vm.url).then(res => {
+            vm.options = res
+            loading(false)
+          }).catch(e => {
+            console.log(e)
+          })
+        }, 250)
       },
       watch: {
         selected: function (newValue) {
@@ -77,23 +94,6 @@
         },
         initialObject: function (newInitialObject) {
           this.selected = this.initialObject
-        },
-        availableObjects: function (newAvailableObjects) {
-          if (this.multiselect) {
-            let newSelectedObjects = []
-            let initialObjects = cloneDeep(this.initialObjects)
-            if (isDefined(initialObjects)) {
-              initialObjects.forEach(initialObj => {
-                let newAvailableObjResult = newAvailableObjects.find(newAvailableObj => {
-                  return newAvailableObj[globalEntityIdentifier] === initialObj[globalEntityIdentifier]
-                })
-                if (newAvailableObjResult) {
-                  newSelectedObjects.push(newAvailableObjResult)
-                }
-              })
-            }
-            this.selected = newSelectedObjects
-          }
         }
       }
     }

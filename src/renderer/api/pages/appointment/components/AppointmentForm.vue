@@ -84,16 +84,10 @@
         </div>
       </div>
       <div class="form-group">
-
-      </div>
-      <div class="form-group">
-
-      </div>
-      <div class="form-group">
         <div class="clients">
           <label>{{PropertiesReference.CLIENTS.title}}</label>
           <mau-form-input-select
-                  :availableObjects="availableClients"
+                  :url="clientsUrl"
                   :initialObjects="initialValues[PropertiesReference.CLIENTS.name]"
                   :multiselect="true"
                   :label="'fullname'"
@@ -113,9 +107,8 @@
         <div class="room">
           <label>{{PropertiesReference.ROOM.title}}</label>
           <mau-form-input-select
-                  :availableObjects="availableRooms"
+                  :url="roomsUrl"
                   :initialObject="initialValues[PropertiesReference.ROOM.name]"
-                  :display="PropertiesReference.ROOM.display"
                   :label="'name'"
                   v-model="appointment.room"
                   class="override-form-control form-control"
@@ -133,14 +126,13 @@
         </div>
       </div>
       <div class="form-group">
-        <div class="appointment_entry_users">
+        <div class="appointment_users">
           <label>Abogado(s)</label>
           <mau-form-input-select
-                  :availableObjects="availableUsers"
+                  :url="usersUrl"
                   :initialObjects="initialValues[PropertiesReference.USERS.name]"
                   :multiselect="true"
                   :label="'fullname'"
-                  :display="PropertiesReference.USERS.display"
                   v-model="appointment.users"
                   class="override-form-control form-control"
                   :name="PropertiesReference.USERS.name"
@@ -157,14 +149,14 @@
 
 <script>
   import ValidatorHelper from 'renderer/services/form/ValidatorHelper'
-  import {mapState} from 'vuex'
   import PropertiesReference from '../PropertiesReference'
   import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
   import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
   import ConvertDateTime from 'renderer/services/common/ConvertDateTime'
-  import cloneDeep from 'renderer/services/common/cloneDeep'
   import MauFormInputSelect from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelect.vue'
-  import RelationshipObjectsHelper from 'renderer/services/form/RelationshipObjectHelper'
+  import EntityTypes from 'renderer/api/EntityTypes'
+  import ApiUrls from 'renderer/services/api/ApiUrls'
+  import ManyToManyHelper from 'renderer/services/api/ManyToManyHelper'
   export default {
     name: 'AppointmentForm',
     data () {
@@ -180,6 +172,9 @@
           users: ''
         },
         // Utility variables
+        clientsUrl: ApiUrls.createListUrl(EntityTypes.CLIENT.apiName) + '?paginate=false',
+        roomsUrl: ApiUrls.createListUrl(EntityTypes.ROOM.apiName) + '?paginate=false',
+        usersUrl: ApiUrls.createListUrl(EntityTypes.USER.apiName) + '?paginate=false',
         initialValues: {},
         PropertiesReference: PropertiesReference,
         buttonDisabled: false
@@ -211,11 +206,6 @@
       }
     },
     computed: {
-      ...mapState({
-        availableClients: state => state.api.entity.clients,
-        availableRooms: state => state.api.entity.rooms,
-        availableUsers: state => cloneDeep(state.api.entity.users)
-      })
     },
     methods: {
       getBootstrapValidationClass: ValidatorHelper.getBootstrapValidationClass,
@@ -251,20 +241,19 @@
           [PropertiesReference.CLIENTS.relationship_id_name]: this.appointment.clients ? this.appointment.clients[globalEntityIdentifier] : null,
           [PropertiesReference.ROOM.relationship_id_name]: this.appointment.room ? this.appointment.room[globalEntityIdentifier] : null
         }
-        let filteredUsers = RelationshipObjectsHelper.compareAndFilterEntityObjects(
-          this.initialValues[PropertiesReference.USERS.name],
-          this.appointment.users,
-          PropertiesReference.USERS.relationship_id_name)
-        let filteredClients = RelationshipObjectsHelper.compareAndFilterEntityObjects(
-          this.initialValues[PropertiesReference.CLIENTS.name],
-          this.appointment.clients,
-          PropertiesReference.CLIENTS.relationship_id_name)
+        let initialM2mUsers = ManyToManyHelper.createM2MStructuredObjects(this.initialValues[PropertiesReference.USERS.name], PropertiesReference.USERS.relationship_id_name)
+        let m2mUsers = ManyToManyHelper.createM2MStructuredObjects(this.appointment.users, PropertiesReference.USERS.relationship_id_name)
+        let filteredUsers = ManyToManyHelper.filterM2MStructuredObjectsByApiOperations(initialM2mUsers, m2mUsers, PropertiesReference.USERS.relationship_id_name)
+        let initialM2mClients = ManyToManyHelper.createM2MStructuredObjects(this.initialValues[PropertiesReference.CLIENTS.name], PropertiesReference.CLIENTS.relationship_id_name)
+        let m2mClients = ManyToManyHelper.createM2MStructuredObjects(this.appointment.clients, PropertiesReference.CLIENTS.relationship_id_name)
+        let filteredClients = ManyToManyHelper.filterM2MStructuredObjectsByApiOperations(initialM2mClients, m2mClients, PropertiesReference.CLIENTS.relationship_id_name)
         let indirectParams = {
           [PropertiesReference.USERS.entityName]: filteredUsers,
           [PropertiesReference.CLIENTS.entityName]: filteredClients
         }
         this.$validator.validateAll().then((result) => {
           if (result) {
+            console.log(result)
             this.buttonDisabled = true
             this.saveFunction(directParams, indirectParams)
           }

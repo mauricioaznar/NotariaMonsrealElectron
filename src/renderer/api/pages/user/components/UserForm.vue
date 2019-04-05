@@ -73,10 +73,10 @@
       <div class="role">
         <label>{{PropertiesReference.ROLE.title}}</label>
         <mau-form-input-select
-                :availableObjects="availableRoles"
                 :initialObject="initialValues[PropertiesReference.ROLE.name]"
-                :label="'value'"
+                :label="'name'"
                 v-model="user.role"
+                :url="rolesUrl"
                 class="override-form-control form-control"
                 :name="PropertiesReference.ROLE.name"
                 v-validate="'required'"
@@ -104,7 +104,8 @@
   import DefaultValuesHelper from 'renderer/services/form/DefaultValuesHelper'
   import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
   import MauFormInputSelect from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelect.vue'
-  import {mapState} from 'vuex'
+  import ApiUrls from 'renderer/services/api/ApiUrls'
+  import EntityTypes from 'renderer/api/EntityTypes'
   export default {
     name: 'UserForm',
     data () {
@@ -121,6 +122,7 @@
           phone: '',
           role: ''
         },
+        rolesUrl: ApiUrls.createListUrl(EntityTypes.ROLE.apiName) + '?paginate=false',
         initialValues: {},
         buttonDisabled: false
       }
@@ -148,9 +150,6 @@
       this.setInitialValues()
     },
     computed: {
-      ...mapState({
-        availableRoles: state => state.api.entity.roles
-      })
     },
     methods: {
       getBootstrapValidationClass: ValidatorHelper.getBootstrapValidationClass,
@@ -159,8 +158,7 @@
         this.user.lastname = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.LASTNAME.name)
         this.user.phone = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.PHONE.name)
         this.user.email = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.EMAIL.name)
-        let roleId = this.initialObject !== undefined ? this.initialObject[PropertiesReference.ROLE.name][globalEntityIdentifier] : null
-        this.initialValues[PropertiesReference.ROLE.name] = roleId !== null ? this.$store.getters.getRoleByRoleId(roleId) : null
+        this.initialValues[PropertiesReference.ROLE.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.ROLE.name)
       },
       save: function () {
         let directParams = {

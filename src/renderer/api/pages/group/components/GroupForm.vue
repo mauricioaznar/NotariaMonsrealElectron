@@ -20,30 +20,13 @@
               </div>
           </div>
           <div class="form-group">
-              <div class="users">
-                  <label>{{PropertiesReference.USERS.title}}</label>
-                  <mau-form-input-select
-                          :availableObjects="availableUsers"
-                          :initialObjects="initialValues[PropertiesReference.USERS.name]"
-                          :multiselect="true"
-                          :label="'fullname'"
-                          :display="PropertiesReference.USERS.display"
-                          v-model="group.users"
-                          class="override-form-control form-control"
-                          :name="PropertiesReference.USERS.name"
-                  >
-                  </mau-form-input-select>
-              </div>
-          </div>
-          <div class="form-group">
               <div class="user">
                   <label>{{PropertiesReference.USER.title}}</label>
                   <mau-form-input-select
-                          :availableObjects="availableUsers"
                           :initialObject="initialValues[PropertiesReference.USER.name]"
-                          :display="PropertiesReference.USER.display"
                           :label="'name'"
                           v-model="group.user"
+                          :url="usersUrl"
                           class="override-form-control form-control"
                           :name="PropertiesReference.USER.name"
                           v-validate="'required'"
@@ -58,6 +41,20 @@
                   </div>
               </div>
           </div>
+          <div class="form-group">
+              <div class="users">
+                  <label>{{PropertiesReference.USERS.title}}</label>
+                  <mau-form-input-select
+                          v-model="group.users"
+                          :initialObjects="initialValues[PropertiesReference.USERS.name]"
+                          :relatedRelationshipName="PropertiesReference.USERS.relationship_id_name"
+                          :url="usersUrl"
+                          :multiselect="true"
+                          :label="'name'"
+                  >
+                  </mau-form-input-select>
+              </div>
+          </div>
           <div class="container mb-2 text-right">
               <b-button :disabled="buttonDisabled" @click="save" type="button" variant="primary">Guardar</b-button>
           </div>
@@ -70,9 +67,11 @@
   import ValidatorHelper from 'renderer/services/form/ValidatorHelper'
   import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
   import MauFormInputSelect from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelect.vue'
-  import RelationshipObjectsHelper from 'renderer/services/form/RelationshipObjectHelper'
-  import {mapState} from 'vuex'
+  import ManyToManyHelper from 'renderer/services/api/ManyToManyHelper'
   import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
+  import DefaultValuesHelper from 'renderer/services/form/DefaultValuesHelper'
+  import ApiUrls from 'renderer/services/api/ApiUrls'
+  import EntityTypes from 'renderer/api/EntityTypes'
   export default {
     name: 'GroupForm',
     data () {
@@ -84,6 +83,7 @@
           users: [],
           user: ''
         },
+        usersUrl: ApiUrls.createListUrl(EntityTypes.USER.apiName) + '?paginate=false',
         initialValues: {},
         buttonDisabled: false
       }
@@ -114,9 +114,6 @@
       }
     },
     computed: {
-      ...mapState({
-        availableUsers: state => state.api.entity.users
-      })
     },
     methods: {
       createDefaultInitialValues: function () {
@@ -127,19 +124,18 @@
         }
       },
       setInitialValues: function () {
-        this.group.name = this.initialObject[PropertiesReference.NAME.name]
-        this.initialValues[PropertiesReference.USERS.name] = this.initialObject[PropertiesReference.USERS.name]
-        this.initialValues[PropertiesReference.USER.name] = this.initialObject[PropertiesReference.USER.name]
+        this.group.name = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.NAME.name)
+        this.initialValues[PropertiesReference.USERS.name] = DefaultValuesHelper.arrayOfObjects(this.initialObject, PropertiesReference.USERS.name)
+        this.initialValues[PropertiesReference.USER.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.USER.name)
       },
       save: function () {
         let directParams = {
           [PropertiesReference.NAME.name]: this.group.name,
           [PropertiesReference.USER.relationship_id_name]: this.group.user ? this.group.user[globalEntityIdentifier] : 'null'
         }
-        let filteredUsers = RelationshipObjectsHelper.compareAndFilterEntityObjects(
-          this.initialValues[PropertiesReference.USERS.name],
-          this.group.users,
-          PropertiesReference.USERS.relationship_id_name)
+        let initialM2mUsers = ManyToManyHelper.createM2MStructuredObjects(this.initialValues[PropertiesReference.USERS.name], PropertiesReference.USERS.relationship_id_name)
+        let m2mUsers = ManyToManyHelper.createM2MStructuredObjects(this.group.users, PropertiesReference.USERS.relationship_id_name)
+        let filteredUsers = ManyToManyHelper.filterM2MStructuredObjectsByApiOperations(initialM2mUsers, m2mUsers, PropertiesReference.USERS.relationship_id_name)
         let indirectParams = {
           [PropertiesReference.USERS.entityName]: filteredUsers
         }
