@@ -2,10 +2,11 @@ import Vue from 'vue'
 import {getHeaders} from 'renderer/config'
 import ApiDomain from 'renderer/services/api/ApiDomain'
 
-export function get (url, filterLikes, filterExacts) {
-  let filterLikeQuery = getFilterLikeQuery(filterLikes)
-  let filterExactQuery = getFilterExactQuery(filterExacts)
-  return Vue.http.get(url + filterLikeQuery + filterExactQuery, {headers: getHeaders()}).then(getServerResponseData)
+export function get (url, filterLikes, filterExacts, filterEntity) {
+  let filterLikeQuery = filterLikes !== undefined ? getFilterLikeQuery(filterLikes) : ''
+  let filterExactQuery = filterExacts !== undefined ? getFilterExactQuery(filterExacts) : ''
+  let filterEntityQuery = filterEntity !== undefined ? getFilterEntityQuery(filterEntity) : ''
+  return Vue.http.get(url + filterLikeQuery + filterExactQuery + filterEntityQuery, {headers: getHeaders()}).then(getServerResponseData)
   function getFilterLikeQuery (filterLikes) {
     let filterLikeQuery = ''
     let i = 0
@@ -41,6 +42,9 @@ export function get (url, filterLikes, filterExacts) {
       }
     }
     return filterExactQuery
+  }
+  function getFilterEntityQuery (filterEntity) {
+    return filterEntity !== '' ? '&filter_entity=' + filterEntity : ''
   }
 }
 

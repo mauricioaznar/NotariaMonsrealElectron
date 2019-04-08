@@ -79,15 +79,17 @@
           <label>{{PropertiesReference.OPERATIONS.title}}</label>
           <div v-show="document.documentType">
             <mau-form-input-select
+                    :key="document.documentType ? document.documentType['id'] : 0"
                     v-show="document.documentType"
                     :ref="PropertiesReference.OPERATIONS.name"
                     v-model="document.operations"
                     :label="'name'"
                     :required="PropertiesReference.OPERATIONS.required"
                     :initialObjects="initialValues[PropertiesReference.OPERATIONS.name]"
+                    :filterEntity="'documentTypes'"
+                    :filterLikes="{name: document.documentType ? document.documentType['name'] : ''}"
                     :multiselect="true"
                     :url="operationsUrl"
-                    @selection-changed="operationsChange"
             >
             </mau-form-input-select>
           </div>
@@ -332,8 +334,11 @@
             <label>{{PropertiesReference.DOCUMENT_ATTACHMENTS.title}}</label>
             <div v-show="document.documentType">
               <document-attachments
+                      :key="document.documentType ? document.documentType['id'] : 0"
                       v-model="document.documentAttachments"
                       :initial-attachments="initialValues[PropertiesReference.DOCUMENT_ATTACHMENTS.name]"
+                      :filterEntity="'documentTypes'"
+                      :filterLikes="{name: document.documentType ? document.documentType['name'] : ''}"
               >
               </document-attachments>
             </div>
@@ -535,7 +540,6 @@
         ApiOperations.get(ApiUrls.createListUrl(EntityTypes.DOCUMENT_ATTACHMENT.apiName) + '?paginate=false'),
         ApiOperations.get(ApiUrls.createListUrl(EntityTypes.USER.apiName) + '?paginate=false')
       ]).then(results => {
-        this.loading = false
         this.availableDocumentTypes = NormalizeObjects.normalizeObjects(results[0], ['name'])
         this.availableDocumentStatuses = NormalizeObjects.normalizeObjects(results[1], ['name'])
         this.availableOperations = results[2]
@@ -547,6 +551,7 @@
         if (this.initialObject) {
           this.setInitialValues(this.initialObject)
         }
+        this.loading = false
       })
     },
     computed: {
@@ -647,6 +652,9 @@
         let initialM2mGrantors = ManyToManyHelper.createM2MStructuredObjects(this.initialValues[PropertiesReference.GRANTORS.name], PropertiesReference.GRANTORS.relationship_id_name)
         let m2mGrantors = ManyToManyHelper.createM2MStructuredObjects(this.document.grantors, PropertiesReference.GRANTORS.relationship_id_name)
         let filteredGrantors = ManyToManyHelper.filterM2MStructuredObjectsByApiOperations(initialM2mGrantors, m2mGrantors, PropertiesReference.GRANTORS.relationship_id_name)
+        let initialM2mOperations = ManyToManyHelper.createM2MStructuredObjects(this.initialValues[PropertiesReference.OPERATIONS.name], PropertiesReference.OPERATIONS.relationship_id_name)
+        let m2mOperations = ManyToManyHelper.createM2MStructuredObjects(this.document.operations, PropertiesReference.OPERATIONS.relationship_id_name)
+        let filteredOperations = ManyToManyHelper.filterM2MStructuredObjectsByApiOperations(initialM2mOperations, m2mOperations, PropertiesReference.OPERATIONS.relationship_id_name)
         let entryUsersRelationshipName = PropertiesReference.USERS.relationship_id_name
         let entryUsersRelationshipObjects = RelationshipObjectsHelper.createRelationshipObjects(this.document.entryUsers, entryUsersRelationshipName, {entry_lawyer: 1})
         let initialEntryUsersRelationshipObjects = RelationshipObjectsHelper.createRelationshipObjects(this.initialValues['entryUsers'], entryUsersRelationshipName, {entry_lawyer: 1})
@@ -657,7 +665,7 @@
         let filteredExitUsers = RelationshipObjectsHelper.filterRelationshipObjects(initialExitUsersRelationshipObjects, exitUsersRelationshipObjects, exitUsersRelationshipName)
         let filteredUsers = RelationshipObjectsHelper.combineRelationshipObjects(filteredEntryUsers, filteredExitUsers)
         let indirectParams = {
-          [PropertiesReference.OPERATIONS.entityName]: this.document.operations,
+          [PropertiesReference.OPERATIONS.entityName]: filteredOperations,
           [PropertiesReference.DOCUMENT_ATTACHMENTS.entityName]: this.document.documentAttachments,
           [PropertiesReference.GROUPS.entityName]: filteredGroups,
           [PropertiesReference.USERS.entityName]: filteredUsers,

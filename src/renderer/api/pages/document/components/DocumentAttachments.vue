@@ -7,6 +7,8 @@
             :initialObjects="initialAttachmentsCopy"
             :multiselect="true"
             v-model="selectedAttachments"
+            :filterEntity="filterEntity"
+            :filterLikes="filterLikes"
     >
     </mau-form-input-select>
     <div class="w-100" v-if="selectedAttachments.length > 0">
@@ -64,6 +66,24 @@
       initialAttachments: {
         type: Array,
         required: true
+      },
+      filterExacts: {
+        type: Object,
+        default: function () {
+          return {}
+        }
+      },
+      filterLikes: {
+        type: Object,
+        default: function () {
+          return {}
+        }
+      },
+      filterEntity: {
+        type: String,
+        default: function () {
+          return ''
+        }
       }
     },
     created () {
@@ -81,11 +101,14 @@
       }
     },
     watch: {
-      selectedAttachments: function () {
-        let initialM2mAttachments = ManyToManyHelper.createM2MStructuredObjects(this.initialAttachments, DocumentPropertiesReference.DOCUMENT_ATTACHMENTS.relationship_id_name)
-        let m2mAttachments = ManyToManyHelper.createM2MStructuredObjects(this.selectedAttachments, DocumentPropertiesReference.DOCUMENT_ATTACHMENTS.relationship_id_name)
-        let filteredAttachments = ManyToManyHelper.filterM2MStructuredObjectsByApiOperations(initialM2mAttachments, m2mAttachments, DocumentPropertiesReference.DOCUMENT_ATTACHMENTS.relationship_id_name)
-        this.$emit('input', filteredAttachments)
+      selectedAttachments: {
+        handler: function () {
+          let initialM2mAttachments = ManyToManyHelper.createM2MStructuredObjects(this.initialAttachments, DocumentPropertiesReference.DOCUMENT_ATTACHMENTS.relationship_id_name)
+          let m2mAttachments = ManyToManyHelper.createM2MStructuredObjects(this.selectedAttachments, DocumentPropertiesReference.DOCUMENT_ATTACHMENTS.relationship_id_name)
+          let filteredAttachments = ManyToManyHelper.filterM2MStructuredObjectsByApiOperations(initialM2mAttachments, m2mAttachments, DocumentPropertiesReference.DOCUMENT_ATTACHMENTS.relationship_id_name)
+          this.$emit('input', filteredAttachments)
+        },
+        deep: true
       },
       initialAttachments: function () {
         this.initialAttachmentsCopy = cloneDeep(this.initialAttachments)

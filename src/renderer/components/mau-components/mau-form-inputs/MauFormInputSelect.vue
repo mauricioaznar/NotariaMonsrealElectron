@@ -55,6 +55,24 @@
           default: function () {
             return []
           }
+        },
+        filterExacts: {
+          type: Object,
+          default: function () {
+            return {}
+          }
+        },
+        filterLikes: {
+          type: Object,
+          default: function () {
+            return {}
+          }
+        },
+        filterEntity: {
+          type: String,
+          default: function () {
+            return ''
+          }
         }
       },
       created () {
@@ -63,7 +81,7 @@
         } else {
           this.selected = cloneDeep(this.initialObjects)
         }
-        ApiOperations.get(this.url).then(res => {
+        ApiOperations.get(this.url, this.filterLikes, this.filterExacts, this.filterEntity).then(res => {
           this.options = res
         }).catch(e => {
           console.log(e)
@@ -80,7 +98,7 @@
           }
         },
         getOptions: _.debounce((search, loading, vm) => {
-          ApiOperations.get(vm.url).then(res => {
+          ApiOperations.get(vm.url, vm.filterLikes, vm.filterExacts, vm.filterEntity).then(res => {
             vm.options = res
             loading(false)
           }).catch(e => {
