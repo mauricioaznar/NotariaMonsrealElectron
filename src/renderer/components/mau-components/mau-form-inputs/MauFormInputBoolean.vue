@@ -4,7 +4,7 @@
         <b-form-checkbox
                 v-if="!tripleboolean"
                 v-model="selected"
-                value="0"
+                value="1"
                 unchecked-value="0">
         </b-form-checkbox>
     </div>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="!loading">
       <div class="generales">
         <h3 class="mb-3">Generales</h3>
         <div class="form-group">
@@ -78,18 +78,18 @@
         <div class="form-group">
           <label>{{PropertiesReference.OPERATIONS.title}}</label>
           <div v-show="document.documentType">
-            <mau-relationships-form
+            <mau-form-input-select
                     v-show="document.documentType"
                     :ref="PropertiesReference.OPERATIONS.name"
                     v-model="document.operations"
                     :label="'name'"
                     :required="PropertiesReference.OPERATIONS.required"
-                    :initialObjectsProp="initialValues[PropertiesReference.OPERATIONS.name]"
-                    :relatedRelationshipName="PropertiesReference.OPERATIONS.relationship_id_name"
-                    :availableObjects="availableOperations"
+                    :initialObjects="initialValues[PropertiesReference.OPERATIONS.name]"
+                    :multiselect="true"
+                    :url="operationsUrl"
                     @selection-changed="operationsChange"
             >
-            </mau-relationships-form>
+            </mau-form-input-select>
           </div>
           <div v-if="!document.documentType" class="mau-text-center">
             <p>Se necesita seleccionar un tipo de documento</p>
@@ -130,19 +130,6 @@
                 </span>
             </div>
           </div>
-        </div>
-        <div class="form-group">
-          <mau-form-input-text
-                  :name="PropertiesReference.PROPERTY.name"
-                  :error="errors.first(PropertiesReference.PROPERTY.name)"
-                  :label="PropertiesReference.PROPERTY.title"
-                  v-model="document.property"
-                  :data-vv-as="PropertiesReference.PROPERTY.title"
-                  :initialValue="initialValues[PropertiesReference.PROPERTY.name]"
-                  v-validate="isPropertySelected ? 'required' : ''"
-                  placeholder="Ejemplo: Casa #34, entre calle 22 y 22-c"
-          >
-          </mau-form-input-text>
         </div>
         <div class="form-group">
           <div class="document_money_laundering">
@@ -221,9 +208,9 @@
               </b-modal>
             </div>
             <mau-form-input-select
-                    :availableObjects="availableClients"
+                    :url="clientsUrl"
                     :initialObject="initialValues[PropertiesReference.CLIENT.name]"
-                    :label="'fullname'"
+                    :label="'name'"
                     v-model="document.client"
                     class="override-form-control form-control"
                     :name="PropertiesReference.CLIENT.name"
@@ -254,21 +241,21 @@
                 </div>
               </b-modal>
             </div>
-            <mau-relationships-form
-                    v-model="document.grantors"
-                    :initialObjectsProp="initialValues[PropertiesReference.GRANTORS.name]"
-                    :relatedRelationshipName="PropertiesReference.GRANTORS.relationship_id_name"
-                    :availableObjects="availableGrantors"
+            <mau-form-input-select
+                    :url="grantorsUrl"
+                    :initialObjects="initialValues[PropertiesReference.GRANTORS.name]"
                     :label="'fullname'"
+                    v-model="document.grantors"
+                    :multiselect="true"
             >
-            </mau-relationships-form>
+            </mau-form-input-select>
           </div>
         </div>
         <div class="form-group">
           <div class="groups">
             <label>Grupos</label>
             <mau-form-input-select
-                    :availableObjects="availableGroups"
+                    :url="groupsUrl"
                     :initialObjects="initialValues[PropertiesReference.GROUPS.name]"
                     :multiselect="true"
                     :display="PropertiesReference.GROUPS.display"
@@ -344,14 +331,11 @@
           <div class="grantors">
             <label>{{PropertiesReference.DOCUMENT_ATTACHMENTS.title}}</label>
             <div v-show="document.documentType">
-              <mau-relationships-form
+              <document-attachments
                       v-model="document.documentAttachments"
-                      :initialObjectsProp="initialValues[PropertiesReference.DOCUMENT_ATTACHMENTS.name]"
-                      :relatedRelationshipName="PropertiesReference.DOCUMENT_ATTACHMENTS.relationship_id_name"
-                      :availableObjects="availableAttachments"
-                      :relationshipPropertiesReference="DocumentDocumentAttachmentPropertiesReference"
+                      :initial-attachments="initialValues[PropertiesReference.DOCUMENT_ATTACHMENTS.name]"
               >
-              </mau-relationships-form>
+              </document-attachments>
             </div>
             <div v-show="!document.documentType" class="mau-text-center">
               <p>Se necesita seleccionar un tipo de documento</p>
@@ -365,7 +349,7 @@
           <div class="document_entry_users">
             <label>Abogado(s) responsable de acta</label>
             <mau-form-input-select
-                    :availableObjects="availableUsers"
+                    :url="usersUrl"
                     :initialObjects="initialValues['entryUsers']"
                     :multiselect="true"
                     :label="'fullname'"
@@ -381,7 +365,7 @@
           <div class="document_exit_users">
             <label>Abogado(s) responsable de cierre</label>
             <mau-form-input-select
-                    :availableObjects="availableUsers"
+                    :url="usersUrl"
                     :initialObjects="initialValues['exitUsers']"
                     :multiselect="true"
                     :label="'fullname'"
@@ -431,12 +415,10 @@
 </template>
 
 <script>
-  import {mapState} from 'vuex'
   import PropertiesReference from '../PropertiesReference'
   import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
   import NormalizeObjects from 'renderer/services/api/normalizeObjects'
   import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
-  import cloneDeep from 'renderer/services/common/cloneDeep'
   import isDefined from 'renderer/services/common/isDefined'
   import MauFormInputText from 'renderer/components/mau-components/mau-form-inputs/MauFormInputText.vue'
   import MauFormInputNumber from 'renderer/components/mau-components/mau-form-inputs/MauFormInputNumber.vue'
@@ -445,6 +427,7 @@
   import CommentList from '../components/CommentList.vue'
   import CommentInput from '../components/CommentInput.vue'
   import DocumentProperties from 'renderer/api/pages/document/components/DocumentProperty.vue'
+  import DocumentAttachments from 'renderer/api/pages/document/components/DocumentAttachments'
   import MauFormInputSelect from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelect.vue'
   import MaskedInput from 'vue-text-mask'
   import RelationshipObjectsHelper from 'renderer/services/form/RelationshipObjectHelper'
@@ -452,6 +435,10 @@
   import ValidatorHelper from '../../../../services/form/ValidatorHelper'
   import CreateClient from 'renderer/api/pages/client/children/Create.vue'
   import CreateGrantor from 'renderer/api/pages/grantor/children/Create.vue'
+  import ApiUrls from 'renderer/services/api/ApiUrls'
+  import ApiOperations from 'renderer/services/api/ApiOperations'
+  import EntityTypes from 'renderer/api/EntityTypes'
+  import ManyToManyHelper from 'renderer/services/api/ManyToManyHelper'
   export default {
     name: 'DocumentEditorTabs',
     data () {
@@ -486,7 +473,13 @@
           exitUsers: '',
           comment: ''
         },
-        // Utility variables
+        groupsUrl: ApiUrls.createListUrl(EntityTypes.GROUP.apiName) + '?paginate=false',
+        clientsUrl: ApiUrls.createListUrl(EntityTypes.CLIENT.apiName) + '?paginate=false',
+        grantorsUrl: ApiUrls.createListUrl(EntityTypes.GRANTOR.apiName) + '?paginate=false',
+        documentTypesUrl: ApiUrls.createListUrl(EntityTypes.DOCUMENT_TYPE.apiName) + '?paginate=false',
+        operationsUrl: ApiUrls.createListUrl(EntityTypes.OPERATION.apiName) + '?paginate=false',
+        attachmentsUrl: ApiUrls.createListUrl(EntityTypes.ATTACHMENT.apiName) + '?paginate=false',
+        usersUrl: ApiUrls.createListUrl(EntityTypes.USER.apiName) + '?paginate=false',
         clientsCreated: 0,
         grantorsCreated: 0,
         buttonDisabled: false,
@@ -496,7 +489,13 @@
         PropertiesReference: PropertiesReference,
         filteredGrantors: [],
         availableComments: [],
-        DocumentDocumentAttachmentPropertiesReference: DocumentDocumentAttachmentPropertiesReference
+        availableDocumentTypes: [],
+        availableDocumentStatuses: [],
+        availableOperations: [],
+        availableAttachments: [],
+        availableUsers: [],
+        DocumentDocumentAttachmentPropertiesReference: DocumentDocumentAttachmentPropertiesReference,
+        loading: true
       }
     },
     components: {
@@ -508,7 +507,8 @@
       MaskedInput,
       CreateClient,
       CreateGrantor,
-      DocumentProperties
+      DocumentProperties,
+      DocumentAttachments
     },
     props: {
       initialObject: {
@@ -528,27 +528,28 @@
     },
     created () {
       this.createDefaultInitialValues()
-      if (this.initialObject) {
-        this.setInitialValues(this.initialObject)
-      }
+      Promise.all([
+        ApiOperations.get(ApiUrls.createListUrl(EntityTypes.DOCUMENT_TYPE.apiName) + '?paginate=false'),
+        ApiOperations.get(ApiUrls.createListUrl(EntityTypes.DOCUMENT_STATUS.apiName) + '?paginate=false'),
+        ApiOperations.get(ApiUrls.createListUrl(EntityTypes.DOCUMENT_OPERATION.apiName) + '?paginate=false'),
+        ApiOperations.get(ApiUrls.createListUrl(EntityTypes.DOCUMENT_ATTACHMENT.apiName) + '?paginate=false'),
+        ApiOperations.get(ApiUrls.createListUrl(EntityTypes.USER.apiName) + '?paginate=false')
+      ]).then(results => {
+        this.loading = false
+        this.availableDocumentTypes = NormalizeObjects.normalizeObjects(results[0], ['name'])
+        this.availableDocumentStatuses = NormalizeObjects.normalizeObjects(results[1], ['name'])
+        this.availableOperations = results[2]
+        this.availableAttachments = results[3]
+        this.availableUsers = results[4]
+      }).catch(e => {
+        console.log(e)
+      }).finally(() => {
+        if (this.initialObject) {
+          this.setInitialValues(this.initialObject)
+        }
+      })
     },
     computed: {
-      ...mapState({
-        availableClients: state => state.api.entity.clients,
-        availableDocumentStatuses: state => {
-          let availableDocumentStatuses = state.api.entity.documentStatuses
-          return NormalizeObjects.normalizeObjects(availableDocumentStatuses, ['name'])
-        },
-        availableDocumentTypes: state => {
-          let availableDocumentTypes = state.api.entity.documentTypes
-          return NormalizeObjects.normalizeObjects(availableDocumentTypes, ['name'])
-        },
-        availableOperations: state => state.api.entity.operations,
-        availableAttachments: state => state.api.entity.attachments,
-        availableGroups: state => cloneDeep(state.api.entity.groups),
-        availableGrantors: state => state.api.entity.grantors,
-        availableUsers: state => state.api.entity.users
-      }),
       isPropertySelected: function () {
         return this.document.documentType && this.document.documentType['id'] === 1
       },
@@ -640,10 +641,12 @@
           [PropertiesReference.DOCUMENT_TYPE.relationship_id_name]: this.document.documentType ? this.document.documentType[globalEntityIdentifier] : null,
           [PropertiesReference.DOCUMENT_STATUS.relationship_id_name]: this.document.documentStatus ? this.document.documentStatus[globalEntityIdentifier] : null
         }
-        let groupsRelationshipName = PropertiesReference.GROUPS.relationship_id_name
-        let groupsRelationshipObjects = RelationshipObjectsHelper.createRelationshipObjects(this.document.groups, groupsRelationshipName)
-        let initialGroupsRelationshipObjects = RelationshipObjectsHelper.createRelationshipObjects(this.initialValues[PropertiesReference.GROUPS.name], groupsRelationshipName)
-        let filteredGroups = RelationshipObjectsHelper.filterRelationshipObjects(initialGroupsRelationshipObjects, groupsRelationshipObjects, groupsRelationshipName)
+        let initialM2mGroups = ManyToManyHelper.createM2MStructuredObjects(this.initialValues[PropertiesReference.GROUPS.name], PropertiesReference.GROUPS.relationship_id_name)
+        let m2mGroups = ManyToManyHelper.createM2MStructuredObjects(this.document.groups, PropertiesReference.GROUPS.relationship_id_name)
+        let filteredGroups = ManyToManyHelper.filterM2MStructuredObjectsByApiOperations(initialM2mGroups, m2mGroups, PropertiesReference.GROUPS.relationship_id_name)
+        let initialM2mGrantors = ManyToManyHelper.createM2MStructuredObjects(this.initialValues[PropertiesReference.GRANTORS.name], PropertiesReference.GRANTORS.relationship_id_name)
+        let m2mGrantors = ManyToManyHelper.createM2MStructuredObjects(this.document.grantors, PropertiesReference.GRANTORS.relationship_id_name)
+        let filteredGrantors = ManyToManyHelper.filterM2MStructuredObjectsByApiOperations(initialM2mGrantors, m2mGrantors, PropertiesReference.GRANTORS.relationship_id_name)
         let entryUsersRelationshipName = PropertiesReference.USERS.relationship_id_name
         let entryUsersRelationshipObjects = RelationshipObjectsHelper.createRelationshipObjects(this.document.entryUsers, entryUsersRelationshipName, {entry_lawyer: 1})
         let initialEntryUsersRelationshipObjects = RelationshipObjectsHelper.createRelationshipObjects(this.initialValues['entryUsers'], entryUsersRelationshipName, {entry_lawyer: 1})
@@ -658,7 +661,7 @@
           [PropertiesReference.DOCUMENT_ATTACHMENTS.entityName]: this.document.documentAttachments,
           [PropertiesReference.GROUPS.entityName]: filteredGroups,
           [PropertiesReference.USERS.entityName]: filteredUsers,
-          [PropertiesReference.GRANTORS.entityName]: this.document.grantors,
+          [PropertiesReference.GRANTORS.entityName]: filteredGrantors,
           [PropertiesReference.COMMENTS.entityName]: this.document.comment,
           [PropertiesReference.DOCUMENT_PROPERTIES.entityName]: this.document.documentProperties
         }
