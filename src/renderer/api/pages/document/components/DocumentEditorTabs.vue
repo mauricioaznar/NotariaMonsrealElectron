@@ -59,15 +59,9 @@
                   class="form-control override-outline"
                   :name="PropertiesReference.DOCUMENT_TYPE.name"
                   :data-vv-name="PropertiesReference.DOCUMENT_TYPE.name"
+                  :options="availableDocumentTypes"
                   :class="getBootstrapValidationClass(errors.has(PropertiesReference.DOCUMENT_TYPE.name))"
           >
-            <b-form-radio
-                    v-for="documentType in availableDocumentTypes"
-                    :value="documentType"
-                    :key="documentType.id"
-            >
-              {{documentType.name}}
-            </b-form-radio>
           </b-form-radio-group>
           <div class="invalid-feedback">
                 <span v-show="errors.has(PropertiesReference.DOCUMENT_TYPE.name)" class="help is-danger">
@@ -114,17 +108,11 @@
                     v-model="document.documentStatus"
                     v-validate="'required'"
                     class="form-control override-outline"
+                    :options="availableDocumentStatuses"
                     :name="PropertiesReference.DOCUMENT_STATUS.name"
                     :data-vv-name="PropertiesReference.DOCUMENT_STATUS.name"
                     :class="getBootstrapValidationClass(errors.has(PropertiesReference.DOCUMENT_STATUS.name))"
             >
-              <b-form-radio
-                      v-for="documentStatus in availableDocumentStatuses"
-                      :value="documentStatus"
-                      :key="documentStatus.id"
-              >
-                {{documentStatus.name}}
-              </b-form-radio>
             </b-form-radio-group>
             <div class="invalid-feedback">
                 <span v-show="errors.has(PropertiesReference.DOCUMENT_STATUS.name)" class="help is-danger">
@@ -212,7 +200,7 @@
             <mau-form-input-select
                     :url="clientsUrl"
                     :initialObject="initialValues[PropertiesReference.CLIENT.name]"
-                    :label="'name'"
+                    :label="'fullname'"
                     v-model="document.client"
                     class="override-form-control form-control"
                     :name="PropertiesReference.CLIENT.name"
@@ -422,7 +410,6 @@
 <script>
   import PropertiesReference from '../PropertiesReference'
   import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
-  import NormalizeObjects from 'renderer/services/api/normalizeObjects'
   import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
   import isDefined from 'renderer/services/common/isDefined'
   import MauFormInputText from 'renderer/components/mau-components/mau-form-inputs/MauFormInputText.vue'
@@ -491,7 +478,6 @@
         currentUserGroups: [],
         buttonDisabled: false,
         initialValues: {},
-        isOtherOperationSelected: false,
         isMoneyLaunderingExpirationDateValid: false,
         PropertiesReference: PropertiesReference,
         filteredGrantors: [],
@@ -543,8 +529,12 @@
         ApiOperations.get(ApiUrls.createListUrl(EntityTypes.USER.apiName) + '?paginate=false'),
         ApiOperations.getById(ApiUrls.createBaseUrl(EntityTypes.USER.apiName) + '/', this.user.id)
       ]).then(results => {
-        this.availableDocumentTypes = NormalizeObjects.normalizeObjects(results[0], ['name'])
-        this.availableDocumentStatuses = NormalizeObjects.normalizeObjects(results[1], ['name'])
+        this.availableDocumentTypes = results[0].map(documentTypeObj => {
+          return {text: documentTypeObj.name, value: {id: documentTypeObj.id, name: documentTypeObj.name}}
+        })
+        this.availableDocumentStatuses = results[1].map(documentStatusObj => {
+          return {text: documentStatusObj.name, value: {id: documentStatusObj.id, name: documentStatusObj.name}}
+        })
         this.availableOperations = results[2]
         this.availableAttachments = results[3]
         this.availableUsers = results[4]
@@ -566,6 +556,9 @@
       isPublicRegistrySelected: function () {
         return this.document.documentStatus && this.document.documentStatus['id'] === 2
       },
+      isOtherOperationSelected: function () {
+        return this.document.documentType && this.document.documentType['id'] === 3
+      },
       ...mapGetters([
         'user'
       ])
@@ -578,11 +571,6 @@
       onTheFlyCreateGrantor: function () {
         this.$refs.createGrantorModal.hide()
         this.grantorsCreated = this.grantorsCreated + 1
-      },
-      operationsChange: function (newOperations) {
-        this.isOtherOperationSelected = newOperations.find(operation => {
-          return operation.id === 29
-        })
       },
       getBootstrapValidationClass: ValidatorHelper.getBootstrapValidationClass,
       createDefaultInitialValues: function () {
@@ -605,8 +593,10 @@
         this.initialValues[PropertiesReference.FOLIO.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.FOLIO.name)
         this.document.electronicFolio = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.ELECTRONIC_FOLIO.name)
         this.document.fileNumber = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.FILE_NUMBER.name)
-        this.document.documentType = NormalizeObjects.normalizeObject(DefaultValuesHelper.object(this.initialObject, PropertiesReference.DOCUMENT_TYPE.name), ['name'])
-        this.document.documentStatus = NormalizeObjects.normalizeObject(DefaultValuesHelper.object(this.initialObject, PropertiesReference.DOCUMENT_STATUS.name), ['name'])
+        let initialDocumentType = DefaultValuesHelper.object(this.initialObject, PropertiesReference.DOCUMENT_TYPE.name)
+        this.document.documentType = initialDocumentType ? {id: initialDocumentType.id, name: initialDocumentType.name} : ''
+        let initialDocumentStatus = DefaultValuesHelper.object(this.initialObject, PropertiesReference.DOCUMENT_STATUS.name)
+        this.document.documentStatus = initialDocumentStatus ? {id: initialDocumentStatus.id, name: initialDocumentStatus.name} : ''
         this.initialValues[PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name)
         this.initialValues[PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.name)
         this.initialValues[PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name)
@@ -614,7 +604,7 @@
         this.initialValues[PropertiesReference.DOCUMENT_ATTACHMENTS.name] = DefaultValuesHelper.arrayOfObjects(this.initialObject, PropertiesReference.DOCUMENT_ATTACHMENTS.name)
         this.initialValues[PropertiesReference.IDENTIFICATIONS.name] = DefaultValuesHelper.tripleboolean(this.initialObject, PropertiesReference.IDENTIFICATIONS.name)
         this.initialValues[PropertiesReference.MONEY_LAUNDERING.name] = DefaultValuesHelper.tripleboolean(this.initialObject, PropertiesReference.MONEY_LAUNDERING.name)
-        this.document.documentTypeOther = DefaultValuesHelper.object(this.initialObject, PropertiesReference.DOCUMENT_TYPE_OTHER.name)
+        this.document.documentTypeOther = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.DOCUMENT_TYPE_OTHER.name)
         this.initialValues[PropertiesReference.PERSONALITIES.name] = DefaultValuesHelper.tripleboolean(this.initialObject, PropertiesReference.PERSONALITIES.name)
         this.initialValues[PropertiesReference.PUBLIC_REGISTRY_PATENT.name] = DefaultValuesHelper.tripleboolean(this.initialObject, PropertiesReference.PUBLIC_REGISTRY_PATENT.name)
         this.initialValues[PropertiesReference.MARGINAL_NOTES.name] = DefaultValuesHelper.tripleboolean(this.initialObject, PropertiesReference.MARGINAL_NOTES.name)

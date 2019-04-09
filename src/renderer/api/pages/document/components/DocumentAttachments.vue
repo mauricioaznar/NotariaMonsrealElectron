@@ -11,7 +11,7 @@
             :filterLikes="filterLikes"
     >
     </mau-form-input-select>
-    <div class="w-100" v-if="selectedAttachments.length > 0">
+    <div class="w-100" v-if="selectedAttachmentsTransformed.length > 0">
       <table class="mau-check-table table table-striped">
         <thead>
         <tr>
@@ -20,11 +20,12 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="(selectedAttachment, index) in selectedAttachments">
+        <tr v-for="(selectedAttachment, index) in selectedAttachmentsTransformed">
           <td class="text-left mau-max-width">
             <mau-form-input-boolean
-                    :initial-value="getAttachmentInitialValue(selectedAttachment)"
-                    v-model="selectedAttachment['pivot']['attachment_status']"
+                    v-if="selectedAttachment.pivot"
+                    :initial-value="selectedAttachment.pivot.attachment_status"
+                    v-model="selectedAttachment.pivot.attachment_status"
             >
             </mau-form-input-boolean>
           </td>
@@ -54,6 +55,7 @@
         identificationName: globalEntityIdentifier,
         selectedAttachments: [],
         initialAttachmentsCopy: [],
+        selectedAttachmentsTransformed: [],
         attachmentsUrl: ApiUrls.createListUrl(EntityTypes.ATTACHMENT.apiName) + '?paginate=false'
       }
     },
@@ -101,7 +103,24 @@
       }
     },
     watch: {
-      selectedAttachments: {
+      selectedAttachments: function (selectedAttachments) {
+        let selectedAttachmentsTransformed = []
+        selectedAttachments.forEach(selectedAttachmentObj => {
+          let foundSelectedAttachmentTransformed = this.selectedAttachmentsTransformed.find(selectedAttachmentTransformedObj => { return selectedAttachmentTransformedObj.id === selectedAttachmentObj.id })
+          if (foundSelectedAttachmentTransformed) {
+            selectedAttachmentsTransformed.push(foundSelectedAttachmentTransformed)
+          } else {
+            if (selectedAttachmentObj.pivot) {
+              selectedAttachmentsTransformed.push(selectedAttachmentObj)
+            } else {
+              selectedAttachmentObj.pivot = {attachment_id: selectedAttachmentObj.id, attachment_status: 0}
+              selectedAttachmentsTransformed.push(selectedAttachmentObj)
+            }
+          }
+        })
+        this.selectedAttachmentsTransformed = selectedAttachmentsTransformed
+      },
+      selectedAttachmentsTransformed: {
         handler: function () {
           let initialM2mAttachments = ManyToManyHelper.createM2MStructuredObjects(this.initialAttachments, DocumentPropertiesReference.DOCUMENT_ATTACHMENTS.relationship_id_name)
           let m2mAttachments = ManyToManyHelper.createM2MStructuredObjects(this.selectedAttachments, DocumentPropertiesReference.DOCUMENT_ATTACHMENTS.relationship_id_name)
@@ -120,7 +139,10 @@
 
 <style lang="scss" scoped>
   .mau-max-width {
-    max-width: 20px;
+    max-width: 30px;
+    .custom-control-label::after {
+      top: 0;
+    }
   }
 </style>
 
