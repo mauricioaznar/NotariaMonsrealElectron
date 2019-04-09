@@ -19,11 +19,18 @@ function simple (initialObject, propertyName) {
   return initialObject[propertyName]
 }
 
+function object (initialObject, propertyName) {
+  if (initialObject === undefined) {
+    return {}
+  }
+  return initialObject[propertyName]
+}
+
 function arrayOfObjects (initialObject, propertyName) {
   if (initialObject === undefined) {
     return []
   }
   return initialObject[propertyName]
 }
-export default {tripleboolean, simple, arrayOfObjects}
+export default {tripleboolean, simple, arrayOfObjects, object}
 

@@ -336,7 +336,7 @@
               <document-attachments
                       :key="document.documentType ? document.documentType['id'] : 0"
                       v-model="document.documentAttachments"
-                      :initial-attachments="initialValues[PropertiesReference.DOCUMENT_ATTACHMENTS.name]"
+                      :initialAttachments="initialValues[PropertiesReference.DOCUMENT_ATTACHMENTS.name]"
                       :filterEntity="'documentTypes'"
                       :filterLikes="{name: document.documentType ? document.documentType['name'] : ''}"
               >
@@ -444,6 +444,7 @@
   import ApiOperations from 'renderer/services/api/ApiOperations'
   import EntityTypes from 'renderer/api/EntityTypes'
   import ManyToManyHelper from 'renderer/services/api/ManyToManyHelper'
+  import { mapGetters } from 'vuex'
   export default {
     name: 'DocumentEditorTabs',
     data () {
@@ -487,6 +488,7 @@
         usersUrl: ApiUrls.createListUrl(EntityTypes.USER.apiName) + '?paginate=false',
         clientsCreated: 0,
         grantorsCreated: 0,
+        currentUserGroups: [],
         buttonDisabled: false,
         initialValues: {},
         isOtherOperationSelected: false,
@@ -538,19 +540,19 @@
         ApiOperations.get(ApiUrls.createListUrl(EntityTypes.DOCUMENT_STATUS.apiName) + '?paginate=false'),
         ApiOperations.get(ApiUrls.createListUrl(EntityTypes.DOCUMENT_OPERATION.apiName) + '?paginate=false'),
         ApiOperations.get(ApiUrls.createListUrl(EntityTypes.DOCUMENT_ATTACHMENT.apiName) + '?paginate=false'),
-        ApiOperations.get(ApiUrls.createListUrl(EntityTypes.USER.apiName) + '?paginate=false')
+        ApiOperations.get(ApiUrls.createListUrl(EntityTypes.USER.apiName) + '?paginate=false'),
+        ApiOperations.getById(ApiUrls.createBaseUrl(EntityTypes.USER.apiName) + '/', this.user.id)
       ]).then(results => {
         this.availableDocumentTypes = NormalizeObjects.normalizeObjects(results[0], ['name'])
         this.availableDocumentStatuses = NormalizeObjects.normalizeObjects(results[1], ['name'])
         this.availableOperations = results[2]
         this.availableAttachments = results[3]
         this.availableUsers = results[4]
+        this.currentUserGroups = results[5].group
       }).catch(e => {
         console.log(e)
       }).finally(() => {
-        if (this.initialObject) {
-          this.setInitialValues(this.initialObject)
-        }
+        this.setInitialValues(this.initialObject)
         this.loading = false
       })
     },
@@ -563,7 +565,10 @@
       },
       isPublicRegistrySelected: function () {
         return this.document.documentStatus && this.document.documentStatus['id'] === 2
-      }
+      },
+      ...mapGetters([
+        'user'
+      ])
     },
     methods: {
       onTheFlyCreateClient: function () {
@@ -594,34 +599,35 @@
         this.initialValues['exitUsers'] = []
       },
       setInitialValues: function () {
-        this.initialValues[PropertiesReference.FILE_NUMBER.name] = this.initialObject[PropertiesReference.FILE_NUMBER.name]
-        this.initialValues[PropertiesReference.DATE.name] = this.initialObject[PropertiesReference.DATE.name]
-        this.initialValues[PropertiesReference.TOME.name] = this.initialObject[PropertiesReference.TOME.name]
-        this.initialValues[PropertiesReference.FOLIO.name] = this.initialObject[PropertiesReference.FOLIO.name]
-        this.document.electronicFolio = this.initialObject[PropertiesReference.ELECTRONIC_FOLIO.name]
-        this.document.fileNumber = this.initialObject[PropertiesReference.FILE_NUMBER.name]
-        this.document.documentType = NormalizeObjects.normalizeObject(this.initialObject[PropertiesReference.DOCUMENT_TYPE.name], ['name'])
-        this.document.documentStatus = NormalizeObjects.normalizeObject(this.initialObject[PropertiesReference.DOCUMENT_STATUS.name], ['name'])
-        this.initialValues[PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name] = this.initialObject[PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name]
-        this.initialValues[PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.name] = this.initialObject[PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.name]
-        this.initialValues[PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name] = this.initialObject[PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name]
-        this.initialValues[PropertiesReference.CLIENT.name] = this.initialObject[PropertiesReference.CLIENT.name]
-        this.initialValues[PropertiesReference.DOCUMENT_ATTACHMENTS.name] = this.initialObject[PropertiesReference.DOCUMENT_ATTACHMENTS.name]
+        this.initialValues[PropertiesReference.FILE_NUMBER.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.FILE_NUMBER.name)
+        this.initialValues[PropertiesReference.DATE.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.DATE.name)
+        this.initialValues[PropertiesReference.TOME.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.TOME.name)
+        this.initialValues[PropertiesReference.FOLIO.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.FOLIO.name)
+        this.document.electronicFolio = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.ELECTRONIC_FOLIO.name)
+        this.document.fileNumber = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.FILE_NUMBER.name)
+        this.document.documentType = NormalizeObjects.normalizeObject(DefaultValuesHelper.object(this.initialObject, PropertiesReference.DOCUMENT_TYPE.name), ['name'])
+        this.document.documentStatus = NormalizeObjects.normalizeObject(DefaultValuesHelper.object(this.initialObject, PropertiesReference.DOCUMENT_STATUS.name), ['name'])
+        this.initialValues[PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name)
+        this.initialValues[PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.name)
+        this.initialValues[PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name)
+        this.initialValues[PropertiesReference.CLIENT.name] = DefaultValuesHelper.object(this.initialObject, PropertiesReference.CLIENT.name)
+        this.initialValues[PropertiesReference.DOCUMENT_ATTACHMENTS.name] = DefaultValuesHelper.arrayOfObjects(this.initialObject, PropertiesReference.DOCUMENT_ATTACHMENTS.name)
         this.initialValues[PropertiesReference.IDENTIFICATIONS.name] = DefaultValuesHelper.tripleboolean(this.initialObject, PropertiesReference.IDENTIFICATIONS.name)
         this.initialValues[PropertiesReference.MONEY_LAUNDERING.name] = DefaultValuesHelper.tripleboolean(this.initialObject, PropertiesReference.MONEY_LAUNDERING.name)
-        this.document.documentTypeOther = this.initialObject[PropertiesReference.DOCUMENT_TYPE_OTHER.name]
+        this.document.documentTypeOther = DefaultValuesHelper.object(this.initialObject, PropertiesReference.DOCUMENT_TYPE_OTHER.name)
         this.initialValues[PropertiesReference.PERSONALITIES.name] = DefaultValuesHelper.tripleboolean(this.initialObject, PropertiesReference.PERSONALITIES.name)
         this.initialValues[PropertiesReference.PUBLIC_REGISTRY_PATENT.name] = DefaultValuesHelper.tripleboolean(this.initialObject, PropertiesReference.PUBLIC_REGISTRY_PATENT.name)
         this.initialValues[PropertiesReference.MARGINAL_NOTES.name] = DefaultValuesHelper.tripleboolean(this.initialObject, PropertiesReference.MARGINAL_NOTES.name)
-        this.initialValues[PropertiesReference.PROPERTY.name] = this.initialObject[PropertiesReference.PROPERTY.name]
-        this.initialValues[PropertiesReference.OPERATIONS.name] = this.initialObject[PropertiesReference.OPERATIONS.name]
-        this.initialValues[PropertiesReference.DOCUMENT_PROPERTIES.name] = this.initialObject[PropertiesReference.DOCUMENT_PROPERTIES.name]
-        this.initialValues[PropertiesReference.GROUPS.name] = this.initialObject[PropertiesReference.GROUPS.name]
-        this.initialValues[PropertiesReference.GRANTORS.name] = this.initialObject[PropertiesReference.GRANTORS.name]
-        let initialUsers = this.initialObject[PropertiesReference.USERS.name]
+        this.initialValues[PropertiesReference.PROPERTY.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.PROPERTY.name)
+        this.initialValues[PropertiesReference.OPERATIONS.name] = DefaultValuesHelper.arrayOfObjects(this.initialObject, PropertiesReference.OPERATIONS.name)
+        this.initialValues[PropertiesReference.DOCUMENT_PROPERTIES.name] = DefaultValuesHelper.arrayOfObjects(this.initialObject, PropertiesReference.DOCUMENT_PROPERTIES.name)
+        let initialGroups = DefaultValuesHelper.arrayOfObjects(this.initialObject, PropertiesReference.GROUPS.name)
+        this.initialValues[PropertiesReference.GROUPS.name] = initialGroups.length > 0 ? this.initialObject[PropertiesReference.GROUPS.name] : this.currentUserGroups
+        this.initialValues[PropertiesReference.GRANTORS.name] = DefaultValuesHelper.arrayOfObjects(this.initialObject, PropertiesReference.GRANTORS.name)
+        let initialUsers = DefaultValuesHelper.arrayOfObjects(this.initialObject, PropertiesReference.USERS.name)
         this.initialValues['entryUsers'] = initialUsers ? RelationshipObjectsHelper.filterEntitiesByRelationshipObjectProperty(initialUsers, 'entry_lawyer') : []
         this.initialValues['exitUsers'] = initialUsers ? RelationshipObjectsHelper.filterEntitiesByRelationshipObjectProperty(initialUsers, 'closure_lawyer') : []
-        this.availableComments = this.initialObject[PropertiesReference.COMMENTS.name]
+        this.availableComments = DefaultValuesHelper.arrayOfObjects(this.initialObject, PropertiesReference.COMMENTS.name)
       },
       save: function () {
         let directParams = {
