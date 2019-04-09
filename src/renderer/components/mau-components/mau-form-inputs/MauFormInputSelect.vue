@@ -19,6 +19,7 @@
     import VueSelect from 'vue-select'
     import cloneDeep from 'renderer/services/common/cloneDeep'
     import ApiOperations from 'renderer/services/api/ApiOperations'
+    import isObjectEmpty from 'renderer/services/common/isObjectEmpty'
     import _ from 'lodash'
     export default {
       data () {
@@ -77,7 +78,7 @@
       },
       created () {
         if (this.multiselect === false) {
-          this.selected = this.initialObject
+          this.selected = isObjectEmpty(this.initialObject) ? '' : this.initialObject
         } else {
           this.selected = cloneDeep(this.initialObjects)
         }
@@ -111,7 +112,7 @@
           this.$emit('input', newValue)
         },
         initialObject: function (newInitialObject) {
-          this.selected = this.initialObject
+          this.selected = isObjectEmpty(this.initialObject) ? '' : newInitialObject
         }
       }
     }
