@@ -21,13 +21,13 @@
         </thead>
         <tbody>
         <tr v-for="(selectedAttachment, index) in selectedAttachmentsTransformed">
-          <td class="text-left mau-max-width">
-            <mau-form-input-boolean
+          <td class="mau-max-width">
+            <mau-form-input-check-box
                     v-if="selectedAttachment.pivot"
-                    :initial-value="selectedAttachment.pivot.attachment_status"
+                    :initialValue="selectedAttachment.pivot.attachment_status"
                     v-model="selectedAttachment.pivot.attachment_status"
             >
-            </mau-form-input-boolean>
+            </mau-form-input-check-box>
           </td>
           <td class="text-left">{{selectedAttachment.name}}</td>
         </tr>

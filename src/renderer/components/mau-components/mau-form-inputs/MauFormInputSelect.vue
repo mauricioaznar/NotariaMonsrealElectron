@@ -193,8 +193,7 @@
         appearance: none;
         display: block;
         padding: 0;
-        background: none;
-        border: 1px solid rgba(60, 60, 60, .26);
+        border: 1px solid rgba(221, 221, 221, .26);
         border-radius: 4px;
         white-space: normal;
     }

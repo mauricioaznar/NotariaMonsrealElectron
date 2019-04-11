@@ -3,6 +3,8 @@ import MauWidget from 'renderer/components/mau-components/mau-widget/MauWidget.v
 import AvailablePropertyValidator from 'renderer/components/mau-components/available-property-validator/AvailablePropertyValidator.vue'
 import MauFormInputDateTime from 'renderer/components/mau-components/mau-form-inputs/MauFormInputDateTime.vue'
 import MauFormInputBoolean from 'renderer/components/mau-components/mau-form-inputs/MauFormInputBoolean.vue'
+import MauFormInputRadio from 'renderer/components/mau-components/mau-form-inputs/MauFormInputRadio.vue'
+import MauFormInputCheckBox from 'renderer/components/mau-components/mau-form-inputs/MauFormInputCheckBox.vue'
 import MauTable from 'renderer/components/mau-components/mau-table/MauTable.vue'
 import MauEntityView from 'renderer/components/mau-components/mau-entity-view/MauEntityView.vue'
 import MauResponsiveButton from 'renderer/components/mau-components/mau-responsive-button/MauResponsiveButton.vue'
@@ -24,6 +26,8 @@ const MauComponentsPlugin = {
     Vue.component(MauWidget.name, MauWidget)
     Vue.component(AvailablePropertyValidator.name, AvailablePropertyValidator)
     Vue.component(MauFormInputDateTime.name, MauFormInputDateTime)
+    Vue.component(MauFormInputRadio.name, MauFormInputRadio)
+    Vue.component(MauFormInputCheckBox.name, MauFormInputCheckBox)
     Vue.component(MauFormInputBoolean.name, MauFormInputBoolean)
     Vue.component(MauTable.name, MauTable)
     Vue.component(MauEntityView.name, MauEntityView)

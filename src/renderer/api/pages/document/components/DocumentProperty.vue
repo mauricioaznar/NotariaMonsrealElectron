@@ -46,6 +46,7 @@
                                 :data-vv-name="'electronic_folio' + index"
                                 :data-vv-as="'folio electronico'"
                                 :class="getBootstrapValidationClass(errors.has('electronic_folio' + index))"
+                                :id="'electronic-folio' + index"
                         >
                         </b-form-input>
                         <div class="invalid-feedback">
@@ -124,3 +125,6 @@
     }
   }
 </script>
+
+<style>
+</style>

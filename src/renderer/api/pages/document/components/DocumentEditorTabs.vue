@@ -52,22 +52,18 @@
         </div>
         <div class="form-group">
           <label>{{PropertiesReference.DOCUMENT_TYPE.title}}</label>
-          <b-form-radio-group
+          <mau-form-input-radio
                   :id="PropertiesReference.DOCUMENT_TYPE.name"
                   v-model="document.documentType"
                   v-validate="'required'"
-                  class="form-control override-outline"
                   :name="PropertiesReference.DOCUMENT_TYPE.name"
                   :data-vv-name="PropertiesReference.DOCUMENT_TYPE.name"
-                  :options="availableDocumentTypes"
-                  :class="getBootstrapValidationClass(errors.has(PropertiesReference.DOCUMENT_TYPE.name))"
+                  :initialObject="initialValues[PropertiesReference.DOCUMENT_TYPE.name]"
+                  :availableObjects="availableDocumentTypes"
+                  :display="'name'"
+                  :error="errors.has(PropertiesReference.DOCUMENT_TYPE.name) ? errors.first(PropertiesReference.DOCUMENT_TYPE.name) : ''"
           >
-          </b-form-radio-group>
-          <div class="invalid-feedback">
-                <span v-show="errors.has(PropertiesReference.DOCUMENT_TYPE.name)" class="help is-danger">
-                  {{ errors.first(PropertiesReference.DOCUMENT_TYPE.name) }}
-                </span>
-          </div>
+          </mau-form-input-radio>
         </div>
         <div class="form-group">
           <label>{{PropertiesReference.OPERATIONS.title}}</label>
@@ -84,6 +80,7 @@
                     :filterLikes="{name: document.documentType ? document.documentType['name'] : ''}"
                     :multiselect="true"
                     :url="operationsUrl"
+                    class="form-control override-form-control"
             >
             </mau-form-input-select>
           </div>
@@ -103,22 +100,18 @@
         <div class="form-group">
           <div class="document_status">
             <label>{{PropertiesReference.DOCUMENT_STATUS.title}}</label>
-            <b-form-radio-group
+            <mau-form-input-radio
                     :id="PropertiesReference.DOCUMENT_STATUS.name"
                     v-model="document.documentStatus"
                     v-validate="'required'"
-                    class="form-control override-outline"
-                    :options="availableDocumentStatuses"
                     :name="PropertiesReference.DOCUMENT_STATUS.name"
                     :data-vv-name="PropertiesReference.DOCUMENT_STATUS.name"
-                    :class="getBootstrapValidationClass(errors.has(PropertiesReference.DOCUMENT_STATUS.name))"
+                    :initialObject="initialValues[PropertiesReference.DOCUMENT_STATUS.name]"
+                    :availableObjects="availableDocumentStatuses"
+                    :display="'name'"
+                    :error="errors.has(PropertiesReference.DOCUMENT_STATUS.name) ? errors.first(PropertiesReference.DOCUMENT_STATUS.name) : ''"
             >
-            </b-form-radio-group>
-            <div class="invalid-feedback">
-                <span v-show="errors.has(PropertiesReference.DOCUMENT_STATUS.name)" class="help is-danger">
-                  {{ errors.first(PropertiesReference.DOCUMENT_STATUS.name) }}
-                </span>
-            </div>
+            </mau-form-input-radio>
           </div>
         </div>
         <div class="form-group">
@@ -201,6 +194,7 @@
                     :url="clientsUrl"
                     :initialObject="initialValues[PropertiesReference.CLIENT.name]"
                     :label="'fullname'"
+                    :key="clientsCreated"
                     v-model="document.client"
                     class="override-form-control form-control"
                     :name="PropertiesReference.CLIENT.name"
@@ -233,10 +227,12 @@
             </div>
             <mau-form-input-select
                     :url="grantorsUrl"
+                    :key="grantorsCreated"
                     :initialObjects="initialValues[PropertiesReference.GRANTORS.name]"
                     :label="'fullname'"
                     v-model="document.grantors"
                     :multiselect="true"
+                    class="form-control override-form-control"
             >
             </mau-form-input-select>
           </div>
@@ -411,10 +407,8 @@
   import PropertiesReference from '../PropertiesReference'
   import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
   import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
-  import isDefined from 'renderer/services/common/isDefined'
   import MauFormInputText from 'renderer/components/mau-components/mau-form-inputs/MauFormInputText.vue'
   import MauFormInputNumber from 'renderer/components/mau-components/mau-form-inputs/MauFormInputNumber.vue'
-  import EntityActions from 'renderer/api/store/entityActions'
   import DocumentDocumentAttachmentPropertiesReference from '../DocumentDocumentAttachmentPropertiesReference'
   import CommentList from '../components/CommentList.vue'
   import CommentInput from '../components/CommentInput.vue'
@@ -432,6 +426,7 @@
   import EntityTypes from 'renderer/api/EntityTypes'
   import ManyToManyHelper from 'renderer/services/api/ManyToManyHelper'
   import { mapGetters } from 'vuex'
+  import MauFormInputRadio from '../../../../components/mau-components/mau-form-inputs/MauFormInputRadio.vue'
   export default {
     name: 'DocumentEditorTabs',
     data () {
@@ -492,6 +487,7 @@
       }
     },
     components: {
+      MauFormInputRadio,
       CommentList,
       CommentInput,
       MauFormInputSelect,
@@ -529,12 +525,8 @@
         ApiOperations.get(ApiUrls.createListUrl(EntityTypes.USER.apiName) + '?paginate=false'),
         ApiOperations.getById(ApiUrls.createBaseUrl(EntityTypes.USER.apiName) + '/', this.user.id)
       ]).then(results => {
-        this.availableDocumentTypes = results[0].map(documentTypeObj => {
-          return {text: documentTypeObj.name, value: {id: documentTypeObj.id, name: documentTypeObj.name}}
-        })
-        this.availableDocumentStatuses = results[1].map(documentStatusObj => {
-          return {text: documentStatusObj.name, value: {id: documentStatusObj.id, name: documentStatusObj.name}}
-        })
+        this.availableDocumentTypes = results[0]
+        this.availableDocumentStatuses = results[1]
         this.availableOperations = results[2]
         this.availableAttachments = results[3]
         this.availableUsers = results[4]
@@ -593,10 +585,8 @@
         this.initialValues[PropertiesReference.FOLIO.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.FOLIO.name)
         this.document.electronicFolio = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.ELECTRONIC_FOLIO.name)
         this.document.fileNumber = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.FILE_NUMBER.name)
-        let initialDocumentType = DefaultValuesHelper.object(this.initialObject, PropertiesReference.DOCUMENT_TYPE.name)
-        this.document.documentType = initialDocumentType ? {id: initialDocumentType.id, name: initialDocumentType.name} : ''
-        let initialDocumentStatus = DefaultValuesHelper.object(this.initialObject, PropertiesReference.DOCUMENT_STATUS.name)
-        this.document.documentStatus = initialDocumentStatus ? {id: initialDocumentStatus.id, name: initialDocumentStatus.name} : ''
+        this.initialValues[PropertiesReference.DOCUMENT_TYPE.name] = DefaultValuesHelper.object(this.initialObject, PropertiesReference.DOCUMENT_TYPE.name)
+        this.initialValues[PropertiesReference.DOCUMENT_STATUS.name] = DefaultValuesHelper.object(this.initialObject, PropertiesReference.DOCUMENT_STATUS.name)
         this.initialValues[PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name)
         this.initialValues[PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.name)
         this.initialValues[PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name)
@@ -680,17 +670,6 @@
     watch: {
       initialObject: function (initialObject) {
         this.setInitialValues(initialObject)
-      },
-      'document.documentType': function (documentType) {
-        if (documentType !== null && documentType !== undefined && documentType !== '') {
-          this.$store.dispatch(EntityActions.GET_OPERATIONS, documentType.name)
-          this.$store.dispatch(EntityActions.GET_ATTACHMENTS, documentType.name)
-        }
-      },
-      'document.client': function (client) {
-        if (isDefined(client) && client !== '') {
-          this.$store.dispatch(EntityActions.GET_GRANTORS, client.id)
-        }
       },
       'document.moneyLaundering': function (moneyLaundering) {
         if (moneyLaundering === -1) {
