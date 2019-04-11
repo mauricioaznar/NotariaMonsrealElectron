@@ -1,15 +1,9 @@
 <template>
-    <div>
-        <mau-responsive-button :onPositive="del"
-                               :positiveName="'Eliminar'"
+    <div class="d-flex justify-content-center">
+        <mau-responsive-button :onPositive="confirm"
+                               :positiveName="'Confirmar eliminación'"
         >
         </mau-responsive-button>
-        <vuestic-modal :show.sync="show"
-                       :ref="'confirmAction'"
-                       v-on:ok="confirm"
-        >
-            <div slot="title">Desea realizar dicha accion</div>
-        </vuestic-modal>
     </div>
 </template>
 
@@ -18,6 +12,7 @@
   import {getApiRoute, ApiRouteTypes} from 'renderer/api/ApiRoutes'
   import {createRouteObjectPath} from 'renderer/services/api/RouteObject'
   import ChildTypes from 'renderer/api/ChildTypes'
+  import Notifications from 'renderer/services/api/Notifications'
   export default {
     name: 'MauCrudDel',
     data () {
@@ -44,20 +39,12 @@
     components: {
     },
     methods: {
-      del: function () {
-        this.$refs.confirmAction.open()
-      },
       confirm: function () {
         let _this = this
         ApiFunctions.del(getApiRoute(this.entityType, ApiRouteTypes.DEL), this.id, this.entity)
           .then(
             result => {
-              this.$notify({
-                group: 'foo',
-                type: 'success',
-                title: 'Operacion exitosa',
-                text: '<span class="fa fa-check"></span>'
-              })
+              Notifications.success(_this)
               if (this.callback) {
                 this.callback()
               }
@@ -67,12 +54,7 @@
             })
           .catch(
             error => {
-              this.$notify({
-                group: 'foo',
-                type: 'danger',
-                title: error,
-                text: '<span class="fa fa-exclamation-circle"></span>'
-              })
+              Notifications.error(_this, error)
             }
           )
       }
