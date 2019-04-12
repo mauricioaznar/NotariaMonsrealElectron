@@ -22,7 +22,9 @@
                   v-model="document.date"
                   :initialValue="initialValues[PropertiesReference.DATE.name]"
                   :error="errors.first(PropertiesReference.DATE.name)"
-                  v-validate="'required'"
+                  v-validate="{
+                    required: true
+                  }"
           >
           </mau-form-input-date-time>
         </div>
@@ -46,7 +48,17 @@
                   :data-vv-as="PropertiesReference.FOLIO.title"
                   v-model="document.folio"
                   :initialValue="initialValues[PropertiesReference.FOLIO.name]"
-                  v-validate="'required|numeric'"
+                  :ref="'folio'"
+                  v-validate="{
+                    required: true,
+                    numeric: true,
+                    folio_year_unique: {
+                      url: documentsUrl,
+                      document: document,
+                      initialFolio: initialValues[PropertiesReference.FOLIO.name],
+                      initialDate: initialValues[PropertiesReference.DATE.name]
+                    }
+                  }"
           >
           </mau-form-input-number>
         </div>
@@ -468,6 +480,7 @@
         operationsUrl: ApiUrls.createListUrl(EntityTypes.OPERATION.apiName) + '?paginate=false',
         attachmentsUrl: ApiUrls.createListUrl(EntityTypes.ATTACHMENT.apiName) + '?paginate=false',
         usersUrl: ApiUrls.createListUrl(EntityTypes.USER.apiName) + '?paginate=false',
+        documentsUrl: ApiUrls.createListUrl(EntityTypes.DOCUMENT.apiName) + '?paginate=false',
         clientsCreated: 0,
         grantorsCreated: 0,
         currentUserGroups: [],
@@ -675,6 +688,9 @@
         if (moneyLaundering === -1) {
           this.document.moneyLaunderingExpirationDate = ''
         }
+      },
+      'document.date': function () {
+        this.$validator.validate(PropertiesReference.FOLIO.name).then(result => {})
       }
     }
   }

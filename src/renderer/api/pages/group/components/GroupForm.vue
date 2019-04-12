@@ -51,6 +51,7 @@
                           :url="usersUrl"
                           :multiselect="true"
                           :label="'name'"
+                          class="override-form-control form-control"
                   >
                   </mau-form-input-select>
               </div>

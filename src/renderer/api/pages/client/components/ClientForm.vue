@@ -138,6 +138,7 @@
                 :relatedRelationshipName="PropertiesReference.GRANTORS.relationship_id_name"
                 :url="grantorsUrl"
                 :multiselect="true"
+                class="override-form-control form-control"
                 :label="'fullname'"
         >
         </mau-form-input-select>

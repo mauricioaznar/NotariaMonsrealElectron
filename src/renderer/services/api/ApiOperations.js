@@ -30,7 +30,7 @@ export function get (url, filterLikes, filterExacts, filterEntity) {
     let i = 0
     for (let filterExactObjectKey in filterExacts) {
       if (filterExacts.hasOwnProperty(filterExactObjectKey)) {
-        let filterExactObjectValue = filterLikes[filterExactObjectKey]
+        let filterExactObjectValue = filterExacts[filterExactObjectKey]
         if (i === 0) {
           filterExactQuery += '&filter_exact=' + filterExactObjectKey + '&filter_exact_value=' + filterExactObjectValue
         } else if (i === 1) {
