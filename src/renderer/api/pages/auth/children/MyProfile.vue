@@ -9,7 +9,6 @@
 
 <script>
   import PropertiesReference from 'renderer/api/pages/user/PropertiesReference'
-  import ApiUrls from 'renderer/services/api/ApiUrls'
   import ApiOperations from 'renderer/services/api/ApiOperations'
   export default {
     name: 'MyProfileAuth',
@@ -22,7 +21,7 @@
     },
     created () {
       this.isUserLoading = true
-      ApiOperations.get(ApiUrls.createCurrentUserUrl()).then(result => {
+      ApiOperations.getCurrentUser().then(result => {
         this.entity = result
         this.isUserLoading = false
       })

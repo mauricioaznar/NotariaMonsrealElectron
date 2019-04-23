@@ -32,7 +32,7 @@ router.beforeEach(async (to, from, next) => {
     next()
   }
   try {
-    let user = await ApiOperations.get(getApiRoute(Entites.AUTH, ApiRouteTypes.USER))
+    let user = await ApiOperations.getCurrentUser()
     store.dispatch(AuthActions.SET_USER, user)
     let userRole = store.getters.getRoleByRoleId(user.role_id)
     let toEntity = getRouteObjectMetaPropertyValue(to, 'entityType')

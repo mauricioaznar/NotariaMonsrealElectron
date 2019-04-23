@@ -22,7 +22,6 @@
 
 <script>
     import ApiOperations from 'renderer/services/api/ApiOperations'
-    import ApiUrls from 'renderer/services/api/ApiUrls'
     export default {
       data () {
         return {
@@ -32,7 +31,7 @@
       },
       created () {
         this.isDataLoading = true
-        ApiOperations.get(ApiUrls.createNotificationsUrl()).then(result => {
+        ApiOperations.getNotifications().then(result => {
           this.notifications = result.data
           this.isDataLoading = false
         })

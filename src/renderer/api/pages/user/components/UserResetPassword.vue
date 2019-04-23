@@ -10,7 +10,6 @@
     import PropertiesReference from 'renderer/api/pages/user/PropertiesReference'
     import ApiOperations from 'renderer/services/api/ApiOperations'
     import Notifications from 'renderer/services/api/Notifications'
-    import ApiUrls from 'renderer/services/api/ApiUrls'
     export default {
       name: 'UserResetPassword',
       data () {
@@ -20,7 +19,7 @@
       },
       methods: {
         resetPassword: function () {
-          ApiOperations.create(ApiUrls.createCurrentUserResetPasswordUrl(), {email: this.user[PropertiesReference.EMAIL.name]}).then(result => {
+          ApiOperations.resetUserPassword(this.user[PropertiesReference.EMAIL.name]).then(result => {
             Notifications.info(this, 'Contraseña ha sido restablecida correctamente. Cheque su correo.')
           }).catch(e => {
             Notifications.info(this, 'Hubo un problema con el email')

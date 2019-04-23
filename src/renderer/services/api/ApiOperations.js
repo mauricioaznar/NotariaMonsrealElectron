@@ -69,12 +69,28 @@ export function generateToken (credentials) {
   return Vue.http.post(ApiDomain + 'auth/login', credentials, {headers: getHeaders()}).then(getServerResponseData)
 }
 
+export function getCurrentUser () {
+  return Vue.http.get(ApiDomain + 'auth/user', {headers: getHeaders()}).then(getServerResponseData)
+}
+
+export function resetUserPassword (email) {
+  return Vue.http.post(ApiDomain + 'user/reset/password', {email: email}, {headers: getHeaders()}).then(getServerResponseData)
+}
+
 function getServerResponseData (response) {
   let responseDataData = (((response) && response.data) && response.data.data)
   if (!responseDataData) {
     return null
   }
   return responseDataData
+}
+
+export function getNotifications () {
+  return Vue.http.get(ApiDomain + 'notifications', {headers: getHeaders()}).then(getServerResponseData)
+}
+
+export function getCurrentUserAnalyticsData () {
+  return Vue.http.get(ApiDomain + 'data/me', {headers: getHeaders()}).then(getServerResponseData)
 }
 
 export function catchError (e) {
@@ -87,5 +103,9 @@ export default {
   edit: edit,
   create: create,
   del: del,
-  generateToken: generateToken
+  generateToken: generateToken,
+  getCurrentUser: getCurrentUser,
+  getCurrentUserAnalyticsData: getCurrentUserAnalyticsData,
+  resetUserPassword: resetUserPassword,
+  getNotifications: getNotifications
 }

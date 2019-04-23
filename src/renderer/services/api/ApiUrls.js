@@ -8,22 +8,7 @@ function createListUrl (entityTypeApiName) {
   return createBaseUrl(entityTypeApiName) + '/list'
 }
 
-function createCurrentUserUrl () {
-  return createBaseUrl('auth/user')
-}
-
-function createCurrentUserResetPasswordUrl () {
-  return createBaseUrl('user/reset/password')
-}
-
-function createNotificationsUrl () {
-  return createBaseUrl('notifications')
-}
-
 export default {
   createBaseUrl: createBaseUrl,
-  createListUrl: createListUrl,
-  createCurrentUserUrl: createCurrentUserUrl,
-  createCurrentUserResetPasswordUrl: createCurrentUserResetPasswordUrl,
-  createNotificationsUrl: createNotificationsUrl
+  createListUrl: createListUrl
 }

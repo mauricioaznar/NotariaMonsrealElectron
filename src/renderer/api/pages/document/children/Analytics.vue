@@ -79,7 +79,7 @@
 <script>
   import DocumentList from '../components/DocumentList.vue'
   import ApiUrls from 'renderer/services/api/ApiUrls'
-  import ApiFunctions from 'renderer/services/api/ApiOperations'
+  import ApiOperations from 'renderer/services/api/ApiOperations'
   export default {
     name: 'AnalyticsDocument',
     data () {
@@ -89,7 +89,7 @@
       }
     },
     created () {
-      ApiFunctions.get(ApiUrls.createBaseUrl('data/me')).then(result => {
+      ApiOperations.get(ApiUrls.createBaseUrl('data/me')).then(result => {
         this.apiResult = result
       })
     },
