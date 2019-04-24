@@ -7,7 +7,6 @@ import EntityActions from 'renderer/api/store/entityActions'
 import AuthActions from 'renderer/api/store/authActions'
 import AppActions from 'renderer/app/store/AppActions'
 import ApiOperations from 'renderer/services/api/ApiOperations'
-import {ApiRouteTypes, getApiRoute} from 'renderer/api/ApiRoutes'
 import isEntityEditable from 'renderer/services/api/isEntityEditable'
 import Entites from 'renderer/api/EntityTypes'
 import router from 'renderer/router/index'
@@ -45,7 +44,7 @@ router.beforeEach(async (to, from, next) => {
     let idParam = to.params ? (to.params[globalEntityIdentifier] ? to.params[globalEntityIdentifier] : null) : null
     let requestedEntityObj = null
     if (idParam !== null) {
-      requestedEntityObj = await ApiOperations.getById(getApiRoute(toEntity, ApiRouteTypes.GET_BY_ID), idParam)
+      requestedEntityObj = await ApiOperations.getById(toEntity.apiName, idParam)
     }
     store.dispatch(EntityActions.SET_REQUESTED_ENTITY, requestedEntityObj)
     let groupedRouteObjectsByEntity = securityValidations(userRole, store.getters.getRouteObjectsByEntityType(to))

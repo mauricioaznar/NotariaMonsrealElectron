@@ -9,7 +9,6 @@
 
 <script>
   import ApiFunctions from 'renderer/services/api/ApiOperations'
-  import {getApiRoute, ApiRouteTypes} from 'renderer/api/ApiRoutes'
   import {createRouteObjectPath} from 'renderer/services/api/RouteObject'
   import ChildTypes from 'renderer/api/ChildTypes'
   import Notifications from 'renderer/services/api/Notifications'
@@ -41,7 +40,7 @@
     methods: {
       confirm: function () {
         let _this = this
-        ApiFunctions.del(getApiRoute(this.entityType, ApiRouteTypes.DEL), this.id, this.entity)
+        ApiFunctions.del(this.entityType.apiName, this.id, this.entity)
           .then(
             result => {
               Notifications.success(_this)

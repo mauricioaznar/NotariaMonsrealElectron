@@ -14,7 +14,7 @@
     name: 'ListDocument',
     data () {
       return {
-        apiUrl: ApiUrls.createBaseUrl(EntityTypes.DOCUMENT.apiName) + '/search',
+        apiUrl: ApiUrls.createSearchUrl(EntityTypes.DOCUMENT.apiName),
         canEdit: true
       }
     },

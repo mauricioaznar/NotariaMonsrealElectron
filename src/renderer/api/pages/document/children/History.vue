@@ -19,7 +19,7 @@
     name: 'HistoryDocument',
     data () {
       return {
-        apiUrl: ApiUrls.createBaseUrl(EntityTypes.DOCUMENT.apiName) + '/search?recent=me',
+        apiUrl: ApiUrls.createSearchUrl(EntityTypes.DOCUMENT.apiName, true),
         canEdit: true,
         hasPagination: false,
         hasSearchBar: false

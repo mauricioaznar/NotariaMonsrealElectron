@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import ApiFunctions from 'renderer/services/api/ApiOperations'
+  import ApiOperations from 'renderer/services/api/ApiOperations'
   import addHostId from 'renderer/services/api/addHostId'
   import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
   import Notifications from 'renderer/services/api/Notifications'
@@ -57,7 +57,7 @@
     },
     methods: {
       saveFunction: function (entityObject, relationshipObject) {
-        ApiFunctions.edit(ApiRoutes[this.entityNameLC].edit, this.id, entityObject)
+        ApiOperations.edit(ApiRoutes[this.entityNameLC].edit, this.id, entityObject)
           .then(
             result => {
               if (this.callback) {
@@ -75,7 +75,7 @@
                       if (relationshipRoute.hasOwnProperty('create')) {
                         entityApiCallsContainer.create.forEach(structuredObject => {
                           let modifiedStructuredObject = addHostId(structuredObject, this.relationshipIdName, this.id)
-                          ApiFunctions.create(relationshipRoute.create, modifiedStructuredObject)
+                          ApiOperations.create(relationshipRoute.create, modifiedStructuredObject)
                         })
                       }
                     }
@@ -83,7 +83,7 @@
                       if (relationshipRoute.hasOwnProperty('del')) {
                         entityApiCallsContainer.del.forEach(structuredObject => {
                           let modifiedStructuredObject = addHostId(structuredObject, this.relationshipIdName, this.id)
-                          ApiFunctions.del(relationshipRoute.del, modifiedStructuredObject[globalEntityIdentifier], modifiedStructuredObject)
+                          ApiOperations.del(relationshipRoute.del, modifiedStructuredObject[globalEntityIdentifier], modifiedStructuredObject)
                         })
                       }
                     }
@@ -91,7 +91,7 @@
                       if (relationshipRoute.hasOwnProperty('edit')) {
                         entityApiCallsContainer.edit.forEach(structuredObject => {
                           let modifiedStructuredObject = addHostId(structuredObject, this.relationshipIdName, this.id)
-                          ApiFunctions.edit(relationshipRoute.edit, modifiedStructuredObject[globalEntityIdentifier], modifiedStructuredObject)
+                          ApiOperations.edit(relationshipRoute.edit, modifiedStructuredObject[globalEntityIdentifier], modifiedStructuredObject)
                         })
                       }
                     }

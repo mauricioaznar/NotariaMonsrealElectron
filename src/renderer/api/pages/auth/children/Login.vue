@@ -48,10 +48,9 @@
           return
         }
         this.isLoadingUser = true
-        let credentials = {email: this.email, password: this.password}
         let _this = this
         setTimeout(function () {
-          ApiOperations.generateToken(credentials).then(result => {
+          ApiOperations.generateToken(_this.email, _this.password).then(result => {
             let token = result.token
             window.localStorage.setItem('AccessToken', JSON.stringify(token))
             Notifications.info(_this, 'Bienvendio al sistema notarial')

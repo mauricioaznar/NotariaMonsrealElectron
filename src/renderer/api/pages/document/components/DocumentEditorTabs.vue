@@ -536,7 +536,7 @@
         ApiOperations.get(ApiUrls.createListUrl(EntityTypes.DOCUMENT_OPERATION.apiName) + '?paginate=false'),
         ApiOperations.get(ApiUrls.createListUrl(EntityTypes.DOCUMENT_ATTACHMENT.apiName) + '?paginate=false'),
         ApiOperations.get(ApiUrls.createListUrl(EntityTypes.USER.apiName) + '?paginate=false'),
-        ApiOperations.getById(ApiUrls.createBaseUrl(EntityTypes.USER.apiName) + '/', this.user.id)
+        ApiOperations.getById(EntityTypes.USER.apiName, this.user.id)
       ]).then(results => {
         this.availableDocumentTypes = results[0]
         this.availableDocumentStatuses = results[1]
