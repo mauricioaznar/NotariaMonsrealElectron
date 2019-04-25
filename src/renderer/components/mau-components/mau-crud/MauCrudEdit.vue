@@ -1,24 +1,19 @@
 <template>
-  <div v-if="entity">
-    <slot :entity="entity" :saveFunction="saveFunction"></slot>
+  <div>
+    <slot :saveFunction="saveFunction"></slot>
   </div>
 </template>
 
 <script>
-  import ApiOperations from 'renderer/services/api/ApiOperations'
-  import addHostId from 'renderer/services/api/addHostId'
-  import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
+  import ApiFunctions from 'renderer/services/api/ApiOperations'
+  import GlobalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
   import Notifications from 'renderer/services/api/Notifications'
-  import convertFirstCharacterTo from 'renderer/services/common/ConvertFirstCharacterTo'
-  import {ApiRoutes} from 'renderer/api/ApiRoutes'
   import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
+  import ManyToManyHelper from 'renderer/services/api/ManyToManyHelper'
   export default {
     name: 'MauCrudEdit',
     data () {
       return {
-        entity: null,
-        entityNameLC: convertFirstCharacterTo.lowercase(this.entityName),
-        entityNameUC: convertFirstCharacterTo.uppercase(this.entityName)
       }
     },
     props: {
@@ -29,73 +24,37 @@
         type: Function,
         required: true
       },
-      entityName: {
-        type: String,
+      entityType: {
+        type: Object,
         required: true
-      },
-      entityAction: {
-        type: String
       },
       relationshipIdName: {
         type: String
-      },
-      relatedEntitiesRoutes: {
-        type: Object,
-        default: function () {
-          return {}
-        }
       }
-    },
-    created () {
-      if (this.entityAction) {
-        this.$store.dispatch(this.entityAction)
-      }
-      this.entity = this.$store.getters.requestedEntity
-    },
-    components: {
-
     },
     methods: {
-      saveFunction: function (entityObject, relationshipObject) {
-        ApiOperations.edit(ApiRoutes[this.entityNameLC].edit, this.id, entityObject)
+      saveFunction: function (entityObject, relayObjects) {
+        ApiFunctions.edit(this.entityType.name, this.id, entityObject)
           .then(
             result => {
-              if (this.callback) {
-                this.callback(entityObject)
-              }
-              if (this.entityAction) {
-                this.$store.dispatch(this.entityAction)
-              }
-              if (this.relatedEntitiesRoutes) {
-                for (let entityName in this.relatedEntitiesRoutes) {
-                  if (this.relatedEntitiesRoutes.hasOwnProperty(entityName)) {
-                    let relationshipRoute = this.relatedEntitiesRoutes[entityName]
-                    let entityApiCallsContainer = relationshipObject[entityName]
-                    if (entityApiCallsContainer.hasOwnProperty('create')) {
-                      if (relationshipRoute.hasOwnProperty('create')) {
-                        entityApiCallsContainer.create.forEach(structuredObject => {
-                          let modifiedStructuredObject = addHostId(structuredObject, this.relationshipIdName, this.id)
-                          ApiOperations.create(relationshipRoute.create, modifiedStructuredObject)
-                        })
-                      }
-                    }
-                    if (entityApiCallsContainer.hasOwnProperty('del')) {
-                      if (relationshipRoute.hasOwnProperty('del')) {
-                        entityApiCallsContainer.del.forEach(structuredObject => {
-                          let modifiedStructuredObject = addHostId(structuredObject, this.relationshipIdName, this.id)
-                          ApiOperations.del(relationshipRoute.del, modifiedStructuredObject[globalEntityIdentifier], modifiedStructuredObject)
-                        })
-                      }
-                    }
-                    if (entityApiCallsContainer.hasOwnProperty('edit')) {
-                      if (relationshipRoute.hasOwnProperty('edit')) {
-                        entityApiCallsContainer.edit.forEach(structuredObject => {
-                          let modifiedStructuredObject = addHostId(structuredObject, this.relationshipIdName, this.id)
-                          ApiOperations.edit(relationshipRoute.edit, modifiedStructuredObject[globalEntityIdentifier], modifiedStructuredObject)
-                        })
-                      }
-                    }
-                  }
+              console.log(relayObjects)
+              for (let relayObjectIndex = 0; relayObjectIndex < relayObjects.length; relayObjectIndex++) {
+                let filteredM2MObjects = ManyToManyHelper.getRelayObjectFilteredM2MObjects(relayObjects[relayObjectIndex])
+                let entityType = ManyToManyHelper.getRelayObjectEntityType(relayObjects[relayObjectIndex])
+                for (let createFilteredObjectsIndex = 0; createFilteredObjectsIndex < filteredM2MObjects.create.length; createFilteredObjectsIndex++) {
+                  let createRelatedEntityObject = filteredM2MObjects.create[createFilteredObjectsIndex]
+                  createRelatedEntityObject[this.relationshipIdName] = this.id
+                  ApiFunctions.create(entityType.name, createRelatedEntityObject)
+                }
+                for (let editFilteredObjectsIndex = 0; editFilteredObjectsIndex < filteredM2MObjects.edit.length; editFilteredObjectsIndex++) {
+                  let editRelatedEntityObject = filteredM2MObjects.edit[editFilteredObjectsIndex]
+                  editRelatedEntityObject[this.relationshipIdName] = this.id
+                  ApiFunctions.edit(entityType.name, editRelatedEntityObject[GlobalEntityIdentifier], editRelatedEntityObject)
+                }
+                for (let delFilteredObjectsIndex = 0; delFilteredObjectsIndex < filteredM2MObjects.del.length; delFilteredObjectsIndex++) {
+                  let delRelatedEntityObject = filteredM2MObjects.del[delFilteredObjectsIndex]
+                  delRelatedEntityObject[this.relationshipIdName] = this.id
+                  ApiFunctions.del(entityType.name, delRelatedEntityObject[GlobalEntityIdentifier], delRelatedEntityObject)
                 }
               }
               Notifications.success(this)
@@ -104,6 +63,7 @@
             })
           .catch(
             error => {
+              console.log(error)
               FormSubmitEventBus.emitEvent(false)
               Notifications.error(this, error)
             }

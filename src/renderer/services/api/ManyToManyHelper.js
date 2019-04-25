@@ -1,26 +1,34 @@
 import GlobalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
 
-function createSimpleM2MStructuredObject (object, selectedEntityRelationshipName) {
-  return {[selectedEntityRelationshipName]: object[GlobalEntityIdentifier]}
-}
 
-function createM2MStructuredObjects (objects, selectedEntityRelationshipName) {
-  let relationshipObjects = []
+
+function createM2MStructuredObjects (objects, selectedEntityRelationshipName, newProperties = {}) {
+  let m2mStructuredObjects = []
   let objectsLength = objects.length
   for (let i = 0; i < objectsLength; i++) {
     let object = objects[i]
-    let relationshipObject = createSimpleM2MStructuredObject(object, selectedEntityRelationshipName)
+    let relationshipObject = createSimpleM2MStructuredObject(object, selectedEntityRelationshipName, newProperties)
+    m2mStructuredObjects.push(relationshipObject)
+  }
+  return m2mStructuredObjects
+  function createSimpleM2MStructuredObject (object, selectedEntityRelationshipName, newProperties = {}) {
+    let m2mStructuredObject = {}
+    m2mStructuredObject[selectedEntityRelationshipName] = object[GlobalEntityIdentifier]
+    for (let newPropertyKey in newProperties) {
+      if (newProperties.hasOwnProperty(newPropertyKey)) {
+        m2mStructuredObject[newPropertyKey] = newProperties[newPropertyKey]
+      }
+    }
     let pivotProperties = object.pivot
     if (pivotProperties) {
       for (let pivotPropertyKey in pivotProperties) {
         if (pivotProperties.hasOwnProperty(pivotPropertyKey)) {
-          relationshipObject[pivotPropertyKey] = pivotProperties[pivotPropertyKey]
+          m2mStructuredObject[pivotPropertyKey] = pivotProperties[pivotPropertyKey]
         }
       }
     }
-    relationshipObjects.push(relationshipObject)
+    return m2mStructuredObject
   }
-  return relationshipObjects
 }
 
 function filterM2MStructuredObjectsByApiOperations (initialRelationshipObjects, newRelationshipObjects, selectedEntityRelationshipName) {
@@ -84,7 +92,6 @@ function getRelayObjectFilteredM2MObjects (M2MRelayObject) {
 }
 
 export default {
-  createSimpleM2MStructuredObject: createSimpleM2MStructuredObject,
   createM2MStructuredObjects: createM2MStructuredObjects,
   filterM2MStructuredObjectsByApiOperations: filterM2MStructuredObjectsByApiOperations,
   createRelayObject: createRelayObject,

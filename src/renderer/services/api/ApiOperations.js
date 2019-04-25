@@ -48,21 +48,21 @@ export function get (url, filterLikes, filterExacts, filterEntity) {
   }
 }
 
-export function getById (entityApiName, id) {
-  return Vue.http.get(ApiDomain + entityApiName + '/' + id, {headers: getHeaders()}).then(getServerResponseData)
+export function getById (entityTypeApiName, id) {
+  return Vue.http.get(ApiDomain + entityTypeApiName + '/' + id, {headers: getHeaders()}).then(getServerResponseData)
 }
 
-export function edit (url, id, object) {
-  return Vue.http.put(url + id, object, {headers: getHeaders()}).then(getServerResponseData)
+export function edit (entityTypeApiName, id, object) {
+  return Vue.http.put(ApiDomain + entityTypeApiName + '/' + id, object, {headers: getHeaders()}).then(getServerResponseData)
 }
 
-export function create (url, object) {
-  return Vue.http.post(url, object, {headers: getHeaders()}).then(getServerResponseData)
+export function create (entityTypeApiName, object) {
+  return Vue.http.post(ApiDomain + entityTypeApiName, object, {headers: getHeaders()}).then(getServerResponseData)
 }
 
-export function del (entityApiName, id, object) {
+export function del (entityTypeApiName, id, object) {
   object.active = -1
-  return Vue.http.put(ApiDomain + entityApiName + '/' + id, object, {headers: getHeaders()}).then(getServerResponseData)
+  return Vue.http.put(ApiDomain + entityTypeApiName + '/' + id, object, {headers: getHeaders()}).then(getServerResponseData)
 }
 
 export function generateToken (email, password) {

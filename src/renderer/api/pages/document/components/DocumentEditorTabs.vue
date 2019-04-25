@@ -428,7 +428,6 @@
   import DocumentAttachments from 'renderer/api/pages/document/components/DocumentAttachments'
   import MauFormInputSelect from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelect.vue'
   import MaskedInput from 'vue-text-mask'
-  import RelationshipObjectsHelper from 'renderer/services/form/RelationshipObjectHelper'
   import DefaultValuesHelper from 'renderer/services/form/DefaultValuesHelper'
   import ValidatorHelper from '../../../../services/form/ValidatorHelper'
   import CreateClient from 'renderer/api/pages/client/children/Create.vue'
@@ -618,8 +617,8 @@
         this.initialValues[PropertiesReference.GROUPS.name] = initialGroups.length > 0 ? this.initialObject[PropertiesReference.GROUPS.name] : this.currentUserGroups
         this.initialValues[PropertiesReference.GRANTORS.name] = DefaultValuesHelper.arrayOfObjects(this.initialObject, PropertiesReference.GRANTORS.name)
         let initialUsers = DefaultValuesHelper.arrayOfObjects(this.initialObject, PropertiesReference.USERS.name)
-        this.initialValues['entryUsers'] = initialUsers ? RelationshipObjectsHelper.filterEntitiesByRelationshipObjectProperty(initialUsers, 'entry_lawyer') : []
-        this.initialValues['exitUsers'] = initialUsers ? RelationshipObjectsHelper.filterEntitiesByRelationshipObjectProperty(initialUsers, 'closure_lawyer') : []
+        this.initialValues['entryUsers'] = initialUsers ? initialUsers.filter(initialUserObj => { return initialUserObj.pivot['entry_lawyer'] }) : []
+        this.initialValues['exitUsers'] = initialUsers ? initialUsers.filter(initialUserObj => { return initialUserObj.pivot['closure_lawyer'] }) : []
         this.availableComments = DefaultValuesHelper.arrayOfObjects(this.initialObject, PropertiesReference.COMMENTS.name)
       },
       save: function () {
@@ -655,23 +654,24 @@
         let m2mOperations = ManyToManyHelper.createM2MStructuredObjects(this.document.operations, PropertiesReference.OPERATIONS.relationship_id_name)
         let filteredOperations = ManyToManyHelper.filterM2MStructuredObjectsByApiOperations(initialM2mOperations, m2mOperations, PropertiesReference.OPERATIONS.relationship_id_name)
         let entryUsersRelationshipName = PropertiesReference.USERS.relationship_id_name
-        let entryUsersRelationshipObjects = RelationshipObjectsHelper.createRelationshipObjects(this.document.entryUsers, entryUsersRelationshipName, {entry_lawyer: 1})
-        let initialEntryUsersRelationshipObjects = RelationshipObjectsHelper.createRelationshipObjects(this.initialValues['entryUsers'], entryUsersRelationshipName, {entry_lawyer: 1})
-        let filteredEntryUsers = RelationshipObjectsHelper.filterRelationshipObjects(initialEntryUsersRelationshipObjects, entryUsersRelationshipObjects, entryUsersRelationshipName)
+        let entryUsersRelationshipObjects = ManyToManyHelper.createM2MStructuredObjects(this.document.entryUsers, entryUsersRelationshipName, {entry_lawyer: 1})
+        let initialEntryUsersRelationshipObjects = ManyToManyHelper.createM2MStructuredObjects(this.initialValues['entryUsers'], entryUsersRelationshipName, {entry_lawyer: 1})
+        let filteredEntryUsers = ManyToManyHelper.filterM2MStructuredObjectsByApiOperations(initialEntryUsersRelationshipObjects, entryUsersRelationshipObjects, entryUsersRelationshipName)
         let exitUsersRelationshipName = PropertiesReference.USERS.relationship_id_name
-        let exitUsersRelationshipObjects = RelationshipObjectsHelper.createRelationshipObjects(this.document.exitUsers, exitUsersRelationshipName, {closure_lawyer: 1})
-        let initialExitUsersRelationshipObjects = RelationshipObjectsHelper.createRelationshipObjects(this.initialValues['exitUsers'], exitUsersRelationshipName, {closure_lawyer: 1})
-        let filteredExitUsers = RelationshipObjectsHelper.filterRelationshipObjects(initialExitUsersRelationshipObjects, exitUsersRelationshipObjects, exitUsersRelationshipName)
-        let filteredUsers = RelationshipObjectsHelper.combineRelationshipObjects(filteredEntryUsers, filteredExitUsers)
-        let indirectParams = {
-          [PropertiesReference.OPERATIONS.entityName]: filteredOperations,
-          [PropertiesReference.DOCUMENT_ATTACHMENTS.entityName]: this.document.documentAttachments,
-          [PropertiesReference.GROUPS.entityName]: filteredGroups,
-          [PropertiesReference.USERS.entityName]: filteredUsers,
-          [PropertiesReference.GRANTORS.entityName]: filteredGrantors,
-          [PropertiesReference.COMMENTS.entityName]: this.document.comment,
-          [PropertiesReference.DOCUMENT_PROPERTIES.entityName]: this.document.documentProperties
-        }
+        let exitUsersRelationshipObjects = ManyToManyHelper.createM2MStructuredObjects(this.document.exitUsers, exitUsersRelationshipName, {closure_lawyer: 1})
+        let initialExitUsersRelationshipObjects = ManyToManyHelper.createM2MStructuredObjects(this.initialValues['exitUsers'], exitUsersRelationshipName, {closure_lawyer: 1})
+        let filteredExitUsers = ManyToManyHelper.filterM2MStructuredObjectsByApiOperations(initialExitUsersRelationshipObjects, exitUsersRelationshipObjects, exitUsersRelationshipName)
+        let indirectParams = [
+          ManyToManyHelper.createRelayObject(filteredOperations, EntityTypes.DOCUMENT_OPERATION),
+          ManyToManyHelper.createRelayObject(this.document.documentAttachments, EntityTypes.DOCUMENT_ATTACHMENT),
+          ManyToManyHelper.createRelayObject(filteredGroups, EntityTypes.DOCUMENT_GROUP),
+          ManyToManyHelper.createRelayObject(filteredExitUsers, EntityTypes.DOCUMENT_USER),
+          ManyToManyHelper.createRelayObject(filteredEntryUsers, EntityTypes.DOCUMENT_USER),
+          ManyToManyHelper.createRelayObject(filteredGrantors, EntityTypes.DOCUMENT_GRANTOR),
+          ManyToManyHelper.createRelayObject(this.document.documentProperties, EntityTypes.DOCUMENT_PROPERTY)
+          // TODO repair many to many document-comment
+        ]
+        console.log(indirectParams)
         this.$validator.validateAll().then((result) => {
           if (result) {
             this.buttonDisabled = true

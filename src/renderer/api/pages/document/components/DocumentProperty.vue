@@ -93,14 +93,13 @@
       }
     },
     created () {
-      if (this.initialProperties.length > 0) {
-        let initialPropertiesMod = []
-        for (let i = 0; i < this.initialProperties.length; i++) {
-          let initialPropertyObj = cloneDeep(this.initialProperties[i])
-          initialPropertiesMod.push(initialPropertyObj)
-        }
-        this.properties = initialPropertiesMod
+      let initialPropertiesMod = []
+      for (let i = 0; i < this.initialProperties.length; i++) {
+        let initialPropertyObj = cloneDeep(this.initialProperties[i])
+        initialPropertiesMod.push(initialPropertyObj)
       }
+      this.properties = initialPropertiesMod
+      this.propertiesUpdate()
     },
     components: {
     },
