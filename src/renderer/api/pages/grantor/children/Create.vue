@@ -1,8 +1,7 @@
 <template>
   <div class="container">
     <mau-crud-create
-      :entityName="'Grantor'"
-      :entityAction="entityAction"
+      :entityType="grantorEntityType"
       :callback="callback"
     >
       <template slot-scope="params">
@@ -14,7 +13,6 @@
 
 <script>
   import GrantorForm from '../components/GrantorForm.vue'
-  import EntityActions from 'renderer/api/store/entityActions'
   import {createRouteObjectPath} from 'renderer/services/api/RouteObject'
   import EntityTypes from 'renderer/api/EntityTypes'
   import ChildTypes from 'renderer/api/ChildTypes'
@@ -22,7 +20,7 @@
     name: 'CreateGrantor',
     data () {
       return {
-        entityAction: EntityActions.GET_GRANTORS
+        grantorEntityType: EntityTypes.GRANTOR
       }
     },
     components: {

@@ -71,8 +71,5 @@
 </script>
 
 <style lang="scss" scoped>
-    .form-check-label {
-        font-weight: 100;
-        font-size: 0.8rem;
-    }
+
 </style>

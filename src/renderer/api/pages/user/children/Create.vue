@@ -1,8 +1,7 @@
 <template>
   <div class="container">
     <mau-crud-create
-      :entityName="'User'"
-      :entityAction="entityAction"
+      :entityType="userEntityType"
       :callback="callback"
     >
       <template slot-scope="params">
@@ -14,7 +13,6 @@
 
 <script>
   import UserForm from '../components/UserForm.vue'
-  import EntityActions from 'renderer/api/store/entityActions'
   import {createRouteObjectPath} from 'renderer/services/api/RouteObject'
   import EntityTypes from 'renderer/api/EntityTypes'
   import ChildTypes from 'renderer/api/ChildTypes'
@@ -22,7 +20,7 @@
     name: 'CreateUser',
     data () {
       return {
-        entityAction: EntityActions.GET_USERS
+        userEntityType: EntityTypes.USER
       }
     },
     components: {

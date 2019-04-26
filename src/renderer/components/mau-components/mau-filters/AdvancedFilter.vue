@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="!loading">
             <div class="form-group form-row search-container">
                 <b-form-input v-model="filteredText"
                               type="text"
@@ -36,19 +36,47 @@
                 </div>
                 <div class="form-group mb-3">
                     <label>Filtros de documento</label>
-                    <b-form-checkbox-group v-model="documentSelectedFilter" class="form-control" :options="documentFilters"></b-form-checkbox-group>
+                    <mau-form-input-check-boxes
+                            v-model="documentSelectedFilter"
+                            :availableObjects="documentFilters"
+                            :initialObjects="documentFilters"
+                            :display="'text'"
+                    >
+                    </mau-form-input-check-boxes>
                 </div>
                 <div class="form-group mb-3">
                     <label>Tipo</label>
-                    <b-form-radio-group v-model="documentTypeSelectedFilter" class="form-control" :options="availableDocumentTypes"></b-form-radio-group>
+                    <mau-form-input-radio
+                            v-model="documentTypeSelectedFilter"
+                            :availableObjects="availableDocumentTypes"
+                            :initialObject="{}"
+                            :name="'DocumentStatuses'"
+                            :display="'name'"
+                            :error="''"
+                    >
+                    </mau-form-input-radio>
                 </div>
                 <div class="form-group mb-3">
                     <label>Status</label>
-                    <b-form-radio-group v-model="documentStatusSelectedFilter" class="form-control" :options="availableDocumentStatuses"></b-form-radio-group>
+                    <mau-form-input-radio
+                            v-model="documentStatusSelectedFilter"
+                            :availableObjects="availableDocumentStatuses"
+                            :initialObject="{}"
+                            :name="'DocumentStatuses'"
+                            :display="'name'"
+                            :error="''"
+                    >
+                    </mau-form-input-radio>
                 </div>
                 <div class="form-group mb-3">
                     <label>Filtros de contacto</label>
-                    <b-form-checkbox-group v-model="contactSelectedFilter" class="form-control" :options="contactFilters"></b-form-checkbox-group>
+                    <mau-form-input-check-boxes
+                            v-model="contactSelectedFilter"
+                            :availableObjects="contactFilters"
+                            :initialObjects="contactFilters"
+                            :display="'text'"
+                    >
+                    </mau-form-input-check-boxes>
                 </div>
                 <button class="btn-submit btn btn-primary col-sm-12" @click="doFilter">Buscar</button>
                 <div slot="modal-footer" class="no-padding">
@@ -62,11 +90,13 @@
   import VueSelect from 'vue-select'
   import moment from 'moment'
   import ApiUrls from 'renderer/services/api/ApiUrls'
-  import EntityActions from 'renderer/api/store/entityActions'
-  import cloneDeep from 'renderer/services/common/cloneDeep'
   import isDefined from 'renderer/services/common/isDefined'
   import getArrayFromProperty from 'renderer/services/common/getArrayFromProperty'
+  import EntityTypes from 'renderer/api/EntityTypes'
+  import ApiOperations from 'renderer/services/api/ApiOperations'
   import MauFormInputSelect from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelect.vue'
+  import MauFormInputCheckBoxes from 'renderer/components/mau-components/mau-form-inputs/MauFormInputCheckBoxes'
+  import GlobalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
   export default {
     name: 'AdvancedFilter',
     data () {
@@ -80,10 +110,10 @@
         attachments: '',
         documentStatusSelectedFilter: '',
         documentTypeSelectedFilter: '',
-        documentSelectedFilter: '',
+        documentSelectedFilter: ['folio', 'file_number', 'tome', 'electronic_folio', 'property'],
         entitySelectedFilter: '',
-        contactSelectedFilter: '',
-        excelRoute: '',
+        contactSelectedFilter: ['phone', 'email', 'fullname'],
+        excelRoute: ApiUrls.createBaseUrl('export/excel?'),
         groups: '',
         endDateExcel: moment().startOf('year').add(1, 'years').format('L'),
         startDateExcel: moment().startOf('year').format('L'),
@@ -106,41 +136,38 @@
           {text: 'Telefono', value: 'phone'},
           {text: 'Email', value: 'email'}
         ],
-        showCollapse: false
+        availableDocumentStatuses: [],
+        availableDocumentTypes: [],
+        showCollapse: false,
+        loading: true
       }
     },
     created () {
-      this.getInitialData()
-      this.excelRoute = ApiUrls.createBaseUrl('export/excel?')
-      this.documentSelectedFilter = ['folio', 'file_number', 'tome', 'electronic_folio', 'property']
-      this.contactSelectedFilter = ['phone', 'email', 'fullname']
+      Promise.all([
+        ApiOperations.get(ApiUrls.createListUrl(EntityTypes.DOCUMENT_STATUS.apiName) + '?paginate=false'),
+        ApiOperations.get(ApiUrls.createListUrl(EntityTypes.DOCUMENT_TYPE.apiName) + '?paginate=false')
+      ]).then(result => {
+        this.availableDocumentStatuses = result[0]
+        this.availableDocumentTypes = result[1]
+      }).finally(() => {
+        this.loading = false
+      })
     },
     computed: {
       ...mapState({
-        availableClients: state => getArrayFromProperty(state.api.entity.clients, 'name'),
-        availableDocumentStatuses: state => state.api.entity.documentStatuses.map(obj => {
-          return {value: obj.id, text: obj.name}
-        }),
-        availableDocumentTypes: state => state.api.entity.documentTypes.map(obj => {
-          return {value: obj.id, text: obj.name}
-        }),
         availableOperations: state => state.api.entity.operations.map(obj => {
           return {value: obj.id, text: obj.name}
         }),
         availableAttachments: state => getArrayFromProperty(state.api.entity.attachments, 'name'),
-        availableGroups: state => getArrayFromProperty(cloneDeep(state.api.entity.groups), 'name'),
-        availableGrantors: state => getArrayFromProperty(state.api.entity.grantors, 'fullname'),
         availableUsers: state => getArrayFromProperty(state.api.entity.users, 'fullname')
       })
     },
     components: {
       MauFormInputSelect,
-      VueSelect
+      VueSelect,
+      MauFormInputCheckBoxes
     },
     methods: {
-      getInitialData: function () {
-        this.$store.dispatch(EntityActions.GET_OPERATIONS)
-      },
       getRangeDate: function () {
         let startDate
         let endDate
@@ -161,13 +188,13 @@
             end_date: endDate
           }
         // Number
-        let documentTypeValue = this.documentTypeSelectedFilter
-        if (!isNaN(documentTypeValue) && documentTypeValue > 0) {
+        let documentTypeValue = this.documentTypeSelectedFilter ? this.documentTypeSelectedFilter[GlobalEntityIdentifier] : ''
+        if (documentTypeValue !== '') {
           searchQuery.document_type_id = documentTypeValue
         }
         let documentValue = this.documentSelectedFilter
         if (isDefined(documentValue) && documentValue.length > 0) {
-          searchQuery.document_filters = documentValue.join('|')
+          searchQuery.document_filters = documentValue.map(documentFilterObj => { return documentFilterObj['value'] }).join('|')
         }
         let contactValue = this.contactSelectedFilter
         if (isDefined(contactValue) && documentValue.length > 0) {
@@ -182,8 +209,7 @@
         if (isDefined(operationValue) && operationValue.length > 0) {
           searchQuery.operation_id = operationValue.id
         }
-        let statusValue = this.documentStatusSelectedFilter
-        // console.log(statusValue)
+        let statusValue = this.documentStatusSelectedFilter ? this.documentStatusSelectedFilter[GlobalEntityIdentifier] : ''
         if (statusValue !== '') {
           searchQuery.document_status_id = statusValue
         }
@@ -191,12 +217,12 @@
       },
       doFilter () {
         let searchQuery = this.getSearchQuery()
+        console.log(searchQuery)
         this.$refs.advancedSearchModal.hide()
         this.$emit('filter', searchQuery)
       }
     },
     mounted () {
-      this.doFilter()
     },
     watch: {
       rangeDate: function () {

@@ -1,13 +1,19 @@
 <template>
   <div class="container">
-    <mau-crud-edit
+    <mau-entity-petitioner
       :id="id"
-      :entityName="'Grantor'"
-      :entityAction="entityAction"
+      :entityType="grantorEntityType"
+      @entityResult="entityResultHandler"
+    >
+    </mau-entity-petitioner>
+    <mau-crud-edit
+      v-if="grantor"
+      :id="id"
+      :entityType="grantorEntityType"
       :callback="callback">
       <template slot-scope="params">
         <grantor-form
-          :initialObject="params.entity"
+          :initialObject="grantor"
           :saveFunction="params.saveFunction">
         </grantor-form>
       </template>
@@ -17,27 +23,31 @@
 
 <script>
   import GrantorForm from '../components/GrantorForm.vue'
-  import EntityActions from 'renderer/api/store/entityActions'
   import {createRouteObjectPath} from 'renderer/services/api/RouteObject'
   import EntityTypes from 'renderer/api/EntityTypes'
   import ChildTypes from 'renderer/api/ChildTypes'
+  import MauEntityPetitioner from 'renderer/components/mau-components/mau-crud/MauEntityPetitioner'
   export default {
     name: 'EditGrantor',
     data () {
       return {
-        entityAction: EntityActions.GET_GRANTORS,
-        client: null
+        grantor: null,
+        grantorEntityType: EntityTypes.GRANTOR
       }
     },
     props: {
       id: null
     },
     components: {
-      GrantorForm
+      GrantorForm,
+      MauEntityPetitioner
     },
     methods: {
       callback: function () {
         this.$router.push({path: createRouteObjectPath(EntityTypes.GRANTOR, ChildTypes.LIST)})
+      },
+      entityResultHandler: function (entityObj) {
+        this.grantor = entityObj
       }
     }
   }

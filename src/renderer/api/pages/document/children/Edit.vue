@@ -7,7 +7,7 @@
     >
     </mau-entity-petitioner>
     <mau-crud-edit
-      v-if="entity"
+      v-if="document"
       :id="id"
       :entityType="documentEntityType"
       :callback="callback"
@@ -15,7 +15,7 @@
     >
       <template slot-scope="params">
         <document-editor-tabs
-          :initialObject="entity"
+          :initialObject="document"
           :saveFunction="params.saveFunction">
         </document-editor-tabs>
       </template>
@@ -34,6 +34,7 @@
     name: 'EditDocument',
     data () {
       return {
+        document: null,
         documentEntityType: EntityTypes.DOCUMENT,
         hostRelationshipIdName: PropertiesReference.ID.relationship_id_name,
         entity: null
@@ -51,7 +52,7 @@
         this.$router.push({path: createRouteObjectPath(EntityTypes.DOCUMENT, ChildTypes.HISTORY)})
       },
       entityResultHandler: function (entityObj) {
-        this.entity = entityObj
+        this.document = entityObj
       }
     }
   }

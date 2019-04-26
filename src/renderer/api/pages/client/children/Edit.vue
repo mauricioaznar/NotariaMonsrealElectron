@@ -1,16 +1,22 @@
 <template>
   <div class="container">
-    <mau-crud-edit
+    <mau-entity-petitioner
       :id="id"
-      :entityName="'Client'"
-      :entityAction="entityAction"
+      :entityType="clientEntityType"
+      @entityResult="entityResultHandler"
+    >
+
+    </mau-entity-petitioner>
+    <mau-crud-edit
+      v-if="client"
+      :id="id"
+      :entityType="clientEntityType"
       :callback="callback"
       :relationshipIdName="hostRelationshipIdName"
-      :relatedEntitiesRoutes="relatedEntitiesRoutes"
     >
       <template slot-scope="params">
         <client-form
-          :initialObject="params.entity"
+          :initialObject="client"
           :saveFunction="params.saveFunction">
         </client-form>
       </template>
@@ -20,31 +26,33 @@
 
 <script>
   import ClientForm from '../components/ClientForm.vue'
-  import EntityActions from 'renderer/api/store/entityActions'
   import PropertiesReference from '../PropertiesReference'
-  import {ApiRoutes} from 'renderer/api/ApiRoutes'
   import {createRouteObjectPath} from 'renderer/services/api/RouteObject'
   import EntityTypes from 'renderer/api/EntityTypes'
   import ChildTypes from 'renderer/api/ChildTypes'
+  import MauEntityPetitioner from 'renderer/components/mau-components/mau-crud/MauEntityPetitioner'
   export default {
     name: 'EditClient',
     data () {
       return {
-        entityAction: EntityActions.GET_CLIENTS,
         client: null,
-        hostRelationshipIdName: PropertiesReference.ID.relationship_id_name,
-        relatedEntitiesRoutes: {[PropertiesReference.GRANTORS.entityName]: ApiRoutes.clientGrantor}
+        clientEntityType: EntityTypes.CLIENT,
+        hostRelationshipIdName: PropertiesReference.ID.relationship_id_name
       }
     },
     props: {
       id: null
     },
     components: {
-      ClientForm
+      ClientForm,
+      MauEntityPetitioner
     },
     methods: {
       callback: function () {
         this.$router.push({path: createRouteObjectPath(EntityTypes.CLIENT, ChildTypes.LIST)})
+      },
+      entityResultHandler: function (entityObj) {
+        this.client = entityObj
       }
     }
   }

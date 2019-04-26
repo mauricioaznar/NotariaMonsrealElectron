@@ -247,13 +247,12 @@
         let initialM2mClients = ManyToManyHelper.createM2MStructuredObjects(this.initialValues[PropertiesReference.CLIENTS.name], PropertiesReference.CLIENTS.relationship_id_name)
         let m2mClients = ManyToManyHelper.createM2MStructuredObjects(this.appointment.clients, PropertiesReference.CLIENTS.relationship_id_name)
         let filteredClients = ManyToManyHelper.filterM2MStructuredObjectsByApiOperations(initialM2mClients, m2mClients, PropertiesReference.CLIENTS.relationship_id_name)
-        let indirectParams = {
-          [PropertiesReference.USERS.entityName]: filteredUsers,
-          [PropertiesReference.CLIENTS.entityName]: filteredClients
-        }
+        let indirectParams = [
+          ManyToManyHelper.createRelayObject(filteredUsers, EntityTypes.APPOINTMENT_USER),
+          ManyToManyHelper.createRelayObject(filteredClients, EntityTypes.APPOINTMENT_CLIENT)
+        ]
         this.$validator.validateAll().then((result) => {
           if (result) {
-            console.log(result)
             this.buttonDisabled = true
             this.saveFunction(directParams, indirectParams)
           }

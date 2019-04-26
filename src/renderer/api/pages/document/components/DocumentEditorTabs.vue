@@ -668,10 +668,9 @@
           ManyToManyHelper.createRelayObject(filteredExitUsers, EntityTypes.DOCUMENT_USER),
           ManyToManyHelper.createRelayObject(filteredEntryUsers, EntityTypes.DOCUMENT_USER),
           ManyToManyHelper.createRelayObject(filteredGrantors, EntityTypes.DOCUMENT_GRANTOR),
-          ManyToManyHelper.createRelayObject(this.document.documentProperties, EntityTypes.DOCUMENT_PROPERTY)
-          // TODO repair many to many document-comment
+          ManyToManyHelper.createRelayObject(this.document.documentProperties, EntityTypes.DOCUMENT_PROPERTY),
+          ManyToManyHelper.createRelayObject(this.document.comment, EntityTypes.DOCUMENT_COMMENT)
         ]
-        console.log(indirectParams)
         this.$validator.validateAll().then((result) => {
           if (result) {
             this.buttonDisabled = true

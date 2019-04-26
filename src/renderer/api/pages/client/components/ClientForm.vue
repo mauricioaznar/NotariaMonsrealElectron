@@ -231,13 +231,13 @@
         let m2MGrantors = ManyToManyHelper.createM2MStructuredObjects(this.client.grantors, PropertiesReference.GRANTORS.relationship_id_name)
         let initialM2MGrantors = ManyToManyHelper.createM2MStructuredObjects(this.initialValues[PropertiesReference.GRANTORS.name], PropertiesReference.GRANTORS.relationship_id_name)
         let filteredM2MGrantors = ManyToManyHelper.filterM2MStructuredObjectsByApiOperations(initialM2MGrantors, m2MGrantors, PropertiesReference.GRANTORS.relationship_id_name)
-        let indirectParams = {
-          [PropertiesReference.GRANTORS.entityName]: filteredM2MGrantors
-        }
+        let relayObjects = [
+          ManyToManyHelper.createRelayObject(filteredM2MGrantors, EntityTypes.CLIENT_GRANTOR)
+        ]
         this.$validator.validateAll().then((result) => {
           if (result) {
             this.buttonDisabled = true
-            this.saveFunction(directParams, indirectParams)
+            this.saveFunction(directParams, relayObjects)
           }
         })
       }

@@ -70,7 +70,6 @@
         })
       },
       toggle: function () {
-        console.log('asdfasd')
         this[AppActions.TOGGLE_SIDEBAR]()
       }
     }

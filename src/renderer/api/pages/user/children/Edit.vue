@@ -1,13 +1,19 @@
 <template>
   <div class="container">
-    <mau-crud-edit
+    <mau-entity-petitioner
+      :entityType="userEntityType"
       :id="id"
-      :entityName="'User'"
-      :entityAction="entityAction"
+      @entityResult="entityResultHandler"
+    >
+    </mau-entity-petitioner>
+    <mau-crud-edit
+      v-if="user"
+      :entityType="userEntityType"
+      :id="id"
       :callback="callback">
       <template slot-scope="params">
         <user-form
-          :initialObject="params.entity"
+          :initialObject="user"
           :saveFunction="params.saveFunction">
         </user-form>
       </template>
@@ -17,27 +23,31 @@
 
 <script>
   import UserForm from '../components/UserForm.vue'
-  import EntityActions from 'renderer/api/store/entityActions'
   import {createRouteObjectPath} from 'renderer/services/api/RouteObject'
   import EntityTypes from 'renderer/api/EntityTypes'
   import ChildTypes from 'renderer/api/ChildTypes'
+  import MauEntityPetitioner from 'renderer/components/mau-components/mau-crud/MauEntityPetitioner'
   export default {
     name: 'EditUser',
     data () {
       return {
-        entityAction: EntityActions.GET_USERS,
-        user: null
+        user: null,
+        userEntityType: EntityTypes.USER
       }
     },
     props: {
       id: null
     },
     components: {
-      UserForm
+      UserForm,
+      MauEntityPetitioner
     },
     methods: {
       callback: function () {
         this.$router.push({path: createRouteObjectPath(EntityTypes.USER, ChildTypes.LIST)})
+      },
+      entityResultHandler: function (entityObj) {
+        this.user = entityObj
       }
     }
   }

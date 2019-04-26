@@ -206,12 +206,11 @@
           [PropertiesReference.COUNTRY.name]: this.grantor.country,
           [PropertiesReference.ZIPCODE.name]: this.grantor.zipcode
         }
-        let indirectParams = {
-        }
+        let relayObjects = []
         this.$validator.validateAll().then((result) => {
           if (result) {
             this.buttonDisabled = true
-            this.saveFunction(directParams, indirectParams)
+            this.saveFunction(directParams, relayObjects)
           }
         })
       }
