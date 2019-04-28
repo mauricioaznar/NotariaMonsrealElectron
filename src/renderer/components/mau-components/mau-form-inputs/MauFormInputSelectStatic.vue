@@ -1,23 +1,8 @@
 <template>
     <div>
-        <label v-if="label">
-            {{label}}
-        </label>
-        <vue-select
-                v-model="selected"
-                :label="displayProperty"
-                :track-by="'id'"
-                class="form-control override-form-control"
-                :onSearch="onSearch"
-                :clearSearchOnSelect="hasClear"
-                :options="availableObjects"
-                :class="getBootstrapValidationClass(error)"
-        >
-            <template slot="option" slot-scope="option">
-                {{option[displayProperty]}}
-            </template>
-            <span slot="no-options">No se encontraron resultados.</span>
-        </vue-select>
+        <select class="w-100" :name="name" v-model="selected">
+            <option v-for="availableObject in availableObjects" :value="availableObject">{{availableObject[displayProperty]}}</option>
+        </select>
         <div class="invalid-feedback">
           <span v-show="error" class="help is-danger">
             {{error}}
@@ -30,9 +15,8 @@
     import VueSelect from 'vue-select'
     import ValidatorHelper from 'renderer/services/form/ValidatorHelper'
     import cloneDeep from 'renderer/services/common/cloneDeep'
-    import ApiOperations from 'renderer/services/api/ApiOperations'
-    import _ from 'lodash'
     export default {
+      name: 'MauFormInputSelectStatic',
       data () {
         return {
           selected: null
@@ -51,18 +35,20 @@
           type: [Object]
         },
         name: {
-          type: String
+          type: String,
+          required: true
         },
         error: {
           type: String,
           required: false
         },
         availableObjects: {
-          type: Array
+          type: Array,
+          required: true
         },
         displayProperty: {
           type: String,
-          default: 'name'
+          required: true
         },
         label: {
           type: String
@@ -77,12 +63,6 @@
           type: Boolean,
           default: function () {
             return false
-          }
-        },
-        entityApiName: {
-          type: String,
-          default: function () {
-            return ''
           }
         }
       },
@@ -103,13 +83,6 @@
           this.$emit('input', newValue)
         },
         onSearch: function (string) {
-          if (this.url !== '') {
-            _.debounce(ApiOperations.get().then(data => {
-              this.options = data
-            }).catch(e => {
-              console.log(e)
-            }), 500)
-          }
         }
       },
       watch: {

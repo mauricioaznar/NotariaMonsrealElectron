@@ -28,24 +28,10 @@
             <b-modal class="mau-custom-modal" id="advancedSearchModal" ref="advancedSearchModal" title="Busqueda Avanzada">
                 <div class="form-group mb-3">
                     <label>Operacion</label>
-                    <mau-form-input-select-static
-                            v-model="operation"
-                            :availableObjects="availableOperations"
-                            :displayProperty="'name'"
-                            :name="'operation_filter'"
-                            :error="''"
-                    ></mau-form-input-select-static>
+                    <b-form-select v-model="operation" :options="availableOperations" class="form-control" :select-size="1"></b-form-select>
                 </div>
                 <div class="form-group mb-3">
                     <label>Entidad</label>
-                    <mau-form-input-select-static
-                            v-model="entitySelectedFilter"
-                            :availableObjects="entityFilters"
-                            :displayProperty="'text'"
-                            :name="'entity_filter'"
-                            :error="''"
-                    >
-                    </mau-form-input-select-static>
                 </div>
                 <div class="form-group mb-3">
                     <label>Filtros de documento</label>
@@ -63,7 +49,7 @@
                             v-model="documentTypeSelectedFilter"
                             :availableObjects="availableDocumentTypes"
                             :initialObject="{}"
-                            :name="'DocumentTypes'"
+                            :name="'DocumentStatuses'"
                             :display="'name'"
                             :error="''"
                     >
@@ -106,9 +92,9 @@
   import EntityTypes from 'renderer/api/EntityTypes'
   import ApiOperations from 'renderer/services/api/ApiOperations'
   import MauFormInputSelect from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelect.vue'
+  import MauFormInputSelectStatic from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelectStatic.vue'
   import MauFormInputCheckBoxes from 'renderer/components/mau-components/mau-form-inputs/MauFormInputCheckBoxes'
   import GlobalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
-  import MauFormInputSelectStatic from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelectStatic.vue'
   export default {
     name: 'AdvancedFilter',
     data () {
@@ -119,7 +105,7 @@
         documentStatus: '',
         documentType: '',
         operation: '',
-        attachments: '',
+        operationApiUrl: ApiUrls.createListUrl(EntityTypes.OPERATION.apiName) + '?paginate=false',
         documentStatusSelectedFilter: '',
         documentTypeSelectedFilter: '',
         documentSelectedFilter: ['folio', 'file_number', 'tome', 'electronic_folio', 'property'],
@@ -129,8 +115,6 @@
         groups: '',
         endDateExcel: moment().startOf('year').add(1, 'years').format('L'),
         startDateExcel: moment().startOf('year').format('L'),
-        grantors: '',
-        users: '',
         documentFilters: [
           {text: 'Folio', value: 'folio'},
           {text: 'Numero de acta', value: 'file_number'},
@@ -139,9 +123,9 @@
           {text: 'Predio', value: 'property'}
         ],
         entityFilters: [
-          {text: 'Cliente', value: 'client'},
-          {text: 'Abogado', value: 'lawyer'},
-          {text: 'Otorgante', value: 'grantor'}
+          {id: 1, text: 'Cliente', value: 'client'},
+          {id: 2, text: 'Abogado', value: 'lawyer'},
+          {id: 3, text: 'Otorgante', value: 'grantor'}
         ],
         contactFilters: [
           {text: 'Nombre', value: 'fullname'},
@@ -158,12 +142,10 @@
     created () {
       Promise.all([
         ApiOperations.get(ApiUrls.createListUrl(EntityTypes.DOCUMENT_STATUS.apiName) + '?paginate=false'),
-        ApiOperations.get(ApiUrls.createListUrl(EntityTypes.DOCUMENT_TYPE.apiName) + '?paginate=false'),
-        ApiOperations.get(ApiUrls.createListUrl(EntityTypes.OPERATION.apiName) + '?paginate=false')
+        ApiOperations.get(ApiUrls.createListUrl(EntityTypes.DOCUMENT_TYPE.apiName) + '?paginate=false')
       ]).then(result => {
         this.availableDocumentStatuses = result[0]
         this.availableDocumentTypes = result[1]
-        this.availableOperations = result[2]
       }).finally(() => {
         this.loading = false
       })
@@ -207,16 +189,16 @@
         }
         let contactValue = this.contactSelectedFilter
         if (isDefined(contactValue) && documentValue.length > 0) {
-          searchQuery.contact_filters = contactValue.map(documentFilterObj => { return documentFilterObj['value'] }).join('|')
+          searchQuery.contact_filters = contactValue.join('|')
         }
         // String
-        let entityValue = this.entitySelectedFilter ? this.entitySelectedFilter['value'] : ''
-        if (entityValue !== '') {
+        let entityValue = this.entitySelectedFilter
+        if (isDefined(entityValue) && entityValue.length > 0) {
           searchQuery.entity_filters = entityValue
         }
-        let operationValue = this.operation ? this.operation[GlobalEntityIdentifier] : ''
-        if (operationValue !== '') {
-          searchQuery.operation_id = operationValue
+        let operationValue = this.operation
+        if (isDefined(operationValue) && operationValue.length > 0) {
+          searchQuery.operation_id = operationValue.id
         }
         let statusValue = this.documentStatusSelectedFilter ? this.documentStatusSelectedFilter[GlobalEntityIdentifier] : ''
         if (statusValue !== '') {

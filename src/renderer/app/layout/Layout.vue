@@ -25,7 +25,6 @@
   import Navbar from './navbar/Navbar'
   import Sidebar from './sidebar/Sidebar'
   import AuthWidget from './auth-widget/AuthWidget.vue'
-  import EntityActions from 'renderer/api/store/entityActions'
   export default {
     name: 'layout',
     data () {
@@ -49,16 +48,6 @@
         toggleSidebar: 'toggleSidebar'
       }),
       getInitialData: function () {
-        this.$store.dispatch(EntityActions.GET_DOCUMENT_TYPES)
-        this.$store.dispatch(EntityActions.GET_DOCUMENT_STATUSES)
-        this.$store.dispatch(EntityActions.GET_OPERATIONS)
-        // this.$store.dispatch(EntityActions.GET_LAWYERS) TODO Erase lawyers
-        this.$store.dispatch(EntityActions.GET_GROUPS)
-        this.$store.dispatch(EntityActions.GET_ATTACHMENTS)
-        this.$store.dispatch(EntityActions.GET_CLIENTS)
-        this.$store.dispatch(EntityActions.GET_GRANTORS)
-        this.$store.dispatch(EntityActions.GET_USERS)
-        this.$store.dispatch(EntityActions.GET_ROOMS)
       }
     },
     computed: {

@@ -1,5 +1,5 @@
 <template>
-    <div class="mau-schedule" :class="{'is-first-time-loaded': isFirstTimeLoaded}">
+    <div v-if="!isLoading" class="mau-schedule" :class="{'is-first-time-loaded': isFirstTimeLoaded}">
         <div class="container">
             <div class="form-group">
                 <p>Seleccione una fecha</p>
@@ -40,7 +40,6 @@
     data () {
       return {
         appointments: [],
-        isDataLoading: false,
         isFirstTimeLoaded: true,
         weekGround: [
           'Oficina 1'
@@ -48,11 +47,21 @@
         timeGround: ['07:00', '19:00'],
         taskDetail: [],
         selectedDate: '',
-        initialDate: ''
+        initialDate: '',
+        isDataLoading: false,
+        isLoading: true,
+        availableRooms: []
       }
     },
     created () {
       this.getAppointmentList()
+      Promise.all([
+        ApiFunctions.get(ApiUrls.createListUrl(EntityTypes.ROOM.apiName) + '?paginate=false')
+      ]).then(result => {
+        this.availableRooms = result[0]
+      }).finally(() => {
+        this.isLoading = false
+      })
     },
     computed: {
       ...mapState({
@@ -68,12 +77,12 @@
     },
     methods: {
       setCategories: function () {
-        if (this.rooms.length === 0) {
+        if (this.availableRooms.length === 0) {
           return
         }
         let categoriesNames = []
         let categoriesIds = []
-        this.rooms.forEach((roomObj, index) => {
+        this.availableRooms.forEach((roomObj, index) => {
           categoriesNames.push(roomObj.name)
           categoriesIds.push(roomObj[globalEntityIdentifier])
         })
@@ -120,7 +129,7 @@
       }
     },
     watch: {
-      rooms: function () {
+      availableRooms: function () {
         this.setCategories()
       },
       selectedDate: function (val) {
