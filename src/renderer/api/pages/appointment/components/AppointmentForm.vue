@@ -86,7 +86,7 @@
       <div class="form-group">
         <div class="clients">
           <label>{{PropertiesReference.CLIENTS.title}}</label>
-          <mau-form-input-select
+          <mau-form-input-select-dynamic
                   :url="clientsUrl"
                   :initialObjects="initialValues[PropertiesReference.CLIENTS.name]"
                   :multiselect="true"
@@ -95,7 +95,7 @@
                   class="override-form-control form-control"
                   :name="PropertiesReference.CLIENTS.name"
           >
-          </mau-form-input-select>
+          </mau-form-input-select-dynamic>
           <div class="invalid-feedback">
                       <span v-show="errors.has(PropertiesReference.CLIENTS.name)" class="help is-danger">
                         {{ errors.first(PropertiesReference.CLIENTS.name) }}
