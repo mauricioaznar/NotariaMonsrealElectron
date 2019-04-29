@@ -115,7 +115,6 @@
                   :name="PropertiesReference.ROOM.name"
                   v-validate="'required'"
                   :data-vv-name="PropertiesReference.ROOM.name"
-                  :class="getBootstrapValidationClass(errors.has(PropertiesReference.ROOM.name))"
           >
           </mau-form-input-select-dynamic>
           <div class="invalid-feedback">
@@ -157,6 +156,7 @@
   import EntityTypes from 'renderer/api/EntityTypes'
   import ApiUrls from 'renderer/services/api/ApiUrls'
   import ManyToManyHelper from 'renderer/services/api/ManyToManyHelper'
+  import DefaultValuesHelper from 'renderer/services/form/DefaultValuesHelper'
   export default {
     name: 'AppointmentForm',
     data () {
@@ -200,36 +200,23 @@
       }.bind(this))
     },
     created () {
-      this.createDefaultInitialValues()
-      if (this.initialObject) {
-        this.setInitialValues(this.initialObject)
-      }
+      this.setInitialValues(this.initialObject)
     },
     computed: {
     },
     methods: {
       getBootstrapValidationClass: ValidatorHelper.getBootstrapValidationClass,
-      createDefaultInitialValues: function () {
-        for (let propertyReference in PropertiesReference) {
-          if (PropertiesReference.hasOwnProperty(propertyReference)) {
-            if (PropertiesReference[propertyReference].name === undefined) {
-              console.log(PropertiesReference[propertyReference])
-            }
-            this.initialValues[PropertiesReference[propertyReference].name] = PropertiesReference[propertyReference].defaultValue
-          }
-        }
-        this.initialValues['startTime'] = ''
-        this.initialValues['endTime'] = ''
-      },
       setInitialValues: function () {
-        this.appointment.name = this.initialObject[PropertiesReference.NAME.name]
-        this.initialValues[PropertiesReference.DESCRIPTION.name] = this.initialObject[PropertiesReference.DESCRIPTION.name]
-        this.initialValues[PropertiesReference.ROOM.name] = this.initialObject[PropertiesReference.ROOM.name]
-        this.initialValues[PropertiesReference.START_DATE.name] = ConvertDateTime.date(this.initialObject[PropertiesReference.START_DATE.name])
-        this.initialValues['startTime'] = ConvertDateTime.time(this.initialObject[PropertiesReference.START_DATE.name])
-        this.initialValues['endTime'] = ConvertDateTime.time(this.initialObject[PropertiesReference.END_DATE.name])
-        this.initialValues[PropertiesReference.CLIENTS.name] = this.initialObject[PropertiesReference.CLIENTS.name]
-        this.initialValues[PropertiesReference.USERS.name] = this.initialObject[PropertiesReference.USERS.name]
+        this.appointment.name = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.NAME.name)
+        this.initialValues[PropertiesReference.DESCRIPTION.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.DESCRIPTION.name)
+        this.initialValues[PropertiesReference.ROOM.name] = DefaultValuesHelper.object(this.initialObject, PropertiesReference.ROOM.name)
+        let startDateTime = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.START_DATE.name)
+        this.initialValues[PropertiesReference.START_DATE.name] = startDateTime ? ConvertDateTime.date(startDateTime) : startDateTime
+        this.initialValues['startTime'] = startDateTime ? ConvertDateTime.time(startDateTime) : startDateTime
+        let endDateTime = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.END_DATE.name)
+        this.initialValues['endTime'] = endDateTime ? ConvertDateTime.time(endDateTime) : endDateTime
+        this.initialValues[PropertiesReference.CLIENTS.name] = DefaultValuesHelper.arrayOfObjects(this.initialObject, PropertiesReference.CLIENTS.name)
+        this.initialValues[PropertiesReference.USERS.name] = DefaultValuesHelper.arrayOfObjects(this.initialObject, PropertiesReference.USERS.name)
       },
       save: function () {
         let directParams = {

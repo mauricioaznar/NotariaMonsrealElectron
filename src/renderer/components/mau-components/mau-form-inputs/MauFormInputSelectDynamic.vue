@@ -78,12 +78,13 @@
         }
       },
       created () {
-        if (this.multiselect === false) {
-          this.selected = isObjectEmpty(this.initialObject) ? '' : this.initialObject
-        } else {
+        if (this.multiselect === false && !isObjectEmpty(this.initialObject)) {
+          this.selected = this.initialObject
+        } else if (this.multiselect === true && this.initialObjects.length > 0) {
           this.selected = cloneDeep(this.initialObjects)
         }
         ApiOperations.get(this.url, this.filterLikes, this.filterExacts, this.filterEntity).then(res => {
+          console.log(res)
           this.options = res
         }).catch(e => {
           console.log(e)
@@ -111,9 +112,6 @@
       watch: {
         selected: function (newValue) {
           this.$emit('input', newValue)
-        },
-        initialObject: function (newInitialObject) {
-          this.selected = isObjectEmpty(this.initialObject) ? '' : newInitialObject
         }
       }
     }
