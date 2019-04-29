@@ -6,4 +6,17 @@ function convertDateTimeToDate (date) {
 function convertDateTimeToTime (date) {
   return moment(date).format('HH:mm')
 }
-export default {date: convertDateTimeToDate, time: convertDateTimeToTime}
+
+function convertDateTimeToHour (date) {
+  return moment(date).format('HH')
+}
+
+function convertDateTimeToMinute (date) {
+  return moment(date).format('mm')
+}
+export default {
+  date: convertDateTimeToDate,
+  time: convertDateTimeToTime,
+  hour: convertDateTimeToHour,
+  minute: convertDateTimeToMinute
+}

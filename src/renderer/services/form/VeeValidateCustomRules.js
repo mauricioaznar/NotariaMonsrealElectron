@@ -1,20 +1,6 @@
 import ApiOperations from 'renderer/services/api/ApiOperations'
 import moment from 'moment'
 
-let objectRequired = {
-  getMessage: field => `The field ${field} is required`,
-  validate: value => {
-    return !(Object.keys(value).length === 0 && value.constructor === Object)
-  }
-}
-
-let arrayRequired = {
-  getMessage: field => `The field ${field} is required`,
-  validate: value => {
-    return !(value.length === 0)
-  }
-}
-
 let folioYearUnique = {
   getMessage: field => `The field ${field} has to be unique on that year`,
   validate: (value, params, data) => {
@@ -57,7 +43,5 @@ let folioYearUnique = {
   }
 }
 export default {
-  objectRequired: objectRequired,
-  arrayRequired: arrayRequired,
   folioYearUnique: folioYearUnique
 }

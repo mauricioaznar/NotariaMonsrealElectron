@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <select class="w-100" :name="name" v-model="selected">
+    <div class="mau-form-input-select-static">
+        <select class="w-100 h-100" :name="name" v-model="selected">
             <option v-for="availableObject in availableObjects" :value="availableObject">{{availableObject[displayProperty]}}</option>
         </select>
         <div class="invalid-feedback">
@@ -31,9 +31,6 @@
         }
       },
       props: {
-        value: {
-          type: [Object]
-        },
         name: {
           type: String,
           required: true
@@ -95,3 +92,11 @@
       }
     }
 </script>
+
+<style lang="scss">
+    .mau-form-input-select-static {
+        select {
+            border: 0px solid transparent;
+        }
+    }
+</style>

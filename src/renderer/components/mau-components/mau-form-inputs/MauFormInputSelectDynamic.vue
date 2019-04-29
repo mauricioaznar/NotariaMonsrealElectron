@@ -84,7 +84,6 @@
           this.selected = cloneDeep(this.initialObjects)
         }
         ApiOperations.get(this.url, this.filterLikes, this.filterExacts, this.filterEntity).then(res => {
-          console.log(res)
           this.options = res
         }).catch(e => {
           console.log(e)
