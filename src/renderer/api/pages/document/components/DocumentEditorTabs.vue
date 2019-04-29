@@ -80,7 +80,7 @@
         <div class="form-group">
           <label>{{PropertiesReference.OPERATIONS.title}}</label>
           <div v-show="document.documentType">
-            <mau-form-input-select
+            <mau-form-input-select-dynamic
                     :key="document.documentType ? document.documentType['id'] : 0"
                     v-show="document.documentType"
                     :ref="PropertiesReference.OPERATIONS.name"
@@ -94,7 +94,7 @@
                     :url="operationsUrl"
                     class="form-control override-form-control"
             >
-            </mau-form-input-select>
+            </mau-form-input-select-dynamic>
           </div>
           <div v-if="!document.documentType" class="mau-text-center">
             <p>Se necesita seleccionar un tipo de documento</p>
@@ -202,7 +202,7 @@
                 </div>
               </b-modal>
             </div>
-            <mau-form-input-select
+            <mau-form-input-select-dynamic
                     :url="clientsUrl"
                     :initialObject="initialValues[PropertiesReference.CLIENT.name]"
                     :label="'fullname'"
@@ -214,7 +214,7 @@
                     :data-vv-name="PropertiesReference.CLIENT.name"
                     :class="getBootstrapValidationClass(errors.has(PropertiesReference.CLIENT.name))"
             >
-            </mau-form-input-select>
+            </mau-form-input-select-dynamic>
             <div class="invalid-feedback">
                   <span v-show="errors.has(PropertiesReference.CLIENT.name)" class="help is-danger">
                     {{ errors.first(PropertiesReference.CLIENT.name) }}
@@ -237,7 +237,7 @@
                 </div>
               </b-modal>
             </div>
-            <mau-form-input-select
+            <mau-form-input-select-dynamic
                     :url="grantorsUrl"
                     :key="grantorsCreated"
                     :initialObjects="initialValues[PropertiesReference.GRANTORS.name]"
@@ -246,13 +246,13 @@
                     :multiselect="true"
                     class="form-control override-form-control"
             >
-            </mau-form-input-select>
+            </mau-form-input-select-dynamic>
           </div>
         </div>
         <div class="form-group">
           <div class="groups">
             <label>Grupos</label>
-            <mau-form-input-select
+            <mau-form-input-select-dynamic
                     :url="groupsUrl"
                     :initialObjects="initialValues[PropertiesReference.GROUPS.name]"
                     :multiselect="true"
@@ -260,7 +260,7 @@
                     v-model="document.groups"
                     class=" form-control override-form-control"
             >
-            </mau-form-input-select>
+            </mau-form-input-select-dynamic>
           </div>
         </div>
       </div>
@@ -349,7 +349,7 @@
         <div class="form-group">
           <div class="document_entry_users">
             <label>Abogado(s) responsable de acta</label>
-            <mau-form-input-select
+            <mau-form-input-select-dynamic
                     :url="usersUrl"
                     :initialObjects="initialValues['entryUsers']"
                     :multiselect="true"
@@ -359,13 +359,13 @@
                     class="override-form-control form-control"
                     :name="PropertiesReference.USERS.name"
             >
-            </mau-form-input-select>
+            </mau-form-input-select-dynamic>
           </div>
         </div>
         <div class="form-group">
           <div class="document_exit_users">
             <label>Abogado(s) responsable de cierre</label>
-            <mau-form-input-select
+            <mau-form-input-select-dynamic
                     :url="usersUrl"
                     :initialObjects="initialValues['exitUsers']"
                     :multiselect="true"
@@ -374,7 +374,7 @@
                     class="override-form-control form-control"
                     :name="PropertiesReference.USERS.name"
             >
-            </mau-form-input-select>
+            </mau-form-input-select-dynamic>
           </div>
         </div>
       </div>
@@ -426,7 +426,7 @@
   import CommentInput from '../components/CommentInput.vue'
   import DocumentProperties from 'renderer/api/pages/document/components/DocumentProperty.vue'
   import DocumentAttachments from 'renderer/api/pages/document/components/DocumentAttachments'
-  import MauFormInputSelect from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelect.vue'
+  import MauFormInputSelectDynamic from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelectDynamic.vue'
   import MaskedInput from 'vue-text-mask'
   import DefaultValuesHelper from 'renderer/services/form/DefaultValuesHelper'
   import ValidatorHelper from '../../../../services/form/ValidatorHelper'
@@ -502,7 +502,7 @@
       MauFormInputRadio,
       CommentList,
       CommentInput,
-      MauFormInputSelect,
+      MauFormInputSelectDynamic,
       MauFormInputNumber,
       MauFormInputText,
       MaskedInput,

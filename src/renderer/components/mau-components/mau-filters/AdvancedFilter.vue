@@ -28,24 +28,24 @@
             <b-modal class="mau-custom-modal" id="advancedSearchModal" ref="advancedSearchModal" title="Busqueda Avanzada">
                 <div class="form-group mb-3">
                     <label>Operacion</label>
-                    <mau-form-input-select-static
+                    <mau-form-input-select-object-static
                             v-model="operation"
                             :availableObjects="availableOperations"
                             :displayProperty="'name'"
                             :name="'operation_filter'"
                             :error="''"
-                    ></mau-form-input-select-static>
+                    ></mau-form-input-select-object-static>
                 </div>
                 <div class="form-group mb-3">
                     <label>Entidad</label>
-                    <mau-form-input-select-static
+                    <mau-form-input-select-object-static
                             v-model="entitySelectedFilter"
                             :availableObjects="entityFilters"
                             :displayProperty="'text'"
                             :name="'entity_filter'"
                             :error="''"
                     >
-                    </mau-form-input-select-static>
+                    </mau-form-input-select-object-static>
                 </div>
                 <div class="form-group mb-3">
                     <label>Filtros de documento</label>
@@ -105,10 +105,9 @@
   import isDefined from 'renderer/services/common/isDefined'
   import EntityTypes from 'renderer/api/EntityTypes'
   import ApiOperations from 'renderer/services/api/ApiOperations'
-  import MauFormInputSelect from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelect.vue'
   import MauFormInputCheckBoxes from 'renderer/components/mau-components/mau-form-inputs/MauFormInputCheckBoxes'
   import GlobalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
-  import MauFormInputSelectStatic from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelectStatic.vue'
+  import MauFormInputSelectObjectStatic from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelectStatic.vue'
   export default {
     name: 'AdvancedFilter',
     data () {
@@ -171,8 +170,7 @@
     computed: {
     },
     components: {
-      MauFormInputSelect,
-      MauFormInputSelectStatic,
+      MauFormInputSelectObjectStatic,
       VueSelect,
       MauFormInputCheckBoxes
     },

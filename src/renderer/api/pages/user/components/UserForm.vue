@@ -72,7 +72,7 @@
     <div class="form-group">
       <div class="role">
         <label>{{PropertiesReference.ROLE.title}}</label>
-        <mau-form-input-select
+        <mau-form-input-select-dynamic
                 :initialObject="initialValues[PropertiesReference.ROLE.name]"
                 :label="'name'"
                 v-model="user.role"
@@ -83,7 +83,7 @@
                 :data-vv-name="PropertiesReference.ROLE.name"
                 :class="getBootstrapValidationClass(errors.has(PropertiesReference.ROLE.name))"
         >
-        </mau-form-input-select>
+        </mau-form-input-select-dynamic>
         <div class="invalid-feedback">
               <span v-show="errors.has(PropertiesReference.ROLE.name)" class="help is-danger">
                 {{ errors.first(PropertiesReference.ROLE.name) }}
@@ -103,7 +103,7 @@
   import ValidatorHelper from 'renderer/services/form/ValidatorHelper'
   import DefaultValuesHelper from 'renderer/services/form/DefaultValuesHelper'
   import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
-  import MauFormInputSelect from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelect.vue'
+  import MauFormInputSelectDynamic from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelectDynamic.vue'
   import ApiUrls from 'renderer/services/api/ApiUrls'
   import EntityTypes from 'renderer/api/EntityTypes'
   export default {
@@ -128,7 +128,7 @@
       }
     },
     components: {
-      MauFormInputSelect
+      MauFormInputSelectDynamic
     },
     props: {
       initialObject: {

@@ -22,6 +22,7 @@
     import isObjectEmpty from 'renderer/services/common/isObjectEmpty'
     import _ from 'lodash'
     export default {
+      name: 'MauFormInputSelectObjectDynamic',
       data () {
         return {
           selected: null,

@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex flex-column align-items-center">
-    <mau-form-input-select
+    <mau-form-input-select-dynamic
             :key="initialAttachments.length"
             class="w-100"
             :url="attachmentsUrl"
@@ -10,7 +10,7 @@
             :filterEntity="filterEntity"
             :filterLikes="filterLikes"
     >
-    </mau-form-input-select>
+    </mau-form-input-select-dynamic>
     <div class="w-100" v-if="selectedAttachmentsTransformed.length > 0">
       <table class="mau-check-table table table-striped">
         <thead>
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-  import MauFormInputSelect from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelect.vue'
+  import MauFormInputSelectDynamic from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelectDynamic.vue'
   import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
   import ApiUrls from 'renderer/services/api/ApiUrls'
   import EntityTypes from 'renderer/api/EntityTypes'
@@ -62,7 +62,7 @@
     computed: {
     },
     components: {
-      MauFormInputSelect
+      MauFormInputSelectDynamic
     },
     props: {
       initialAttachments: {

@@ -132,7 +132,7 @@
     <div class="form-group">
       <div class="client_grantors">
         <label>{{PropertiesReference.GRANTORS.title}}</label>
-        <mau-form-input-select
+        <mau-form-input-select-dynamic
                 v-model="client.grantors"
                 :initialObjects="initialValues[PropertiesReference.GRANTORS.name]"
                 :relatedRelationshipName="PropertiesReference.GRANTORS.relationship_id_name"
@@ -141,7 +141,7 @@
                 class="override-form-control form-control"
                 :label="'fullname'"
         >
-        </mau-form-input-select>
+        </mau-form-input-select-dynamic>
       </div>
     </div>
     <div class="container mb-2 text-right">
@@ -155,7 +155,7 @@
   import PropertiesReference from '../PropertiesReference'
   import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
   import DefaultValuesHelper from 'renderer/services/form/DefaultValuesHelper'
-  import MauFormInputSelect from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelect'
+  import MauFormInputSelectDynamic from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelectDynamic'
   import ManyToManyHelper from 'renderer/services/api/ManyToManyHelper'
   import ApiUrls from 'renderer/services/api/ApiUrls'
   import EntityTypes from 'renderer/api/EntityTypes'
@@ -181,7 +181,7 @@
       }
     },
     components: {
-      MauFormInputSelect
+      MauFormInputSelectDynamic
     },
     props: {
       initialObject: {

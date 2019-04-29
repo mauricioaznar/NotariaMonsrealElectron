@@ -106,7 +106,7 @@
       <div class="form-group">
         <div class="room">
           <label>{{PropertiesReference.ROOM.title}}</label>
-          <mau-form-input-select
+          <mau-form-input-select-dynamic
                   :url="roomsUrl"
                   :initialObject="initialValues[PropertiesReference.ROOM.name]"
                   :label="'name'"
@@ -117,7 +117,7 @@
                   :data-vv-name="PropertiesReference.ROOM.name"
                   :class="getBootstrapValidationClass(errors.has(PropertiesReference.ROOM.name))"
           >
-          </mau-form-input-select>
+          </mau-form-input-select-dynamic>
           <div class="invalid-feedback">
                       <span v-show="errors.has(PropertiesReference.ROOM.name)" class="help is-danger">
                         {{ errors.first(PropertiesReference.ROOM.name) }}
@@ -128,7 +128,7 @@
       <div class="form-group">
         <div class="appointment_users">
           <label>Abogado(s)</label>
-          <mau-form-input-select
+          <mau-form-input-select-dynamic
                   :url="usersUrl"
                   :initialObjects="initialValues[PropertiesReference.USERS.name]"
                   :multiselect="true"
@@ -137,7 +137,7 @@
                   class="override-form-control form-control"
                   :name="PropertiesReference.USERS.name"
           >
-          </mau-form-input-select>
+          </mau-form-input-select-dynamic>
         </div>
       </div>
       <div class="container mb-2 text-right">
@@ -153,7 +153,7 @@
   import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
   import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
   import ConvertDateTime from 'renderer/services/common/ConvertDateTime'
-  import MauFormInputSelect from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelect.vue'
+  import MauFormInputSelectDynamic from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelectDynamic.vue'
   import EntityTypes from 'renderer/api/EntityTypes'
   import ApiUrls from 'renderer/services/api/ApiUrls'
   import ManyToManyHelper from 'renderer/services/api/ManyToManyHelper'
@@ -181,7 +181,7 @@
       }
     },
     components: {
-      MauFormInputSelect
+      MauFormInputSelectDynamic
     },
     props: {
       initialObject: {

@@ -22,7 +22,7 @@
           <div class="form-group">
               <div class="user">
                   <label>{{PropertiesReference.USER.title}}</label>
-                  <mau-form-input-select
+                  <mau-form-input-select-dynamic
                           :initialObject="initialValues[PropertiesReference.USER.name]"
                           :label="'name'"
                           v-model="group.user"
@@ -33,7 +33,7 @@
                           :data-vv-name="PropertiesReference.USER.name"
                           :class="getBootstrapValidationClass(errors.has(PropertiesReference.USER.name))"
                   >
-                  </mau-form-input-select>
+                  </mau-form-input-select-dynamic>
                   <div class="invalid-feedback">
                       <span v-show="errors.has(PropertiesReference.USER.name)" class="help is-danger">
                         {{ errors.first(PropertiesReference.USER.name) }}
@@ -44,7 +44,7 @@
           <div class="form-group">
               <div class="users">
                   <label>{{PropertiesReference.USERS.title}}</label>
-                  <mau-form-input-select
+                  <mau-form-input-select-dynamic
                           v-model="group.users"
                           :initialObjects="initialValues[PropertiesReference.USERS.name]"
                           :relatedRelationshipName="PropertiesReference.USERS.relationship_id_name"
@@ -53,7 +53,7 @@
                           :label="'name'"
                           class="override-form-control form-control"
                   >
-                  </mau-form-input-select>
+                  </mau-form-input-select-dynamic>
               </div>
           </div>
           <div class="container mb-2 text-right">
@@ -67,7 +67,7 @@
   import PropertiesReference from '../PropertiesReference'
   import ValidatorHelper from 'renderer/services/form/ValidatorHelper'
   import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
-  import MauFormInputSelect from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelect.vue'
+  import MauFormInputSelectDynamic from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelectDynamic.vue'
   import ManyToManyHelper from 'renderer/services/api/ManyToManyHelper'
   import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
   import DefaultValuesHelper from 'renderer/services/form/DefaultValuesHelper'
@@ -90,7 +90,7 @@
       }
     },
     components: {
-      MauFormInputSelect
+      MauFormInputSelectDynamic
     },
     props: {
       initialObject: {
