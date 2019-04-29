@@ -73,5 +73,13 @@ export default {
     required: false,
     mauInputType: MauInputTypes.SELECTOR,
     defaultValue: MauInputDefaultValues.SELECTOR
+  },
+  CREATED_BY: {
+    title: 'Creado por',
+    name: 'created_by',
+    relationship_id_name: 'created_by_user_id',
+    display: DisplayFunctions.getNameFromObject,
+    mauInputType: MauInputTypes.SELECTOR,
+    defaultValue: MauInputDefaultValues.SELECTOR
   }
 }

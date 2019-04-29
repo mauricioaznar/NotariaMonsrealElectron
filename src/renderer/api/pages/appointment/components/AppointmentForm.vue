@@ -226,7 +226,8 @@
           [PropertiesReference.END_DATE.name]: this.appointment.startDate + ' ' + this.appointment.endTime + ':00',
           // todo CREAR UNA FUNCION PARA LA MANDAR NULL COMO STRING
           [PropertiesReference.CLIENTS.relationship_id_name]: this.appointment.clients ? this.appointment.clients[globalEntityIdentifier] : null,
-          [PropertiesReference.ROOM.relationship_id_name]: this.appointment.room ? this.appointment.room[globalEntityIdentifier] : null
+          [PropertiesReference.ROOM.relationship_id_name]: this.appointment.room ? this.appointment.room[globalEntityIdentifier] : null,
+          [PropertiesReference.CREATED_BY.relationship_id_name]: 1
         }
         let initialM2mUsers = ManyToManyHelper.createM2MStructuredObjects(this.initialValues[PropertiesReference.USERS.name], PropertiesReference.USERS.relationship_id_name)
         let m2mUsers = ManyToManyHelper.createM2MStructuredObjects(this.appointment.users, PropertiesReference.USERS.relationship_id_name)
