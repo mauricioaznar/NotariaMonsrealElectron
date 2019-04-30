@@ -12,7 +12,9 @@
                         :inputType="'range'"
                         v-model="rangeDate"
                         class="col-sm-12 col-md-3 no-padding"
-                        :initialValue="rangeDate">
+                        :initialValue="rangeDate"
+                        error="''"
+                >
                 </mau-form-input-date-time>
                 <b-btn class="col-sm-12 col-md-1 btn-collapse py-1"
                        aria-controls="collapse4"
@@ -47,19 +49,19 @@
                     >
                     </mau-form-input-select-object-static>
                 </div>
-                <div class="form-group mb-3">
+                <div class="mb-3">
                     <label>Filtros de documento</label>
-                    <mau-form-input-check-boxes
+                    <mau-form-group-check-boxes
                             v-model="documentSelectedFilter"
                             :availableObjects="documentFilters"
                             :initialObjects="documentFilters"
                             :display="'text'"
                     >
-                    </mau-form-input-check-boxes>
+                    </mau-form-group-check-boxes>
                 </div>
-                <div class="form-group mb-3">
+                <div class="mb-3">
                     <label>Tipo</label>
-                    <mau-form-input-radio
+                    <mau-form-group-radio
                             v-model="documentTypeSelectedFilter"
                             :availableObjects="availableDocumentTypes"
                             :initialObject="{}"
@@ -67,11 +69,11 @@
                             :display="'name'"
                             :error="''"
                     >
-                    </mau-form-input-radio>
+                    </mau-form-group-radio>
                 </div>
-                <div class="form-group mb-3">
+                <div class="mb-3">
                     <label>Status</label>
-                    <mau-form-input-radio
+                    <mau-form-group-radio
                             v-model="documentStatusSelectedFilter"
                             :availableObjects="availableDocumentStatuses"
                             :initialObject="{}"
@@ -79,17 +81,17 @@
                             :display="'name'"
                             :error="''"
                     >
-                    </mau-form-input-radio>
+                    </mau-form-group-radio>
                 </div>
-                <div class="form-group mb-3">
+                <div class="mb-3">
                     <label>Filtros de contacto</label>
-                    <mau-form-input-check-boxes
+                    <mau-form-group-check-boxes
                             v-model="contactSelectedFilter"
                             :availableObjects="contactFilters"
                             :initialObjects="contactFilters"
                             :display="'text'"
                     >
-                    </mau-form-input-check-boxes>
+                    </mau-form-group-check-boxes>
                 </div>
                 <button class="btn-submit btn btn-primary col-sm-12" @click="doFilter">Buscar</button>
                 <div slot="modal-footer" class="no-padding">
@@ -105,9 +107,10 @@
   import isDefined from 'renderer/services/common/isDefined'
   import EntityTypes from 'renderer/api/EntityTypes'
   import ApiOperations from 'renderer/services/api/ApiOperations'
-  import MauFormInputCheckBoxes from 'renderer/components/mau-components/mau-form-inputs/MauFormInputCheckBoxes'
+  import MauFormGroupCheckBoxes from 'renderer/components/mau-components/mau-form-groups/MauFormGroupCheckBoxes'
   import GlobalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
   import MauFormInputSelectObjectStatic from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelectStatic.vue'
+  import MauFormGroupRadio from 'renderer/components/mau-components/mau-form-groups/MauFormGroupRadio.vue'
   export default {
     name: 'AdvancedFilter',
     data () {
@@ -172,7 +175,8 @@
     components: {
       MauFormInputSelectObjectStatic,
       VueSelect,
-      MauFormInputCheckBoxes
+      MauFormGroupCheckBoxes,
+      MauFormGroupRadio
     },
     methods: {
       getRangeDate: function () {

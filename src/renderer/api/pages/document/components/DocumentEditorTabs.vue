@@ -64,7 +64,7 @@
         </div>
         <div class="form-group">
           <label>{{PropertiesReference.DOCUMENT_TYPE.title}}</label>
-          <mau-form-input-radio
+          <mau-form-group-radio
                   :id="PropertiesReference.DOCUMENT_TYPE.name"
                   v-model="document.documentType"
                   v-validate="'required'"
@@ -75,7 +75,7 @@
                   :display="'name'"
                   :error="errors.has(PropertiesReference.DOCUMENT_TYPE.name) ? errors.first(PropertiesReference.DOCUMENT_TYPE.name) : ''"
           >
-          </mau-form-input-radio>
+          </mau-form-group-radio>
         </div>
         <div class="form-group">
           <label>{{PropertiesReference.OPERATIONS.title}}</label>
@@ -112,7 +112,7 @@
         <div class="form-group">
           <div class="document_status">
             <label>{{PropertiesReference.DOCUMENT_STATUS.title}}</label>
-            <mau-form-input-radio
+            <mau-form-group-radio
                     :id="PropertiesReference.DOCUMENT_STATUS.name"
                     v-model="document.documentStatus"
                     v-validate="'required'"
@@ -123,7 +123,7 @@
                     :display="'name'"
                     :error="errors.has(PropertiesReference.DOCUMENT_STATUS.name) ? errors.first(PropertiesReference.DOCUMENT_STATUS.name) : ''"
             >
-            </mau-form-input-radio>
+            </mau-form-group-radio>
           </div>
         </div>
         <div class="form-group">
@@ -437,7 +437,7 @@
   import EntityTypes from 'renderer/api/EntityTypes'
   import ManyToManyHelper from 'renderer/services/api/ManyToManyHelper'
   import { mapGetters } from 'vuex'
-  import MauFormInputRadio from '../../../../components/mau-components/mau-form-inputs/MauFormInputRadio.vue'
+  import MauFormGroupRadio from 'renderer/components/mau-components/mau-form-groups/MauFormGroupRadio.vue'
   export default {
     name: 'DocumentEditorTabs',
     data () {
@@ -499,7 +499,7 @@
       }
     },
     components: {
-      MauFormInputRadio,
+      MauFormGroupRadio,
       CommentList,
       CommentInput,
       MauFormInputSelectDynamic,

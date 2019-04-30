@@ -1,10 +1,10 @@
 <template>
-    <div>
-        <div v-for="(availableObj, index) in availableObjects" class="d-flex justify-content-start">
+    <div class="form-group">
+        <div v-for="(availableObj, index) in availableObjects" class="form-check">
             <mau-form-input-check-box
                     :initialValue="getInitialValue(availableObj)"
-                    class="mr-2"
-                    v-on:input="(result) => inputHasChanged(result, index)">
+                    class="form-check-input mr-2"
+                    @input="function x(result) { inputHasChanged(result, index) }">
             </mau-form-input-check-box>
             <label class="form-check-label">{{availableObj[display]}}</label>
         </div>
@@ -15,7 +15,7 @@
 <script>
     import MauFormInputCheckBox from 'renderer/components/mau-components/mau-form-inputs/MauFormInputCheckBox'
     export default {
-      name: 'MauFormInputCheckBoxes',
+      name: 'MauFormGroupCheckBoxes',
       data () {
         return {
           selectedObjects: []

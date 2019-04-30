@@ -25,7 +25,7 @@
 <script>
     import GlobalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
     export default {
-      name: 'MauFormInputRadio',
+      name: 'MauFormGroupRadio',
       data () {
         return {
           selectedObjectId: '',

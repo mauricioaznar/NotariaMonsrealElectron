@@ -1,198 +1,206 @@
 <template>
-  <div>
     <div>
-      <div class="form-group">
-        <div class="document_property">
-          <label>{{PropertiesReference.NAME.title}}</label>
-          <b-form-input v-model="appointment.name"
-                        type="text"
-                        placeholder="Ejemplo: Cita con juan">
-          </b-form-input>
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="description">
-          <label>{{PropertiesReference.DESCRIPTION.title}}</label>
-          <mau-editor
-                  v-model="appointment.description"
-                  :id="'description'"
-                  :initialValue="initialValues[PropertiesReference.DESCRIPTION.name]">
-          </mau-editor>
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="start_date">
-          <label>{{PropertiesReference.START_DATE.title}}</label>
-          <mau-form-input-date-time
-                  :id="'startDate'"
-                  :name="'startDate'"
-                  :data-vv-name="'startDate'"
-                  v-model="appointment.startDate"
-                  :initialValue="initialValues['startDate']"
-                  :class="getBootstrapValidationClass(errors.has('startDate'))"
-                  class="form-control override-form-control"
-                  v-validate="'required'"
-          >
-          </mau-form-input-date-time>
-          <div class="invalid-feedback">
+        <div>
+            <div class="form-group">
+                <div class="document_property">
+                    <label>{{PropertiesReference.NAME.title}}</label>
+                    <b-form-input v-model="appointment.name"
+                                  type="text"
+                                  placeholder="Ejemplo: Cita con juan">
+                    </b-form-input>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="description">
+                    <label>{{PropertiesReference.DESCRIPTION.title}}</label>
+                    <mau-editor
+                            v-model="appointment.description"
+                            :id="'description'"
+                            :initialValue="initialValues[PropertiesReference.DESCRIPTION.name]">
+                    </mau-editor>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="start_date">
+                    <label>{{PropertiesReference.START_DATE.title}}</label>
+                    <mau-form-input-date-time
+                            :id="'startDate'"
+                            :name="'startDate'"
+                            :data-vv-name="'startDate'"
+                            v-model="appointment.startDate"
+                            :initialValue="initialValues['startDate']"
+                            :class="getBootstrapValidationClass(errors.has('startDate'))"
+                            class="form-control override-form-control"
+                            v-validate="'required'"
+                    >
+                    </mau-form-input-date-time>
+                    <div class="invalid-feedback">
                         <span v-show="errors.has('startDate')" class="help is-danger">
                           {{ errors.first('startDate') }}
                         </span>
-          </div>
-        </div>
-      </div>
-      <div class="form-group form-row">
-        <div class="col-md-6 col-sm-12 start_time">
-          <label>Hora de inicio</label>
-          <mau-form-input-select-static
-                  :id="'startHour'"
-                  :name="'startHour'"
-                  :data-vv-name="'startHour'"
-                  v-model="appointment.startHour"
-                  :availableObjects="hourOptions"
-                  :initialObject="initialValues['startHour']"
-                  :displayProperty="'value'"
-                  :class="getBootstrapValidationClass(errors.has('startHour'))"
-                  class="form-control p-0"
-                  v-validate="'required'"
-          >
-          </mau-form-input-select-static>
-          <div class="invalid-feedback">
+                    </div>
+                </div>
+            </div>
+            <mau-form-group-time
+                    :initialTime="initialValues['startTime']"
+                    :displayProperty="'value'"
+                    :name="'startTime'"
+                    :v-model="appointment.startTime"
+                    :label="'Hora de pachanga'"
+            >
+            </mau-form-group-time>
+            <div class="form-group form-row">
+                <div class="col-md-6 col-sm-12 start_time">
+                    <label>Hora de inicio</label>
+                    <mau-form-input-select-static
+                            :id="'startHour'"
+                            :name="'startHour'"
+                            :data-vv-name="'startHour'"
+                            v-model="appointment.startHour"
+                            :availableObjects="hourOptions"
+                            :initialObject="initialValues['startHour']"
+                            :displayProperty="'value'"
+                            :class="getBootstrapValidationClass(errors.has('startHour'))"
+                            class="form-control p-0"
+                            v-validate="'required'"
+                    >
+                    </mau-form-input-select-static>
+                    <div class="invalid-feedback">
                 <span v-show="errors.has('startHour')" class="help is-danger">
                   {{ errors.first('startHour') }}
                 </span>
-          </div>
-        </div>
-        <div class="col-md-6 col-sm-12 end_time">
-          <label>Minuto de inicio</label>
-          <mau-form-input-select-static
-                  :id="'startMinute'"
-                  :name="'startMinute'"
-                  :data-vv-name="'startMinute'"
-                  v-model="appointment.startMinute"
-                  :availableObjects="minuteOptions"
-                  :displayProperty="'value'"
-                  :initialObject="initialValues['startMinute']"
-                  :class="getBootstrapValidationClass(errors.has('startMinute'))"
-                  class="form-control override-form-control"
-                  v-validate="'required'"
-          >
-          </mau-form-input-select-static>
-          <div class="invalid-feedback">
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12 end_time">
+                    <label>Minuto de inicio</label>
+                    <mau-form-input-select-static
+                            :id="'startMinute'"
+                            :name="'startMinute'"
+                            :data-vv-name="'startMinute'"
+                            v-model="appointment.startMinute"
+                            :availableObjects="minuteOptions"
+                            :displayProperty="'value'"
+                            :initialObject="initialValues['startMinute']"
+                            :class="getBootstrapValidationClass(errors.has('startMinute'))"
+                            class="form-control override-form-control"
+                            v-validate="'required'"
+                    >
+                    </mau-form-input-select-static>
+                    <div class="invalid-feedback">
                 <span v-show="errors.has('startMinute')" class="help is-danger">
                   {{ errors.first('startMinute') }}
                 </span>
-          </div>
-        </div>
-      </div>
-      <div class="form-group form-row">
-        <div class="col-md-6 col-sm-12 start_time">
-          <label>Hora de fin</label>
-          <mau-form-input-select-static
-                  :id="'endHour'"
-                  :name="'endHour'"
-                  :data-vv-name="'endHour'"
-                  v-model="appointment.endHour"
-                  :availableObjects="hourOptions"
-                  :initialObject="initialValues['endHour']"
-                  :displayProperty="'value'"
-                  :class="getBootstrapValidationClass(errors.has('endHour'))"
-                  class="form-control p-0"
-                  v-validate="'required'"
-          >
-          </mau-form-input-select-static>
-          <div class="invalid-feedback">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group form-row">
+                <div class="col-md-6 col-sm-12 start_time">
+                    <label>Hora de fin</label>
+                    <mau-form-input-select-static
+                            :id="'endHour'"
+                            :name="'endHour'"
+                            :data-vv-name="'endHour'"
+                            v-model="appointment.endHour"
+                            :availableObjects="hourOptions"
+                            :initialObject="initialValues['endHour']"
+                            :displayProperty="'value'"
+                            :class="getBootstrapValidationClass(errors.has('endHour'))"
+                            class="form-control p-0"
+                            v-validate="'required'"
+                    >
+                    </mau-form-input-select-static>
+                    <div class="invalid-feedback">
                 <span v-show="errors.has('endHour')" class="help is-danger">
                   {{ errors.first('endHour') }}
                 </span>
-          </div>
-        </div>
-        <div class="col-md-6 col-sm-12 end_time">
-          <label>Minuto de fin</label>
-          <mau-form-input-select-static
-                  :id="'endMinute'"
-                  :name="'endMinute'"
-                  :data-vv-name="'endMinute'"
-                  v-model="appointment.endMinute"
-                  :availableObjects="minuteOptions"
-                  :displayProperty="'value'"
-                  :initialObject="initialValues['endMinute']"
-                  :class="getBootstrapValidationClass(errors.has('endMinute'))"
-                  class="form-control override-form-control"
-                  v-validate="'required'"
-          >
-          </mau-form-input-select-static>
-          <div class="invalid-feedback">
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12 end_time">
+                    <label>Minuto de fin</label>
+                    <mau-form-input-select-static
+                            :id="'endMinute'"
+                            :name="'endMinute'"
+                            :data-vv-name="'endMinute'"
+                            v-model="appointment.endMinute"
+                            :availableObjects="minuteOptions"
+                            :displayProperty="'value'"
+                            :initialObject="initialValues['endMinute']"
+                            :class="getBootstrapValidationClass(errors.has('endMinute'))"
+                            class="form-control override-form-control"
+                            v-validate="'required'"
+                    >
+                    </mau-form-input-select-static>
+                    <div class="invalid-feedback">
                 <span v-show="errors.has('endMinute')" class="help is-danger">
                   {{ errors.first('endMinute') }}
                 </span>
-          </div>
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="clients">
-          <label>{{PropertiesReference.CLIENTS.title}}</label>
-          <mau-form-input-select-dynamic
-                  :url="clientsUrl"
-                  :initialObjects="initialValues[PropertiesReference.CLIENTS.name]"
-                  :multiselect="true"
-                  :label="'fullname'"
-                  v-model="appointment.clients"
-                  class="override-form-control form-control"
-                  :class="getBootstrapValidationClass(errors.has(PropertiesReference.CLIENTS.name))"
-                  :name="PropertiesReference.CLIENTS.name"
-                  v-validate="'required'"
-          >
-          </mau-form-input-select-dynamic>
-          <div class="invalid-feedback">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="clients">
+                    <label>{{PropertiesReference.CLIENTS.title}}</label>
+                    <mau-form-input-select-dynamic
+                            :url="clientsUrl"
+                            :initialObjects="initialValues[PropertiesReference.CLIENTS.name]"
+                            :multiselect="true"
+                            :label="'fullname'"
+                            v-model="appointment.clients"
+                            class="override-form-control form-control"
+                            :class="getBootstrapValidationClass(errors.has(PropertiesReference.CLIENTS.name))"
+                            :name="PropertiesReference.CLIENTS.name"
+                            v-validate="'required'"
+                    >
+                    </mau-form-input-select-dynamic>
+                    <div class="invalid-feedback">
                       <span v-show="errors.has(PropertiesReference.CLIENTS.name)" class="help is-danger">
                         {{ errors.first(PropertiesReference.CLIENTS.name) }}
                       </span>
-          </div>
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="room">
-          <label>{{PropertiesReference.ROOM.title}}</label>
-          <mau-form-input-select-dynamic
-                  :url="roomsUrl"
-                  :initialObject="initialValues[PropertiesReference.ROOM.name]"
-                  :label="'name'"
-                  v-model="appointment.room"
-                  class="override-form-control form-control"
-                  :name="PropertiesReference.ROOM.name"
-                  :class="getBootstrapValidationClass(errors.has(PropertiesReference.ROOM.name))"
-                  v-validate="'required'"
-                  :data-vv-name="PropertiesReference.ROOM.name"
-          >
-          </mau-form-input-select-dynamic>
-          <div class="invalid-feedback">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="room">
+                    <label>{{PropertiesReference.ROOM.title}}</label>
+                    <mau-form-input-select-dynamic
+                            :url="roomsUrl"
+                            :initialObject="initialValues[PropertiesReference.ROOM.name]"
+                            :label="'name'"
+                            v-model="appointment.room"
+                            class="override-form-control form-control"
+                            :name="PropertiesReference.ROOM.name"
+                            :class="getBootstrapValidationClass(errors.has(PropertiesReference.ROOM.name))"
+                            v-validate="'required'"
+                            :data-vv-name="PropertiesReference.ROOM.name"
+                    >
+                    </mau-form-input-select-dynamic>
+                    <div class="invalid-feedback">
                       <span v-show="errors.has(PropertiesReference.ROOM.name)" class="help is-danger">
                         {{ errors.first(PropertiesReference.ROOM.name) }}
                       </span>
-          </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="appointment_users">
+                    <label>Abogado(s)</label>
+                    <mau-form-input-select-dynamic
+                            :url="usersUrl"
+                            :initialObjects="initialValues[PropertiesReference.USERS.name]"
+                            :multiselect="true"
+                            :label="'fullname'"
+                            v-model="appointment.users"
+                            class="override-form-control form-control"
+                            :name="PropertiesReference.USERS.name"
+                    >
+                    </mau-form-input-select-dynamic>
+                </div>
+            </div>
+            <div class="container mb-2 text-right">
+                <b-button :disabled="buttonDisabled" @click="save" type="button" variant="primary">Guardar</b-button>
+            </div>
         </div>
-      </div>
-      <div class="form-group">
-        <div class="appointment_users">
-          <label>Abogado(s)</label>
-          <mau-form-input-select-dynamic
-                  :url="usersUrl"
-                  :initialObjects="initialValues[PropertiesReference.USERS.name]"
-                  :multiselect="true"
-                  :label="'fullname'"
-                  v-model="appointment.users"
-                  class="override-form-control form-control"
-                  :name="PropertiesReference.USERS.name"
-          >
-          </mau-form-input-select-dynamic>
-        </div>
-      </div>
-      <div class="container mb-2 text-right">
-        <b-button :disabled="buttonDisabled" @click="save" type="button" variant="primary">Guardar</b-button>
-      </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -203,11 +211,13 @@
   import ConvertDateTime from 'renderer/services/common/ConvertDateTime'
   import MauFormInputSelectDynamic from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelectDynamic.vue'
   import MauFormInputSelectStatic from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelectStatic'
+  import MauFormGroupTime from 'renderer/components/mau-components/mau-form-groups/MauFormGroupTime.vue'
   import EntityTypes from 'renderer/api/EntityTypes'
   import ApiUrls from 'renderer/services/api/ApiUrls'
   import ManyToManyHelper from 'renderer/services/api/ManyToManyHelper'
   import DefaultValuesHelper from 'renderer/services/form/DefaultValuesHelper'
-  import {mapGetters} from 'vuex'
+  import { mapGetters } from 'vuex'
+
   export default {
     name: 'AppointmentForm',
     data () {
@@ -219,6 +229,7 @@
           startDate: '',
           startHour: '',
           startMinute: '',
+          startTime: '',
           endTime: '',
           endHour: '',
           endMinute: '',
@@ -265,7 +276,8 @@
     },
     components: {
       MauFormInputSelectDynamic,
-      MauFormInputSelectStatic
+      MauFormInputSelectStatic,
+      MauFormGroupTime
     },
     props: {
       initialObject: {
@@ -299,6 +311,7 @@
         this.initialValues[PropertiesReference.ROOM.name] = DefaultValuesHelper.object(this.initialObject, PropertiesReference.ROOM.name)
         let startDateTime = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.START_DATE.name)
         this.initialValues['startDate'] = startDateTime ? ConvertDateTime.date(startDateTime) : startDateTime
+        this.initialValues['startTime'] = startDateTime ? ConvertDateTime.time(startDateTime) : startDateTime
         this.initialValues['startHour'] = startDateTime ? {value: ConvertDateTime.hour(startDateTime)} : {}
         this.initialValues['startMinute'] = startDateTime ? {value: ConvertDateTime.minute(startDateTime)} : {}
         let endDateTime = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.END_DATE.name)

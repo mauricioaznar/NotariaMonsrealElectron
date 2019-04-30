@@ -1,39 +1,48 @@
 <template>
-    <div>
-        <label v-if="label">
-            {{label}}
-        </label>
-        <div
-            class="form-control p-0 d-flex align-content-stretch align-items-stretch"
-            :class="getBootstrapValidationClass(error)"
-        >
+    <div class="form-group form-row">
+        <div class="col-md-6 col-sm-12">
+            <label v-if="label">
+                {{label}}
+            </label>
             <mau-form-input-select-static
-                    :id="name"
-                    :name="name"
-                    :data-vv-name="name"
                     v-model="hour"
                     :availableObjects="hourOptions"
                     :initialObject="initialHour"
                     :displayProperty="displayProperty"
-                    class="h-100"
+                    :error="''"
+                    :name="name + '1'"
+                    @input="emitChanges"
+                    class="form-control p-0"
+                    :class="getBootstrapValidationClass(error)"
             >
             </mau-form-input-select-static>
-            <mau-form-input-select-static
-                    :id="name"
-                    :name="name"
-                    :data-vv-name="name"
-                    v-model="hour"
-                    :availableObjects="hourOptions"
-                    :initialObject="initialHour"
-                    :displayProperty="displayProperty"
-                    class="h-100"
-            >
-            </mau-form-input-select-static>
+            <div class="invalid-feedback">
+                <span v-show="error" class="help is-danger">
+                    {{error}}
+                </span>
+            </div>
         </div>
-        <div class="invalid-feedback">
-          <span v-show="error" class="help is-danger">
-            {{error}}
-          </span>
+        <div class="col-md-6 col-sm-12">
+            <label v-if="label">
+                {{label}}
+            </label>
+            <mau-form-input-select-static
+                    v-model="minute"
+                    :availableObjects="minuteOptions"
+                    :initialObject="initialMinute"
+                    :displayProperty="displayProperty"
+                    :error="''"
+                    :name="name + '2'"
+                    @input="emitChanges"
+                    class="form-control p-0"
+                    :class="getBootstrapValidationClass(error)"
+            >
+            </mau-form-input-select-static>
+            <div class="invalid-feedback">
+                <span v-show="error" class="help is-danger">
+                    {{error}}
+                </span>
+            </div>
         </div>
     </div>
 </template>
@@ -47,8 +56,9 @@
         return {
           time: '',
           hour: '',
+          minute: '',
           initialHour: this.hourOptions[0],
-          initialMinute: this.hourOptions[0]
+          initialMinute: this.minuteOptions[0]
         }
       },
       created () {
@@ -58,7 +68,7 @@
         initialTime: {
           required: true,
           validator: function (value) {
-            return moment(value, 'HH:mm').isValid()
+            return value === '' || moment(value, 'HH:mm:ss').isValid()
           }
         },
         label: {
@@ -131,7 +141,12 @@
       },
       methods: {
         getBootstrapValidationClass: ValidatorHelper.getBootstrapValidationClass,
+        emitChanges: function () {
+          this.$emit('input', this.hour.value + ':' + this.minute.value + ':00')
+        },
         setInitialValues: function () {
+          this.initialHour = {value: moment(this.initialTime, 'HH:mm:ss').format('HH')}
+          this.initialMinute = {value: moment(this.initialTime, 'HH:mm:ss').format('mm')}
         }
       }
     }

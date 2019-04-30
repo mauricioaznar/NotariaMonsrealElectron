@@ -1,18 +1,18 @@
 import moment from 'moment'
-function convertDateTimeToDate (date) {
-  return moment(date).format('YYYY-MM-DD')
+function convertDateTimeToDate (dateTime) {
+  return moment(dateTime).format('YYYY-MM-DD')
 }
 
-function convertDateTimeToTime (date) {
-  return moment(date).format('HH:mm')
+function convertDateTimeToTime (dateTime) {
+  return moment(dateTime).format('HH:mm:ss')
 }
 
-function convertDateTimeToHour (date) {
-  return moment(date).format('HH')
+function convertDateTimeToHour (dateTime) {
+  return moment(dateTime).format('HH')
 }
 
-function convertDateTimeToMinute (date) {
-  return moment(date).format('mm')
+function convertDateTimeToMinute (dateTime) {
+  return moment(dateTime).format('mm')
 }
 export default {
   date: convertDateTimeToDate,
