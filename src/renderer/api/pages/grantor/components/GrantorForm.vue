@@ -1,124 +1,97 @@
 <template>
   <div>
     <div class="form-group form-row">
-      <div class="col-sm-12 col-md-6 grantor_name">
-        <label>{{PropertiesReference.NAME.title}}</label>
-        <b-form-input v-model="grantor.name"
-                      type="text"
-                      class="form-control"
-                      v-validate="'required'"
-                      :class="getBootstrapValidationClass(errors.has(PropertiesReference.NAME.name))"
-                      :data-vv-name="PropertiesReference.NAME.name"
-                      placeholder="Ejemplo: Juan Rodrigo">
-        </b-form-input>
-        <div class="invalid-feedback">
-            <span v-show="errors.has(PropertiesReference.NAME.name)" class="help is-danger">
-              {{ errors.first(PropertiesReference.NAME.name) }}
-            </span>
-        </div>
+      <div class="col-sm-12 col-md-6">
+        <mau-form-input-text
+                :label="PropertiesReference.NAME.title"
+                v-model="grantor.name"
+                :initialValue="initialValues[PropertiesReference.NAME.name]"
+                v-validate="'required'"
+                :name="PropertiesReference.NAME.name"
+                :error="errors.has(PropertiesReference.NAME.name) ? errors.first(PropertiesReference.NAME.name) : ''"
+        >
+        </mau-form-input-text>
       </div>
-      <div class="col-sm-12 col-md-6 grantor_lastname">
-        <label>{{PropertiesReference.LASTNAME.title}}</label>
-        <b-form-input v-model="grantor.lastname"
-                      type="text"
-                      placeholder="Ejemplo: Ochoa Campos">
-        </b-form-input>
+      <div class="col-sm-12 col-md-6">
+        <mau-form-input-text
+                :label="PropertiesReference.LASTNAME.title"
+                v-model="grantor.lastname"
+                :initialValue="initialValues[PropertiesReference.LASTNAME.name]"
+                v-validate="'required'"
+                :name="PropertiesReference.LASTNAME.name"
+                :error="errors.has(PropertiesReference.LASTNAME.name) ? errors.first(PropertiesReference.LASTNAME.name) : ''"
+        >
+        </mau-form-input-text>
       </div>
     </div>
     <div class="form-group form-row">
-      <div class="col-md-6 col-sm-12 grantor_email">
-        <label>{{PropertiesReference.EMAIL.title}}</label>
-        <masked-input
-                :name="PropertiesReference.EMAIL.name"
+      <div class="col-md-6 col-sm-12">
+        <mau-form-input-text
+                :label="PropertiesReference.EMAIL.title"
                 v-model="grantor.email"
-                :value="initialValues[PropertiesReference.EMAIL.name]"
-                class="form-control"
-                :guide="true"
-                :mask="PropertiesReference.EMAIL.mask"
-                :class="getBootstrapValidationClass(errors.has(PropertiesReference.EMAIL.name))"
-                :data-vv-name="PropertiesReference.EMAIL.name"
+                :initialValue="initialValues[PropertiesReference.EMAIL.name]"
                 v-validate="'required'"
-                :placeholder="'Ejemplo: juanochoa@gmail.com'"
+                :type="'email'"
+                :name="PropertiesReference.EMAIL.name"
+                :error="errors.has(PropertiesReference.EMAIL.name) ? errors.first(PropertiesReference.EMAIL.name) : ''"
         >
-        </masked-input>
-        <div class="invalid-feedback">
-            <span v-show="errors.has(PropertiesReference.EMAIL.name)" class="help is-danger">
-              {{ errors.first(PropertiesReference.EMAIL.name) }}
-            </span>
-        </div>
+        </mau-form-input-text>
       </div>
-      <div class="col-md-6 col-sm-12 grantor_phone">
-        <label>{{PropertiesReference.PHONE.title}}</label>
-        <masked-input
-                :name="PropertiesReference.PHONE.name"
+      <div class="col-md-6 col-sm-12">
+        <mau-form-input-text
+                :label="PropertiesReference.PHONE.title"
                 v-model="grantor.phone"
-                :value="initialValues[PropertiesReference.PHONE.name]"
-                class="form-control"
-                :guide="true"
-                :mask="PropertiesReference.PHONE.mask"
-                :class="getBootstrapValidationClass(errors.has(PropertiesReference.PHONE.name))"
-                :data-vv-name="PropertiesReference.PHONE.name"
+                :initialValue="initialValues[PropertiesReference.PHONE.name]"
                 v-validate="'required'"
-                :placeholder="'Ejemplo: (999) 6322 542'"
+                :type="'cellphone'"
+                :name="PropertiesReference.PHONE.name"
+                :error="errors.has(PropertiesReference.PHONE.name) ? errors.first(PropertiesReference.PHONE.name) : ''"
         >
-        </masked-input>
-        <div class="invalid-feedback">
-            <span v-show="errors.has(PropertiesReference.PHONE.name)" class="help is-danger">
-              {{ errors.first(PropertiesReference.PHONE.name) }}
-            </span>
-        </div>
+        </mau-form-input-text>
       </div>
     </div>
     <div class="form-group form-row">
-      <div class="col-sm-12 col-md-4 grantor_city">
-        <label>{{PropertiesReference.CITY.title}}</label>
-        <b-form-input v-model="grantor.city"
-                      type="text"
-                      placeholder="Ejemplo: Juan Rodrigo">
-        </b-form-input>
-      </div>
-      <div class="col-sm-12 col-md-4 grantor_country">
-        <label>{{PropertiesReference.COUNTRY.title}}</label>
-        <b-form-input v-model="grantor.country"
-                      type="text"
-                      placeholder="Ejemplo: Juan Rodrigo">
-        </b-form-input>
-        <div class="invalid-feedback">
-            <span v-show="errors.has(PropertiesReference.COUNTRY.name)" class="help is-danger">
-              {{ errors.first(PropertiesReference.COUNTRY.name) }}
-            </span>
-        </div>
-      </div>
-      <div class="col-sm-12 col-md-4 grantor_zipcode">
-        <label>{{PropertiesReference.ZIPCODE.title}}</label>
-        <masked-input
-                :name="PropertiesReference.ZIPCODE.name"
-                v-model="grantor.zipcode"
-                :value="initialValues[PropertiesReference.ZIPCODE.name]"
-                class="form-control"
-                :guide="true"
-                :mask="PropertiesReference.ZIPCODE.mask"
-                :class="getBootstrapValidationClass(errors.has(PropertiesReference.ZIPCODE.name))"
-                :data-vv-name="PropertiesReference.ZIPCODE.name"
-                v-validate="'required'"
-                :placeholder="'Ejemplo: 99963'"
+      <div class="col-sm-12 col-md-4">
+        <mau-form-input-text
+                :label="PropertiesReference.CITY.title"
+                v-model="grantor.city"
+                :initialValue="initialValues[PropertiesReference.CITY.name]"
+                :name="PropertiesReference.CITY.name"
+                :error="''"
         >
-        </masked-input>
-        <div class="invalid-feedback">
-        <span v-show="errors.has(PropertiesReference.ZIPCODE.name)" class="help is-danger">
-          {{ errors.first(PropertiesReference.ZIPCODE.name) }}
-        </span>
-        </div>
+        </mau-form-input-text>
+      </div>
+      <div class="col-sm-12 col-md-4">
+        <mau-form-input-text
+                :label="PropertiesReference.COUNTRY.title"
+                v-model="grantor.country"
+                :initialValue="initialValues[PropertiesReference.COUNTRY.name]"
+                :name="PropertiesReference.COUNTRY.name"
+                :error="''"
+        >
+        </mau-form-input-text>
+      </div>
+      <div class="col-sm-12 col-md-4">
+        <mau-form-input-text
+                :label="PropertiesReference.ZIPCODE.title"
+                v-model="grantor.zipcode"
+                :initialValue="initialValues[PropertiesReference.ZIPCODE.name]"
+                :name="PropertiesReference.ZIPCODE.name"
+                :error="errors.has(PropertiesReference.ZIPCODE.name) ? errors.first(PropertiesReference.ZIPCODE.name) : ''"
+                v-validate="'numeric'"
+        >
+        </mau-form-input-text>
       </div>
     </div>
     <div class="form-group">
-      <div class="grantor_address1">
-        <label>{{PropertiesReference.ADDRESS1.title}}</label>
-        <b-form-input v-model="grantor.address1"
-                      type="text"
-                      placeholder="Ejemplo: Calle 19 entre 22 y 22-c">
-        </b-form-input>
-      </div>
+      <mau-form-input-text
+              :label="PropertiesReference.ADDRESS1.title"
+              v-model="grantor.address1"
+              :initialValue="initialValues[PropertiesReference.ADDRESS1.name]"
+              :name="PropertiesReference.ADDRESS1.name"
+              :error="''"
+      >
+      </mau-form-input-text>
     </div>
     <div class="container mb-2 text-right">
       <b-button :disabled="buttonDisabled" @click="save" type="button" variant="primary">Guardar</b-button>
@@ -130,6 +103,8 @@
   import ValidatorHelper from 'renderer/services/form/ValidatorHelper'
   import PropertiesReference from '../PropertiesReference'
   import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
+  import MauFormInputText from 'renderer/components/mau-components/mau-form-inputs/MauFormInputText'
+  import DefaultValuesHelper from 'renderer/services/form/DefaultValuesHelper'
   export default {
     name: 'ClientForm',
     data () {
@@ -150,7 +125,7 @@
       }
     },
     components: {
-
+      MauFormInputText
     },
     props: {
       initialObject: {
@@ -169,10 +144,7 @@
       }.bind(this))
     },
     created () {
-      this.createDefaultInitialValues()
-      if (this.initialObject) {
-        this.setInitialValues(this.initialObject)
-      }
+      this.setInitialValues(this.initialObject)
     },
     computed: {
     },
@@ -186,14 +158,15 @@
         }
       },
       setInitialValues: function () {
-        this.grantor.name = this.initialObject[PropertiesReference.NAME.name]
-        this.grantor.lastname = this.initialObject[PropertiesReference.LASTNAME.name]
-        this.grantor.phone = this.initialObject[PropertiesReference.PHONE.name]
-        this.grantor.email = this.initialObject[PropertiesReference.EMAIL.name]
-        this.grantor.address1 = this.initialObject[PropertiesReference.ADDRESS1.name]
-        this.grantor.city = this.initialObject[PropertiesReference.CITY.name]
-        this.grantor.country = this.initialObject[PropertiesReference.COUNTRY.name]
-        this.grantor.zipcode = this.initialObject[PropertiesReference.ZIPCODE.name]
+        this.initialValues[PropertiesReference.NAME.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.NAME.name)
+        this.initialValues[PropertiesReference.LASTNAME.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.LASTNAME.name)
+        this.initialValues[PropertiesReference.ADDRESS1.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.ADDRESS1.name)
+        this.initialValues[PropertiesReference.EMAIL.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.EMAIL.name)
+        this.initialValues[PropertiesReference.CITY.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.CITY.name)
+        this.initialValues[PropertiesReference.COUNTRY.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.COUNTRY.name)
+        let zipCode = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.ZIPCODE.name)
+        this.initialValues[PropertiesReference.ZIPCODE.name] = String(zipCode)
+        this.initialValues[PropertiesReference.PHONE.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.PHONE.name)
       },
       save: function () {
         let directParams = {

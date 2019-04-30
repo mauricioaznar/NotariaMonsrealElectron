@@ -1,28 +1,55 @@
 <template>
     <div>
-        <label v-if="label">
+        <label v-if="label" :for="name">
             {{label}}
         </label>
-        <b-form-input
+        <input
                 v-if="type === textInputTypes.TEXT"
                 v-model="stringValue"
                 :name="name"
                 type="text"
+                :disabled="disabled"
                 class="form-control"
-                :placeholder="placeholder"
+                :placeholder="'Nombre'"
                 :class="getBootstrapValidationClass(error)"
                 @input="updateValue"
-        >
-        </b-form-input>
+        />
         <masked-input
-                v-else
+                v-if="type === textInputTypes.EMAIL"
+                :name="name"
+                v-model="stringValue"
+                class="form-control"
+                :disabled="disabled"
+                :guide="true"
+                :mask="mask"
+                :class="getBootstrapValidationClass(error)"
+                :placeholder="'Ejemplo: juanochoa@gmail.com'"
+                @input="updateValue"
+        >
+        </masked-input>
+        <masked-input
+                v-if="type === textInputTypes.HOUSE_PHONE"
+                :name="name"
+                v-model="stringValue"
+                class="form-control"
+                :guide="true"
+                :disabled="disabled"
+                :mask="mask"
+                :class="getBootstrapValidationClass(error)"
+                :placeholder="'Ejemplo: 6322 542'"
+                @input="updateValue"
+        >
+        </masked-input>
+        <masked-input
+                v-if="type === textInputTypes.CELLPHONE"
                 :name="name"
                 v-model="stringValue"
                 class="form-control"
                 :guide="true"
                 :mask="mask"
+                :disabled="disabled"
                 :class="getBootstrapValidationClass(error)"
-                :placeholder="placeholder"
+                :placeholder="'Ejemplo: (999) 6322 542'"
                 @input="updateValue"
         >
         </masked-input>
@@ -40,10 +67,11 @@
     let textInputTypes = {
       EMAIL: 'email',
       TEXT: 'text',
-      HOUSEPHONE: 'housephone',
+      HOUSE_PHONE: 'house_phone',
       CELLPHONE: 'cellphone'
     }
     export default {
+      name: 'MauFormInputText',
       data () {
         return {
           stringValue: '',
@@ -63,8 +91,8 @@
         if (this.type === textInputTypes.EMAIL) {
           this.mask = Masks.email
         }
-        if (this.type === textInputTypes.HOUSEPHONE) {
-          this.mask = Masks.housephone
+        if (this.type === textInputTypes.HOUSE_PHONE) {
+          this.mask = Masks.house_phone
         }
         if (this.type === textInputTypes.CELLPHONE) {
           this.mask = Masks.cellphone
@@ -87,13 +115,14 @@
         },
         error: {
           type: String,
-          required: false
+          required: true
         },
         initialValue: {
           type: String,
           default: function () {
             return ''
-          }
+          },
+          required: true
         },
         type: {
           type: String,
@@ -101,20 +130,25 @@
             return textInputTypes.TEXT
           },
           validator: function (value) {
-            return [textInputTypes.TEXT, textInputTypes.EMAIL, textInputTypes.HOUSEPHONE, textInputTypes.CELLPHONE].indexOf(value) !== -1
+            return [textInputTypes.TEXT, textInputTypes.EMAIL, textInputTypes.HOUSE_PHONE, textInputTypes.CELLPHONE].indexOf(value) !== -1
           }
         },
-        placeholder: {
-          type: String,
+        disabled: {
+          type: Boolean,
           default: function () {
-            return ''
+            return false
           }
         }
       },
       methods: {
         getBootstrapValidationClass: ValidatorHelper.getBootstrapValidationClass,
-        updateValue: function (newValue) {
-          this.$emit('input', newValue)
+        updateValue: function () {
+          this.$emit('input', this.stringValue)
+        }
+      },
+      watch: {
+        initialValue: function (initialVal) {
+          this.stringValue = initialVal
         }
       }
     }

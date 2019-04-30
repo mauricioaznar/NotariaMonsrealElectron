@@ -2,7 +2,7 @@
     <div class="form-group form-row">
         <div class="col-md-6 col-sm-12">
             <label v-if="label">
-                {{label}}
+                Hora de {{label}}
             </label>
             <mau-form-input-select-static
                     v-model="hours"
@@ -23,7 +23,7 @@
         </div>
         <div class="col-md-6 col-sm-12">
             <label v-if="label">
-                {{label}}
+                Minuto de {{label}}
             </label>
             <mau-form-input-select-static
                     v-model="minutes"
@@ -63,6 +63,14 @@
       created () {
         this.setInitialValues()
       },
+      $_veeValidate: {
+        name () {
+          return this.name
+        },
+        value () {
+          return this.time
+        }
+      },
       props: {
         initialTime: {
           required: true,
@@ -74,7 +82,8 @@
           type: String
         },
         error: {
-          type: String
+          type: String,
+          required: true
         },
         name: {
           type: String,
@@ -137,14 +146,15 @@
       methods: {
         getBootstrapValidationClass: ValidatorHelper.getBootstrapValidationClass,
         emitChanges: function () {
-          let newTime =  this.hours.value + ':' + this.minutes.value + ':00'
-          console.log(newTime)
-          this.$emit('input', newTime)
+          let time = this.hours.value + ':' + this.minutes.value + ':00'
+          this.time = time
+          this.$emit('input', time)
         },
         setInitialValues: function () {
           if (moment(this.initialTime, 'HH:mm:ss').isValid()) {
             this.initialHours = {value: moment(this.initialTime, 'HH:mm:ss').format('HH')}
             this.initialMinutes = {value: moment(this.initialTime, 'HH:mm:ss').format('mm')}
+            this.time = this.initialHours.value + ':' + this.initialMinutes.value + ':00'
           }
         }
       },

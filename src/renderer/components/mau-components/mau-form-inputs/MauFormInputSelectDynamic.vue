@@ -1,17 +1,27 @@
 <template>
     <div>
+        <label v-if="label">
+            {{label}}
+        </label>
         <vue-select
+                class="form-control override-form-control"
+                :class="getBootstrapValidationClass(error)"
                 v-model="selected"
                 :multiple="multiselect"
-                :label="label"
+                :label="displayProperty"
                 :onSearch="search"
                 :track-by="'id'"
                 :options="options">
             <template slot="option" slot-scope="option">
-                {{option[label]}}
+                {{option[displayProperty]}}
             </template>
             <span slot="no-options">No se encontraron resultados.</span>
         </vue-select>
+        <div v-if="error" class="invalid-feedback">
+            <span class="help is-danger">
+                {{error}}
+            </span>
+        </div>
     </div>
 </template>
 
@@ -21,6 +31,7 @@
     import ApiOperations from 'renderer/services/api/ApiOperations'
     import isObjectEmpty from 'renderer/services/common/isObjectEmpty'
     import _ from 'lodash'
+    import ValidatorHelper from 'renderer/services/form/ValidatorHelper'
     export default {
       name: 'MauFormInputSelectObjectDynamic',
       data () {
@@ -29,16 +40,21 @@
           options: []
         }
       },
+      $_veeValidate: {
+        name () {
+          return this.name
+        },
+        value () {
+          return this.selected
+        }
+      },
       props: {
         url: {
           type: String,
           required: true
         },
         label: {
-          type: String,
-          default: function () {
-            return 'name'
-          }
+          type: String
         },
         multiselect: {
           type: Boolean,
@@ -75,6 +91,18 @@
           default: function () {
             return ''
           }
+        },
+        error: {
+          type: String,
+          required: true
+        },
+        displayProperty: {
+          type: String,
+          required: true
+        },
+        name: {
+          type: String,
+          required: true
         }
       },
       created () {
@@ -93,6 +121,7 @@
         VueSelect
       },
       methods: {
+        getBootstrapValidationClass: ValidatorHelper.getBootstrapValidationClass,
         search: function (search, loading) {
           if (this.url) {
             loading(true)

@@ -1,23 +1,43 @@
 import createNumberMask from 'text-mask-addons/dist/createNumberMask'
 import email from 'text-mask-addons/dist/emailMask'
 const cellphone = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
-const housephone = [/\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
+const housePhone = [/\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
 const regularNumber = createNumberMask({
   prefix: '',
   suffix: '',
-  includeThousandsSeparator: false,
+  integerLimit: 6,
+  includeThousandsSeparator: true,
   allowNegative: false
 })
-const currencyNumber = createNumberMask({
+const regularNumberNegative = createNumberMask({
+  prefix: '',
+  suffix: '',
+  integerLimit: 6,
+  includeThousandsSeparator: true,
+  allowNegative: true
+})
+const floatNumber = createNumberMask({
   includeThousandsSeparator: true,
   allowNegative: false,
-  allowDecimal: true,
-  requiresDecimal: false
+  prefix: '',
+  suffix: '',
+  integerLimit: 6,
+  allowDecimal: true
+})
+const floatNumberNegative = createNumberMask({
+  includeThousandsSeparator: true,
+  allowNegative: true,
+  prefix: '',
+  suffix: '',
+  integerLimit: 6,
+  allowDecimal: true
 })
 export default {
   email: email,
-  housephone: housephone,
+  house_phone: housePhone,
   cellphone: cellphone,
   regularNumber: regularNumber,
-  currencyNumber: currencyNumber
+  regularNumberNegative: regularNumberNegative,
+  floatNumber: floatNumber,
+  floatNumberNegative: floatNumberNegative
 }

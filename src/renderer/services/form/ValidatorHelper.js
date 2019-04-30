@@ -1,4 +1,4 @@
 function getBootstrapValidationClass (error) {
-  return {'is-invalid': error || false}
+  return error !== '' && error !== undefined ? 'is-invalid' : ''
 }
 export default {getBootstrapValidationClass}

@@ -2,59 +2,42 @@
   <div>
       <div>
           <div class="form-group">
-              <div class="name">
-                  <label>{{PropertiesReference.NAME.title}}</label>
-                  <b-form-input v-model="group.name"
-                                type="text"
-                                class="form-control"
-                                v-validate="'required'"
-                                :class="getBootstrapValidationClass(errors.has(PropertiesReference.NAME.name))"
-                                :data-vv-name="PropertiesReference.NAME.name"
-                                placeholder="Ejemplo: Juan Rodrigo">
-                  </b-form-input>
-                  <div class="invalid-feedback">
-                <span v-show="errors.has(PropertiesReference.NAME.name)" class="help is-danger">
-              {{ errors.first(PropertiesReference.NAME.name) }}
-            </span>
-                  </div>
-              </div>
+              <mau-form-input-text
+                            v-model="group.name"
+                            v-validate="'required'"
+                            :label="PropertiesReference.NAME.title"
+                            :name="PropertiesReference.NAME.name"
+                            :initialValue="initialValues[PropertiesReference.NAME.name]"
+                            :error="errors.has(PropertiesReference.NAME.name) ? errors.first(PropertiesReference.NAME.name) : ''"
+              >
+              </mau-form-input-text>
           </div>
           <div class="form-group">
-              <div class="user">
-                  <label>{{PropertiesReference.USER.title}}</label>
-                  <mau-form-input-select-dynamic
-                          :initialObject="initialValues[PropertiesReference.USER.name]"
-                          :label="'name'"
-                          v-model="group.user"
-                          :url="usersUrl"
-                          class="override-form-control form-control"
-                          :name="PropertiesReference.USER.name"
-                          v-validate="'required'"
-                          :data-vv-name="PropertiesReference.USER.name"
-                          :class="getBootstrapValidationClass(errors.has(PropertiesReference.USER.name))"
-                  >
-                  </mau-form-input-select-dynamic>
-                  <div class="invalid-feedback">
-                      <span v-show="errors.has(PropertiesReference.USER.name)" class="help is-danger">
-                        {{ errors.first(PropertiesReference.USER.name) }}
-                      </span>
-                  </div>
-              </div>
+              <mau-form-input-select-dynamic
+                      :initialObject="initialValues[PropertiesReference.USER.name]"
+                      :label="PropertiesReference.USER.title"
+                      v-model="group.user"
+                      :url="usersUrl"
+                      :name="PropertiesReference.USER.name"
+                      :displayProperty="'fullname'"
+                      :error="errors.has(PropertiesReference.USER.name) ? errors.first(PropertiesReference.USER.name) : ''"
+                      v-validate="'required'"
+              >
+              </mau-form-input-select-dynamic>
           </div>
           <div class="form-group">
-              <div class="users">
-                  <label>{{PropertiesReference.USERS.title}}</label>
-                  <mau-form-input-select-dynamic
-                          v-model="group.users"
-                          :initialObjects="initialValues[PropertiesReference.USERS.name]"
-                          :relatedRelationshipName="PropertiesReference.USERS.relationship_id_name"
-                          :url="usersUrl"
-                          :multiselect="true"
-                          :label="'name'"
-                          class="override-form-control form-control"
-                  >
-                  </mau-form-input-select-dynamic>
-              </div>
+              <mau-form-input-select-dynamic
+                      :initialObjects="initialValues[PropertiesReference.USERS.name]"
+                      :label="PropertiesReference.USERS.title"
+                      v-model="group.users"
+                      :url="usersUrl"
+                      :name="PropertiesReference.USERS.name"
+                      :displayProperty="'fullname'"
+                      :error="errors.has(PropertiesReference.USERS.name) ? errors.first(PropertiesReference.USERS.name) : ''"
+                      :multiselect="true"
+                      v-validate="'required'"
+              >
+              </mau-form-input-select-dynamic>
           </div>
           <div class="container mb-2 text-right">
               <b-button :disabled="buttonDisabled" @click="save" type="button" variant="primary">Guardar</b-button>
@@ -68,6 +51,7 @@
   import ValidatorHelper from 'renderer/services/form/ValidatorHelper'
   import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
   import MauFormInputSelectDynamic from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelectDynamic.vue'
+  import MauFormInputText from 'renderer/components/mau-components/mau-form-inputs/MauFormInputText.vue'
   import ManyToManyHelper from 'renderer/services/api/ManyToManyHelper'
   import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
   import DefaultValuesHelper from 'renderer/services/form/DefaultValuesHelper'
@@ -90,7 +74,8 @@
       }
     },
     components: {
-      MauFormInputSelectDynamic
+      MauFormInputSelectDynamic,
+      MauFormInputText
     },
     props: {
       initialObject: {
@@ -109,25 +94,15 @@
       }.bind(this))
     },
     created () {
-      this.createDefaultInitialValues()
-      if (this.initialObject) {
-        this.setInitialValues(this.initialObject)
-      }
+      this.setInitialValues(this.initialObject)
     },
     computed: {
     },
     methods: {
-      createDefaultInitialValues: function () {
-        for (let propertyReference in PropertiesReference) {
-          if (PropertiesReference.hasOwnProperty(propertyReference)) {
-            this.initialValues[PropertiesReference[propertyReference].name] = PropertiesReference[propertyReference].defaultValue
-          }
-        }
-      },
       setInitialValues: function () {
-        this.group.name = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.NAME.name)
+        this.initialValues[PropertiesReference.NAME.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.NAME.name)
         this.initialValues[PropertiesReference.USERS.name] = DefaultValuesHelper.arrayOfObjects(this.initialObject, PropertiesReference.USERS.name)
-        this.initialValues[PropertiesReference.USER.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.USER.name)
+        this.initialValues[PropertiesReference.USER.name] = DefaultValuesHelper.object(this.initialObject, PropertiesReference.USER.name)
       },
       save: function () {
         let directParams = {

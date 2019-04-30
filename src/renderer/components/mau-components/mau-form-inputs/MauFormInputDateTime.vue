@@ -5,21 +5,18 @@
             class="form__label">
       {{ label }}
     </label>
-    <div class="override-form-control form-control"
-         :class="getBootstrapValidationClass(error)"
+    <flat-pickr
+            :key="keyValue"
+            v-model="date"
+            :config="config"
+            @input="updateValue"
+            @change="updateValue"
     >
-      <flat-pickr
-              v-model="date"
-              :config="config"
-              @input="updateValue"
-              @change="updateValue"
-      >
-      </flat-pickr>
-    </div>
+    </flat-pickr>
     <div class="invalid-feedback">
-                  <span v-show="error" class="help is-danger">
-                    {{error}}
-                  </span>
+        <span v-show="error" class="help is-danger">
+          {{error}}
+        </span>
     </div>
   </div>
 </template>
@@ -37,16 +34,19 @@
       return {
         date: '',
         recentlyCreated: true,
+        keyValue: 0,
         config: {
         },
         rangeConfig: {
           conjunction: ' - ',
           mode: 'range',
+          altInputClass: 'form-control mau-form-input-date-time',
           locale: Spanish
         },
         dateConfig: {
           wrap: true,
           altInput: true,
+          altInputClass: 'form-control mau-form-input-date-time',
           dateFormat: 'Y-m-d',
           locale: Spanish
         },
@@ -55,6 +55,7 @@
           noCalendar: true,
           dateFormat: 'H:i',
           locale: Spanish,
+          altInputClass: 'form-control mau-form-input-date-time',
           time_24hr: true,
           minDate: '7:00',
           maxDate: '19:00',
@@ -73,7 +74,10 @@
     props: {
       value: String,
       initialValue: String,
-      name: String,
+      name: {
+        type: String,
+        required: true
+      },
       error: {
         type: String,
         required: false
@@ -112,10 +116,27 @@
         console.log('please specify a valid dateTime input type')
       }
       this.updateValue(this.date)
+    },
+    watch: {
+      error: function () {
+        let prevAltInputClass = this.config.altInputClass
+        let bootstrapValidationClass = this.getBootstrapValidationClass(this.error)
+        if (this.error !== '') {
+          if (!prevAltInputClass.includes(bootstrapValidationClass)) {
+            this.config.altInputClass = prevAltInputClass + ' ' + bootstrapValidationClass
+            this.keyValue++
+          }
+        } else {
+          this.config.altInputClass = 'form-control mau-form-input-date-time'
+          this.keyValue++
+        }
+      }
     }
   }
 </script>
 
 <style lang="scss">
-
+  .mau-form-input-date-time {
+    background-color: #ffffff;
+  }
 </style>

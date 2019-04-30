@@ -9,9 +9,6 @@
                 class="form-control"
                 v-model="numberString"
                 :mask="mask"
-                @input="updateValue"
-                @change="updateValue"
-                @blur="$emit('blur')"
                 :disabled="disabled"
                 :class="getBootstrapValidationClass(error)">
         </masked-input>
@@ -26,6 +23,7 @@
 <script>
   import ValidatorHelper from 'renderer/services/form/ValidatorHelper'
   import Masks from 'renderer/services/form/Masks'
+  import cleanNumber from 'renderer/services/form/cleanNumber'
   export default {
     name: 'MauFormInputNumber',
     data () {
@@ -41,10 +39,10 @@
         this.updateValue(initialNumberString)
       }
       if (this.type === 'regular') {
-        this.mask = Masks.regularNumber
+        this.mask = this.negative ? Masks.regularNumberNegative : Masks.regularNumber
       }
-      if (this.type === 'currency') {
-        this.mask = Masks.currencyNumber
+      if (this.type === 'float') {
+        this.mask = this.negative ? Masks.floatNumberNegative : Masks.floatNumber
       }
     },
     $_veeValidate: {
@@ -69,12 +67,18 @@
       error: {
         type: String
       },
+      negative: {
+        type: Boolean,
+        default: function () {
+          return false
+        }
+      },
       type: {
         type: String,
         default: 'regular',
         validator: val => {
           return (
-            ['regular', 'currency'].indexOf(val) !== -1
+            ['regular', 'currency', 'float'].indexOf(val) !== -1
           )
         }
       }
@@ -82,15 +86,13 @@
     methods: {
       getBootstrapValidationClass: ValidatorHelper.getBootstrapValidationClass,
       updateValue (numberString) {
-        let newValue = numberString
-        if (newValue === '') {
-          this.$emit('input', '')
-        } else {
-          if (isNaN(newValue)) {
-            newValue = numberString.replace(/[^\d.-]/g, '')
-          }
-          this.$emit('input', parseInt(newValue))
-        }
+        let cleanedNumber = cleanNumber(numberString)
+        this.$emit('input', cleanedNumber)
+      }
+    },
+    watch: {
+      numberString: function (val) {
+        this.updateValue(val)
       }
     }
   }
