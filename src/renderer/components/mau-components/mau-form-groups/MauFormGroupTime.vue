@@ -11,7 +11,6 @@
                     :displayProperty="displayProperty"
                     :error="''"
                     :name="name + '1'"
-                    @input="emitChanges"
                     class="form-control p-0"
                     :class="getBootstrapValidationClass(error)"
             >
@@ -33,7 +32,6 @@
                     :displayProperty="displayProperty"
                     :error="''"
                     :name="name + '2'"
-                    @input="emitChanges"
                     class="form-control p-0"
                     :class="getBootstrapValidationClass(error)"
             >
@@ -57,8 +55,8 @@
           time: '',
           hours: '',
           minutes: '',
-          initialHours: this.hourOptions[0],
-          initialMinutes: this.minuteOptions[0],
+          initialHours: {},
+          initialMinutes: {},
           displayProperty: 'value'
         }
       },
@@ -139,11 +137,23 @@
       methods: {
         getBootstrapValidationClass: ValidatorHelper.getBootstrapValidationClass,
         emitChanges: function () {
-          this.$emit('input', this.hours.value + ':' + this.minutes.value + ':00')
+          let newTime =  this.hours.value + ':' + this.minutes.value + ':00'
+          console.log(newTime)
+          this.$emit('input', newTime)
         },
         setInitialValues: function () {
-          this.initialHours = {value: moment(this.initialTime, 'HH:mm:ss').format('HH')}
-          this.initialMinutes = {value: moment(this.initialTime, 'HH:mm:ss').format('mm')}
+          if (moment(this.initialTime, 'HH:mm:ss').isValid()) {
+            this.initialHours = {value: moment(this.initialTime, 'HH:mm:ss').format('HH')}
+            this.initialMinutes = {value: moment(this.initialTime, 'HH:mm:ss').format('mm')}
+          }
+        }
+      },
+      watch: {
+        hours: function () {
+          this.emitChanges()
+        },
+        minutes: function () {
+          this.emitChanges()
         }
       }
     }

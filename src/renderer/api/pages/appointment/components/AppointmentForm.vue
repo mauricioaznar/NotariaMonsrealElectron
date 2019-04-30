@@ -44,7 +44,7 @@
             <mau-form-group-time
                     :initialTime="initialValues['startTime']"
                     :name="'startTime'"
-                    :v-model="appointment.startTime"
+                    v-model="appointment.startTime"
                     :label="'Hora de pachanga'"
             >
             </mau-form-group-time>
