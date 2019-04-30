@@ -43,7 +43,6 @@
             </div>
             <mau-form-group-time
                     :initialTime="initialValues['startTime']"
-                    :displayProperty="'value'"
                     :name="'startTime'"
                     :v-model="appointment.startTime"
                     :label="'Hora de pachanga'"

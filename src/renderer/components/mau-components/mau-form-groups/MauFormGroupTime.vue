@@ -5,9 +5,9 @@
                 {{label}}
             </label>
             <mau-form-input-select-static
-                    v-model="hour"
+                    v-model="hours"
                     :availableObjects="hourOptions"
-                    :initialObject="initialHour"
+                    :initialObject="initialHours"
                     :displayProperty="displayProperty"
                     :error="''"
                     :name="name + '1'"
@@ -27,9 +27,9 @@
                 {{label}}
             </label>
             <mau-form-input-select-static
-                    v-model="minute"
+                    v-model="minutes"
                     :availableObjects="minuteOptions"
-                    :initialObject="initialMinute"
+                    :initialObject="initialMinutes"
                     :displayProperty="displayProperty"
                     :error="''"
                     :name="name + '2'"
@@ -55,10 +55,11 @@
       data () {
         return {
           time: '',
-          hour: '',
-          minute: '',
-          initialHour: this.hourOptions[0],
-          initialMinute: this.minuteOptions[0]
+          hours: '',
+          minutes: '',
+          initialHours: this.hourOptions[0],
+          initialMinutes: this.minuteOptions[0],
+          displayProperty: 'value'
         }
       },
       created () {
@@ -76,10 +77,6 @@
         },
         error: {
           type: String
-        },
-        displayProperty: {
-          type: String,
-          required: true
         },
         name: {
           type: String,
@@ -142,11 +139,11 @@
       methods: {
         getBootstrapValidationClass: ValidatorHelper.getBootstrapValidationClass,
         emitChanges: function () {
-          this.$emit('input', this.hour.value + ':' + this.minute.value + ':00')
+          this.$emit('input', this.hours.value + ':' + this.minutes.value + ':00')
         },
         setInitialValues: function () {
-          this.initialHour = {value: moment(this.initialTime, 'HH:mm:ss').format('HH')}
-          this.initialMinute = {value: moment(this.initialTime, 'HH:mm:ss').format('mm')}
+          this.initialHours = {value: moment(this.initialTime, 'HH:mm:ss').format('HH')}
+          this.initialMinutes = {value: moment(this.initialTime, 'HH:mm:ss').format('mm')}
         }
       }
     }
