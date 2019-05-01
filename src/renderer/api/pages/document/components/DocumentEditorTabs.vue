@@ -3,7 +3,7 @@
       <div class="generales">
         <h3 class="mb-3">Generales</h3>
         <div class="form-group">
-          <mau-form-input-number
+          <mau-form-input-text
                   :name="PropertiesReference.FILE_NUMBER.name"
                   :error="errors.first(PropertiesReference.FILE_NUMBER.name)"
                   :label="PropertiesReference.FILE_NUMBER.title"
@@ -12,7 +12,7 @@
                   :initialValue="initialValues[PropertiesReference.FILE_NUMBER.name]"
                   v-validate="'required|numeric'"
           >
-          </mau-form-input-number>
+          </mau-form-input-text>
         </div>
         <div class="form-group">
           <mau-form-input-date-time
@@ -41,7 +41,7 @@
           </mau-form-input-text>
         </div>
         <div class="form-group">
-          <mau-form-input-number
+          <mau-form-input-text
                   :name="PropertiesReference.FOLIO.name"
                   :error="errors.first(PropertiesReference.FOLIO.name)"
                   :label="PropertiesReference.FOLIO.title"
@@ -60,7 +60,7 @@
                     }
                   }"
           >
-          </mau-form-input-number>
+          </mau-form-input-text>
         </div>
         <div class="form-group">
           <label>{{PropertiesReference.DOCUMENT_TYPE.title}}</label>
@@ -78,21 +78,21 @@
           </mau-form-group-radio>
         </div>
         <div class="form-group">
-          <label>{{PropertiesReference.OPERATIONS.title}}</label>
           <div v-show="document.documentType">
             <mau-form-input-select-dynamic
                     :key="document.documentType ? document.documentType['id'] : 0"
                     v-show="document.documentType"
                     :ref="PropertiesReference.OPERATIONS.name"
                     v-model="document.operations"
-                    :label="'name'"
-                    :required="PropertiesReference.OPERATIONS.required"
+                    :label="PropertiesReference.OPERATIONS.title"
+                    :name="PropertiesReference.OPERATIONS.name"
+                    :url="operationsUrl"
+                    :displayProperty="'name'"
                     :initialObjects="initialValues[PropertiesReference.OPERATIONS.name]"
                     :filterEntity="'documentTypes'"
                     :filterLikes="{name: document.documentType ? document.documentType['name'] : ''}"
-                    :multiselect="true"
-                    :url="operationsUrl"
-                    class="form-control override-form-control"
+                    v-validate="'required'"
+                    :error="errors.has(PropertiesReference.OPERATIONS.name) ? errors.first(PropertiesReference.OPERATIONS.name) : ''"
             >
             </mau-form-input-select-dynamic>
           </div>
@@ -127,40 +127,27 @@
           </div>
         </div>
         <div class="form-group">
-          <div class="document_money_laundering">
-            <label>{{PropertiesReference.MONEY_LAUNDERING.title}}</label>
-            <mau-form-input-boolean
-                    :tripleboolean="true"
-                    v-model="document.moneyLaundering"
-                    :initialValue="initialValues[PropertiesReference.MONEY_LAUNDERING.name]"
-                    class="form-control override-form-control"
-            >
-            </mau-form-input-boolean>
-            <div class="invalid-feedback">
-                  <span v-show="errors.has(PropertiesReference.MONEY_LAUNDERING.name)" class="help is-danger">
-                    {{ errors.first(PropertiesReference.MONEY_LAUNDERING.name) }}
-                  </span>
-            </div>
-          </div>
+          <mau-form-input-triple-boolean
+                  v-model="document.moneyLaundering"
+                  :initialValue="initialValues[PropertiesReference.MONEY_LAUNDERING.name]"
+                  :name="PropertiesReference.MONEY_LAUNDERING.name"
+                  :label="PropertiesReference.MONEY_LAUNDERING.title"
+                  :error="errors.has(PropertiesReference.MONEY_LAUNDERING.name) ? errors.first(PropertiesReference.MONEY_LAUNDERING.name) : ''"
+                  v-validate="'required'"
+          >
+          </mau-form-input-triple-boolean>
         </div>
         <div class="form-group">
           <div class="money_laundering_expiration_date" v-show="moneyLaunderingApplies">
-            <label>{{PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.title}}</label>
             <mau-form-input-date-time
                     :name="PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name"
-                    :data-vv-name="PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name"
-                    v-model="document.moneyLaunderingExpirationDate"
                     :initialValue="initialValues[PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name]"
-                    :class="getBootstrapValidationClass(errors.has(PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name))"
-                    class="form-control override-form-control"
+                    :label="PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.title"
+                    v-model="document.moneyLaunderingExpirationDate"
                     v-validate="moneyLaunderingApplies ? 'required' : ''"
+                    :error="errors.has(PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name) ? errors.first(PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name) : ''"
             >
             </mau-form-input-date-time>
-            <div class="invalid-feedback">
-                <span v-show="errors.has(PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name)" class="help is-danger">
-                  {{ errors.first(PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name) }}
-                </span>
-            </div>
           </div>
         </div>
         <div class="form-group">
@@ -173,157 +160,126 @@
         </div>
         <div class="form-group">
           <div>
-            <label>{{PropertiesReference.MARGINAL_NOTES.title}}</label>
-            <mau-form-input-boolean
+            <mau-form-input-triple-boolean
                     v-model="document.marginalNotes"
-                    :tripleboolean="true"
                     :initialValue="initialValues[PropertiesReference.MARGINAL_NOTES.name]"
-                    class="form-control override-form-control"
-            >
-            </mau-form-input-boolean>
-            <div class="invalid-feedback">
-                  <span v-show="errors.has(PropertiesReference.MARGINAL_NOTES.name)" class="help is-danger">
-                    {{ errors.first(PropertiesReference.MARGINAL_NOTES.name) }}
-                  </span>
-            </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <div class="client">
-            <div class="d-flex justify-content-start">
-              <label>{{PropertiesReference.CLIENT.title}}</label>
-              <div class="ml-2 icon-button no-padding" v-b-modal.createClientModal>
-                  <span class="fa fa-plus">
-                  </span>
-              </div>
-              <b-modal class="mau-custom-modal" id="createClientModal" ref="createClientModal" title="Crear un cliente">
-                <create-client :onTheFly="onTheFlyCreateClient" :key="clientsCreated"></create-client>
-                <div slot="modal-footer">
-                </div>
-              </b-modal>
-            </div>
-            <mau-form-input-select-dynamic
-                    :url="clientsUrl"
-                    :initialObject="initialValues[PropertiesReference.CLIENT.name]"
-                    :label="'fullname'"
-                    :key="clientsCreated"
-                    v-model="document.client"
-                    class="override-form-control form-control"
-                    :name="PropertiesReference.CLIENT.name"
+                    :error="errors.has(PropertiesReference.MARGINAL_NOTES.name) ? errors.first(PropertiesReference.MARGINAL_NOTES.name) : ''"
+                    :label="PropertiesReference.MARGINAL_NOTES.title"
+                    :name="PropertiesReference.MARGINAL_NOTES.name"
                     v-validate="'required'"
-                    :data-vv-name="PropertiesReference.CLIENT.name"
-                    :class="getBootstrapValidationClass(errors.has(PropertiesReference.CLIENT.name))"
             >
-            </mau-form-input-select-dynamic>
-            <div class="invalid-feedback">
-                  <span v-show="errors.has(PropertiesReference.CLIENT.name)" class="help is-danger">
-                    {{ errors.first(PropertiesReference.CLIENT.name) }}
-                  </span>
-            </div>
+            </mau-form-input-triple-boolean>
           </div>
         </div>
         <div class="form-group">
-          <div class="grantors">
-            <div class="d-flex justify-content-start">
-              <label>{{PropertiesReference.GRANTORS.title}}</label>
-              <div class="ml-2 icon-button no-padding" v-b-modal.createGrantorModal>
-                  <span class="fa fa-plus">
-                  </span>
+          <div class="d-flex justify-content-start">
+            <label>{{PropertiesReference.CLIENT.title}}</label>
+            <div class="ml-2 icon-button no-padding" v-b-modal.createClientModal>
+                <span class="fa fa-plus">
+                </span>
+            </div>
+            <b-modal class="mau-custom-modal" id="createClientModal" ref="createClientModal" title="Crear un cliente">
+              <create-client :onTheFly="onTheFlyCreateClient" :key="clientsCreated"></create-client>
+              <div slot="modal-footer">
               </div>
-              <b-modal class="mau-custom-modal" id="createGrantorModal" ref="createGrantorModal" title="Crear un otorgante">
-                <create-grantor :onTheFly="onTheFlyCreateGrantor" :key="grantorsCreated">
-                </create-grantor>
-                <div slot="modal-footer" class="no-padding">
-                </div>
-              </b-modal>
-            </div>
-            <mau-form-input-select-dynamic
-                    :url="grantorsUrl"
-                    :key="grantorsCreated"
-                    :initialObjects="initialValues[PropertiesReference.GRANTORS.name]"
-                    :label="'fullname'"
-                    v-model="document.grantors"
-                    :multiselect="true"
-                    class="form-control override-form-control"
-            >
-            </mau-form-input-select-dynamic>
+            </b-modal>
           </div>
+          <mau-form-input-select-dynamic
+                  :url="clientsUrl"
+                  :initialObject="initialValues[PropertiesReference.CLIENT.name]"
+                  :displayProperty="'fullname'"
+                  v-model="document.client"
+                  :key="clientsCreated"
+                  :name="PropertiesReference.CLIENT.name"
+                  :data-vv-as="PropertiesReference.CLIENT.title"
+                  v-validate="'required'"
+                  :error="errors.has(PropertiesReference.CLIENT.name) ? errors.first(PropertiesReference.CLIENT.name) : ''"
+          >
+          </mau-form-input-select-dynamic>
         </div>
         <div class="form-group">
-          <div class="groups">
-            <label>Grupos</label>
-            <mau-form-input-select-dynamic
-                    :url="groupsUrl"
-                    :initialObjects="initialValues[PropertiesReference.GROUPS.name]"
-                    :multiselect="true"
-                    :display="PropertiesReference.GROUPS.display"
-                    v-model="document.groups"
-                    class=" form-control override-form-control"
-            >
-            </mau-form-input-select-dynamic>
+          <div class="d-flex justify-content-start">
+            <label>{{PropertiesReference.GRANTORS.title}}</label>
+            <div class="ml-2 icon-button no-padding" v-b-modal.createGrantorModal>
+                <span class="fa fa-plus">
+                </span>
+            </div>
+            <b-modal class="mau-custom-modal" id="createGrantorModal" ref="createGrantorModal" title="Crear un otorgante">
+              <create-grantor :onTheFly="onTheFlyCreateGrantor" :key="grantorsCreated">
+              </create-grantor>
+              <div slot="modal-footer" class="no-padding">
+              </div>
+            </b-modal>
           </div>
+          <mau-form-input-select-dynamic
+                  :url="grantorsUrl"
+                  :name="PropertiesReference.GRANTORS.name"
+                  :displayProperty="'fullname'"
+                  :key="grantorsCreated"
+                  :initialObjects="initialValues[PropertiesReference.GRANTORS.name]"
+                  v-model="document.grantors"
+                  :multiselect="true"
+                  :error="errors.has(PropertiesReference.GRANTORS.name) ? errors.first(PropertiesReference.GRANTORS.name) : ''"
+          >
+          </mau-form-input-select-dynamic>
+        </div>
+        <div class="form-group">
+          <mau-form-input-select-dynamic
+                  :url="groupsUrl"
+                  :initialObjects="initialValues[PropertiesReference.GROUPS.name]"
+                  :name="PropertiesReference.GRANTORS.name"
+                  :error="errors.has(PropertiesReference.GROUPS.name) ? errors.first(PropertiesReference.GROUPS.name) : ''"
+                  :displayProperty="'name'"
+                  :label="PropertiesReference.GROUPS.title"
+                  v-model="document.groups"
+          >
+          </mau-form-input-select-dynamic>
         </div>
       </div>
       <div class="Anexos">
         <h3 class="mb-3">Anexos</h3>
         <div class="form-group">
-          <div class="document_identifications">
-            <label>{{PropertiesReference.IDENTIFICATIONS.title}}</label>
-            <mau-form-input-boolean
-                    v-show="document.documentType"
-                    v-model="document.identifications"
-                    :tripleboolean="true"
-                    :initialValue="initialValues[PropertiesReference.IDENTIFICATIONS.name]"
-                    class="form-control override-form-control"
-            >
+          <mau-form-input-triple-boolean
+                  v-show="document.documentType"
+                  v-model="document.identifications"
+                  :error="errors.has(PropertiesReference.IDENTIFICATIONS.name) ? errors.first(PropertiesReference.IDENTIFICATIONS.name) : ''"
+                  :label="PropertiesReference.IDENTIFICATIONS.title"
+                  :name="PropertiesReference.IDENTIFICATIONS.name"
+                  :initialValue="initialValues[PropertiesReference.IDENTIFICATIONS.name]"
+          >
 
-            </mau-form-input-boolean>
-            <div class="invalid-feedback">
-                <span v-show="errors.has(PropertiesReference.IDENTIFICATIONS.name)" class="help is-danger">
-                  {{ errors.first(PropertiesReference.IDENTIFICATIONS.name) }}
-                </span>
-            </div>
-            <div v-show="!document.documentType" class="mau-text-center">
-              <p>Se necesita seleccionar un tipo de documento</p>
-            </div>
+          </mau-form-input-triple-boolean>
+          <div v-show="!document.documentType" class="mau-text-center">
+            <p>Se necesita seleccionar un tipo de documento</p>
           </div>
         </div>
         <div class="form-group">
-          <div class="document_personalities">
-            <label>{{PropertiesReference.PERSONALITIES.title}}</label>
-            <mau-form-input-boolean
-                    :tripleboolean="true"
-                    v-show="document.documentType"
-                    v-model="document.personalities"
-                    :initialValue="initialValues[PropertiesReference.PERSONALITIES.name]"
-                    class="form-control override-form-control"
-            >
-            </mau-form-input-boolean>
-            <div class="invalid-feedback">
-                  <span v-show="errors.has(PropertiesReference.PERSONALITIES.name)" class="help is-danger">
-                    {{ errors.first(PropertiesReference.PERSONALITIES.name) }}
-                  </span>
-            </div>
-            <div v-show="!document.documentType" class="mau-text-center">
-              <p>Se necesita seleccionar un tipo de documento</p>
-            </div>
+          <mau-form-input-triple-boolean
+                  v-show="document.documentType"
+                  v-model="document.personalities"
+                  :error="errors.has(PropertiesReference.PERSONALITIES.name) ? errors.first(PropertiesReference.PERSONALITIES.name) : ''"
+                  :name="PropertiesReference.PERSONALITIES.name"
+                  :label="PropertiesReference.PERSONALITIES.title"
+                  :initialValue="initialValues[PropertiesReference.PERSONALITIES.name]"
+          >
+          </mau-form-input-triple-boolean>
+          <div v-show="!document.documentType" class="mau-text-center">
+            <p>Se necesita seleccionar un tipo de documento</p>
           </div>
         </div>
         <div class="form-group">
-          <div class="document_type_other">
-            <label>{{PropertiesReference.PUBLIC_REGISTRY_PATENT.title}}</label>
-            <mau-form-input-boolean
+            <mau-form-input-triple-boolean
                     v-show="document.documentType"
-                    :tripleboolean="true"
                     v-model="document.publicRegistryPatent"
+                    :error="errors.has(PropertiesReference.PUBLIC_REGISTRY_PATENT.name) ? errors.first(PropertiesReference.PUBLIC_REGISTRY_PATENT.name) : ''"
+                    :name="PropertiesReference.PUBLIC_REGISTRY_PATENT.name"
+                    :label="PropertiesReference.PUBLIC_REGISTRY_PATENT.title"
                     :initialValue="initialValues[PropertiesReference.PUBLIC_REGISTRY_PATENT.name]"
-                    class="form-control override-form-control"
             >
-            </mau-form-input-boolean>
+            </mau-form-input-triple-boolean>
             <div v-show="!document.documentType" class="mau-text-center">
               <p>Se necesita seleccionar un tipo de documento</p>
             </div>
-          </div>
         </div>
         <div class="form-group">
           <div class="grantors">
@@ -347,35 +303,30 @@
       <div class="Abogados">
         <h3 class="mb-3">Abogados</h3>
         <div class="form-group">
-          <div class="document_entry_users">
-            <label>Abogado(s) responsable de acta</label>
             <mau-form-input-select-dynamic
                     :url="usersUrl"
                     :initialObjects="initialValues['entryUsers']"
-                    :multiselect="true"
-                    :label="'fullname'"
-                    :display="PropertiesReference.USERS.display"
+                    :displayProperty="'fullname'"
                     v-model="document.entryUsers"
-                    class="override-form-control form-control"
-                    :name="PropertiesReference.USERS.name"
+                    :error="errors.has('entryUsers') ? errors.first('entryUsers') : ''"
+                    :label="'Abogado(s) responsable de acta'"
+                    v-validate="'required'"
+                    :name="'entryUsers'"
             >
             </mau-form-input-select-dynamic>
-          </div>
         </div>
         <div class="form-group">
-          <div class="document_exit_users">
-            <label>Abogado(s) responsable de cierre</label>
             <mau-form-input-select-dynamic
                     :url="usersUrl"
                     :initialObjects="initialValues['exitUsers']"
                     :multiselect="true"
-                    :label="'fullname'"
+                    :displayProperty="'fullname'"
                     v-model="document.exitUsers"
-                    class="override-form-control form-control"
-                    :name="PropertiesReference.USERS.name"
+                    :label="'Abogado(s) responsable de cierre'"
+                    :name="'exitUsers'"
+                    error="''"
             >
             </mau-form-input-select-dynamic>
-          </div>
         </div>
       </div>
       <div class="Registro Publico">
@@ -421,6 +372,7 @@
   import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
   import MauFormInputText from 'renderer/components/mau-components/mau-form-inputs/MauFormInputText.vue'
   import MauFormInputNumber from 'renderer/components/mau-components/mau-form-inputs/MauFormInputNumber.vue'
+  import MauFormInputTripleBoolean from 'renderer/components/mau-components/mau-form-inputs/MauFormInputTripleBoolean'
   import DocumentDocumentAttachmentPropertiesReference from '../DocumentDocumentAttachmentPropertiesReference'
   import CommentList from '../components/CommentList.vue'
   import CommentInput from '../components/CommentInput.vue'
@@ -505,6 +457,7 @@
       MauFormInputSelectDynamic,
       MauFormInputNumber,
       MauFormInputText,
+      MauFormInputTripleBoolean,
       MaskedInput,
       CreateClient,
       CreateGrantor,
@@ -528,7 +481,6 @@
       }.bind(this))
     },
     created () {
-      this.createDefaultInitialValues()
       Promise.all([
         ApiOperations.get(ApiUrls.createListUrl(EntityTypes.DOCUMENT_TYPE.apiName) + '?paginate=false'),
         ApiOperations.get(ApiUrls.createListUrl(EntityTypes.DOCUMENT_STATUS.apiName) + '?paginate=false'),
@@ -577,27 +529,14 @@
         this.grantorsCreated = this.grantorsCreated + 1
       },
       getBootstrapValidationClass: ValidatorHelper.getBootstrapValidationClass,
-      createDefaultInitialValues: function () {
-        for (let propertyReference in PropertiesReference) {
-          if (PropertiesReference.hasOwnProperty(propertyReference)) {
-            if (PropertiesReference[propertyReference].name === undefined) {
-              console.log(PropertiesReference[propertyReference])
-            }
-            this.initialValues[PropertiesReference[propertyReference].name] = PropertiesReference[propertyReference].defaultValue
-          }
-        }
-        this.document.documentStatus = this.availableDocumentStatuses[0]
-        this.initialValues['entryUsers'] = []
-        this.initialValues['exitUsers'] = []
-      },
       setInitialValues: function () {
-        this.initialValues[PropertiesReference.FILE_NUMBER.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.FILE_NUMBER.name)
+        this.initialValues[PropertiesReference.FILE_NUMBER.name] = String(DefaultValuesHelper.simple(this.initialObject, PropertiesReference.FILE_NUMBER.name))
         this.initialValues[PropertiesReference.DATE.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.DATE.name)
         this.initialValues[PropertiesReference.TOME.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.TOME.name)
-        this.initialValues[PropertiesReference.FOLIO.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.FOLIO.name)
-        this.document.electronicFolio = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.ELECTRONIC_FOLIO.name)
+        this.initialValues[PropertiesReference.FOLIO.name] = String(DefaultValuesHelper.simple(this.initialObject, PropertiesReference.FOLIO.name))
         this.document.fileNumber = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.FILE_NUMBER.name)
         this.initialValues[PropertiesReference.DOCUMENT_TYPE.name] = DefaultValuesHelper.object(this.initialObject, PropertiesReference.DOCUMENT_TYPE.name)
+        this.document.documentStatus = this.availableDocumentStatuses[0]
         this.initialValues[PropertiesReference.DOCUMENT_STATUS.name] = DefaultValuesHelper.object(this.initialObject, PropertiesReference.DOCUMENT_STATUS.name)
         this.initialValues[PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name)
         this.initialValues[PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.name)
@@ -627,7 +566,6 @@
           [PropertiesReference.DATE.name]: this.document.date,
           [PropertiesReference.TOME.name]: this.document.tome,
           [PropertiesReference.FILE_NUMBER.name]: this.document.fileNumber,
-          [PropertiesReference.ELECTRONIC_FOLIO.name]: this.document.electronicFolio,
           [PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name]: this.document.publicRegistryEntryDate,
           [PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.name]: this.document.publicRegistryExitDate,
           [PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name]: this.document.moneyLaunderingExpirationDate ? this.document.moneyLaunderingExpirationDate : 'null',
