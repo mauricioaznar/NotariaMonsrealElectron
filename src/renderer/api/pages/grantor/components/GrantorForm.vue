@@ -9,6 +9,7 @@
                 v-validate="'required'"
                 :name="PropertiesReference.NAME.name"
                 :error="errors.has(PropertiesReference.NAME.name) ? errors.first(PropertiesReference.NAME.name) : ''"
+                :placeholder="'Ejemplo: Juan'"
         >
         </mau-form-input-text>
       </div>
@@ -20,6 +21,7 @@
                 v-validate="'required'"
                 :name="PropertiesReference.LASTNAME.name"
                 :error="errors.has(PropertiesReference.LASTNAME.name) ? errors.first(PropertiesReference.LASTNAME.name) : ''"
+                :placeholder="'Perez Dominguez'"
         >
         </mau-form-input-text>
       </div>
@@ -58,6 +60,7 @@
                 :initialValue="initialValues[PropertiesReference.CITY.name]"
                 :name="PropertiesReference.CITY.name"
                 :error="''"
+                :placeholder="'Ejemplo: Mérida'"
         >
         </mau-form-input-text>
       </div>
@@ -68,6 +71,7 @@
                 :initialValue="initialValues[PropertiesReference.COUNTRY.name]"
                 :name="PropertiesReference.COUNTRY.name"
                 :error="''"
+                :placeholder="'Ejemplo: México'"
         >
         </mau-form-input-text>
       </div>
@@ -79,6 +83,7 @@
                 :name="PropertiesReference.ZIPCODE.name"
                 :error="errors.has(PropertiesReference.ZIPCODE.name) ? errors.first(PropertiesReference.ZIPCODE.name) : ''"
                 v-validate="'numeric'"
+                :placeholder="'Ejemplo: 97130'"
         >
         </mau-form-input-text>
       </div>
@@ -90,6 +95,7 @@
               :initialValue="initialValues[PropertiesReference.ADDRESS1.name]"
               :name="PropertiesReference.ADDRESS1.name"
               :error="''"
+              :placeholder="'Ejemplo: Calle 19 entre 22 y 22-c colonia: Montes de ame #232'"
       >
       </mau-form-input-text>
     </div>

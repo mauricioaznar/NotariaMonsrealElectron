@@ -3,39 +3,40 @@
       <div>
           <div class="form-group">
               <mau-form-input-text
-                            v-model="group.name"
-                            v-validate="'required'"
-                            :label="PropertiesReference.NAME.title"
-                            :name="PropertiesReference.NAME.name"
-                            :initialValue="initialValues[PropertiesReference.NAME.name]"
-                            :error="errors.has(PropertiesReference.NAME.name) ? errors.first(PropertiesReference.NAME.name) : ''"
+                  v-model="group.name"
+                  v-validate="'required'"
+                  :label="PropertiesReference.NAME.title"
+                  :name="PropertiesReference.NAME.name"
+                  :initialValue="initialValues[PropertiesReference.NAME.name]"
+                  :error="errors.has(PropertiesReference.NAME.name) ? errors.first(PropertiesReference.NAME.name) : ''"
+                  :placeholder="'Ejemplo: Grupo 1'"
               >
               </mau-form-input-text>
           </div>
           <div class="form-group">
               <mau-form-input-select-dynamic
-                      :initialObject="initialValues[PropertiesReference.USER.name]"
-                      :label="PropertiesReference.USER.title"
-                      v-model="group.user"
-                      :url="usersUrl"
-                      :name="PropertiesReference.USER.name"
-                      :displayProperty="'fullname'"
-                      :error="errors.has(PropertiesReference.USER.name) ? errors.first(PropertiesReference.USER.name) : ''"
-                      v-validate="'required'"
+                  :initialObject="initialValues[PropertiesReference.USER.name]"
+                  :label="PropertiesReference.USER.title"
+                  v-model="group.user"
+                  :url="usersUrl"
+                  :name="PropertiesReference.USER.name"
+                  :displayProperty="'fullname'"
+                  :error="errors.has(PropertiesReference.USER.name) ? errors.first(PropertiesReference.USER.name) : ''"
+                  v-validate="'required'"
               >
               </mau-form-input-select-dynamic>
           </div>
           <div class="form-group">
               <mau-form-input-select-dynamic
-                      :initialObjects="initialValues[PropertiesReference.USERS.name]"
-                      :label="PropertiesReference.USERS.title"
-                      v-model="group.users"
-                      :url="usersUrl"
-                      :name="PropertiesReference.USERS.name"
-                      :displayProperty="'fullname'"
-                      :error="errors.has(PropertiesReference.USERS.name) ? errors.first(PropertiesReference.USERS.name) : ''"
-                      :multiselect="true"
-                      v-validate="'required'"
+                  :initialObjects="initialValues[PropertiesReference.USERS.name]"
+                  :label="PropertiesReference.USERS.title"
+                  v-model="group.users"
+                  :url="usersUrl"
+                  :name="PropertiesReference.USERS.name"
+                  :displayProperty="'fullname'"
+                  :error="errors.has(PropertiesReference.USERS.name) ? errors.first(PropertiesReference.USERS.name) : ''"
+                  :multiselect="true"
+                  v-validate="'required'"
               >
               </mau-form-input-select-dynamic>
           </div>

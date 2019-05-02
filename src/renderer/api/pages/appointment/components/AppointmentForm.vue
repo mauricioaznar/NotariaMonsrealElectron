@@ -9,8 +9,8 @@
                     :label="PropertiesReference.NAME.title"
                     v-validate="'required'"
                     :error="errors.has(PropertiesReference.NAME.name) ? errors.first(PropertiesReference.NAME.name) : ''"
+                    :placeholder="'Ejemplo: Firma del acta'"
                 >
-
                 </mau-form-input-text>
             </div>
             <div class="form-group">
@@ -38,6 +38,7 @@
             <mau-form-group-time
                     :initialTime="initialValues['startTime']"
                     :name="'startTime'"
+                    :hourOptions="hourOptions"
                     v-model="appointment.startTime"
                     :error="errors.has('startTime') ? errors.first('startTime') : ''"
                     :label="'inicio'"
@@ -47,6 +48,7 @@
             <mau-form-group-time
                     :initialTime="initialValues['endTime']"
                     :name="'endTime'"
+                    :hourOptions="hourOptions"
                     v-model="appointment.endTime"
                     :error="errors.has('endTime') ? errors.first('endTime') : ''"
                     :label="'fin'"
@@ -108,7 +110,6 @@
   import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
   import ConvertDateTime from 'renderer/services/common/ConvertDateTime'
   import MauFormInputSelectDynamic from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelectDynamic.vue'
-  import MauFormInputSelectStatic from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelectStatic'
   import MauFormGroupTime from 'renderer/components/mau-components/mau-form-groups/MauFormGroupTime.vue'
   import MauFormInputText from 'renderer/components/mau-components/mau-form-inputs/MauFormInputText'
   import EntityTypes from 'renderer/api/EntityTypes'
@@ -170,7 +171,6 @@
     },
     components: {
       MauFormInputSelectDynamic,
-      MauFormInputSelectStatic,
       MauFormGroupTime,
       MauFormInputText
     },

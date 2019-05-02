@@ -18,42 +18,33 @@
                 <tbody>
                 <tr v-for="(item, index) in properties">
                     <td>
-                        <b-form-input
+                        <mau-form-input-text
                                 v-model="item.property"
-                                type="text"
-                                class="form-control"
                                 @input="itemChanged"
                                 :name="'property' + index"
+                                :error="errors.has('property' + index) ? errors.first('property' + index) : ''"
+                                :initialValue="item.initial_property"
                                 v-validate="'required'"
                                 :data-vv-name="'property' + index"
                                 :data-vv-as="'predio'"
-                                :class="getBootstrapValidationClass(errors.has('property' + index))"
+                                :placeholder="'Ejemplo: Calle 19 entre 22 y 22-c...'"
                         >
-                        </b-form-input>
-                        <div class="invalid-feedback">
-                          <span v-show="errors.has('property' + index)" class="help is-danger">
-                            {{ errors.first('property' + index) }}
-                          </span>
-                        </div>
+                        </mau-form-input-text>
                     </td>
                     <td>
-                        <b-form-input
+                        <mau-form-input-number
                                 v-model="item.electronic_folio"
-                                type="text"
-                                class="form-control"
                                 @input="itemChanged"
-                                v-validate="'required'"
+                                :name="'electronic_folio' + index"
+                                :error="errors.has('electronic_folio' + index) ? errors.first('electronic_folio' + index) : ''"
+                                :initialValue="item.initial_electronic_folio"
+                                v-validate="'required|numeric'"
                                 :data-vv-name="'electronic_folio' + index"
-                                :data-vv-as="'folio electronico'"
-                                :class="getBootstrapValidationClass(errors.has('electronic_folio' + index))"
-                                :id="'electronic-folio' + index"
+                                :data-vv-as="'folio_electronico'"
+                                :placeholder="'Ejemplo: 12345'"
+                                :type="'regular'"
                         >
-                        </b-form-input>
-                        <div class="invalid-feedback">
-                          <span v-show="errors.has('electronic_folio' + index)" class="help is-danger">
-                            {{ errors.first('electronic_folio' + index) }}
-                          </span>
-                        </div>
+                        </mau-form-input-number>
                     </td>
                     <td>
                         <a href="#" class="icon-button danger" @click.prevent="removeItem(item)">
@@ -79,6 +70,8 @@
   import cloneDeep from 'renderer/services/common/cloneDeep'
   import ValidatorHelper from 'renderer/services/form/ValidatorHelper'
   import ManyToManyHelper from 'renderer/services/form/ManyToManyHelper'
+  import MauFormInputNumber from 'renderer/components/mau-components/mau-form-inputs/MauFormInputNumber'
+  import MauFormInputText from 'renderer/components/mau-components/mau-form-inputs/MauFormInputText'
   export default {
     data () {
       return {
@@ -93,20 +86,23 @@
       }
     },
     created () {
-      let initialPropertiesMod = []
-      for (let i = 0; i < this.initialProperties.length; i++) {
-        let initialPropertyObj = cloneDeep(this.initialProperties[i])
-        initialPropertiesMod.push(initialPropertyObj)
+      let initialPropertiesCopy = cloneDeep(this.initialProperties)
+      for (let i = 0; i < initialPropertiesCopy.length; i++) {
+        let initialPropertyObj = initialPropertiesCopy[i]
+        initialPropertyObj.initial_property = initialPropertyObj.property
+        initialPropertyObj.initial_electronic_folio = initialPropertyObj.electronic_folio
       }
-      this.properties = initialPropertiesMod
+      this.properties = initialPropertiesCopy
       this.propertiesUpdate()
     },
     components: {
+      MauFormInputNumber,
+      MauFormInputText
     },
     methods: {
       getBootstrapValidationClass: ValidatorHelper.getBootstrapValidationClass,
       addItem: function () {
-        this.properties.push({property: '', electronic_folio: ''})
+        this.properties.push({property: '', electronic_folio: '', initial_property: '', initial_electronic_folio: ''})
         this.propertiesUpdate()
       },
       removeItem: function (item) {

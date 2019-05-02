@@ -3,16 +3,18 @@
       <div class="generales">
         <h3 class="mb-3">Generales</h3>
         <div class="form-group">
-          <mau-form-input-text
+          <mau-form-input-number
                   :name="PropertiesReference.FILE_NUMBER.name"
-                  :error="errors.first(PropertiesReference.FILE_NUMBER.name)"
+                  :error="errors.has(PropertiesReference.FILE_NUMBER.name) ? errors.first(PropertiesReference.FILE_NUMBER.name) : ''"
                   :label="PropertiesReference.FILE_NUMBER.title"
                   :data-vv-as="PropertiesReference.FILE_NUMBER.title"
                   v-model="document.fileNumber"
+                  :type="'regular'"
                   :initialValue="initialValues[PropertiesReference.FILE_NUMBER.name]"
-                  v-validate="'required|numeric'"
+                  v-validate="'required'"
+                  :placeholder="'Ejemplo: 123'"
           >
-          </mau-form-input-text>
+          </mau-form-input-number>
         </div>
         <div class="form-group">
           <mau-form-input-date-time
@@ -21,7 +23,7 @@
                   :data-vv-as="PropertiesReference.DATE.title"
                   v-model="document.date"
                   :initialValue="initialValues[PropertiesReference.DATE.name]"
-                  :error="errors.first(PropertiesReference.DATE.name)"
+                  :error="errors.has(PropertiesReference.DATE.name) ? errors.first(PropertiesReference.DATE.name) : ''"
                   v-validate="{
                     required: true
                   }"
@@ -31,24 +33,26 @@
         <div class="form-group">
           <mau-form-input-text
                   :name="PropertiesReference.TOME.name"
-                  :error="errors.first(PropertiesReference.TOME.name)"
+                  :error="errors.has(PropertiesReference.TOME.name) ? errors.first(PropertiesReference.TOME.name) : ''"
                   :label="PropertiesReference.TOME.title"
                   v-model="document.tome"
                   :data-vv-as="PropertiesReference.TOME.title"
                   :initialValue="initialValues[PropertiesReference.TOME.name]"
+                  :placeholder="'Ejemplo: XV-12'"
                   v-validate="'required|alpha_dash'"
           >
           </mau-form-input-text>
         </div>
         <div class="form-group">
-          <mau-form-input-text
+          <mau-form-input-number
                   :name="PropertiesReference.FOLIO.name"
-                  :error="errors.first(PropertiesReference.FOLIO.name)"
+                  :error="errors.has(PropertiesReference.FOLIO.name) ? errors.first(PropertiesReference.FOLIO.name) : ''"
                   :label="PropertiesReference.FOLIO.title"
                   :data-vv-as="PropertiesReference.FOLIO.title"
                   v-model="document.folio"
+                  :type="'regular'"
                   :initialValue="initialValues[PropertiesReference.FOLIO.name]"
-                  :ref="'folio'"
+                  :placeholder="'Ejemplo: 12345'"
                   v-validate="{
                     required: true,
                     numeric: true,
@@ -60,7 +64,7 @@
                     }
                   }"
           >
-          </mau-form-input-text>
+          </mau-form-input-number>
         </div>
         <div class="form-group">
           <label>{{PropertiesReference.DOCUMENT_TYPE.title}}</label>
@@ -88,6 +92,7 @@
                     :name="PropertiesReference.OPERATIONS.name"
                     :url="operationsUrl"
                     :displayProperty="'name'"
+                    :multiselect="true"
                     :initialObjects="initialValues[PropertiesReference.OPERATIONS.name]"
                     :filterEntity="'documentTypes'"
                     :filterLikes="{name: document.documentType ? document.documentType['name'] : ''}"
@@ -230,6 +235,7 @@
                   :name="PropertiesReference.GRANTORS.name"
                   :error="errors.has(PropertiesReference.GROUPS.name) ? errors.first(PropertiesReference.GROUPS.name) : ''"
                   :displayProperty="'name'"
+                  :multiselect="true"
                   :label="PropertiesReference.GROUPS.title"
                   v-model="document.groups"
           >
@@ -282,21 +288,20 @@
             </div>
         </div>
         <div class="form-group">
-          <div class="grantors">
-            <label>{{PropertiesReference.DOCUMENT_ATTACHMENTS.title}}</label>
-            <div v-show="document.documentType">
-              <document-attachments
-                      :key="document.documentType ? document.documentType['id'] : 0"
-                      v-model="document.documentAttachments"
-                      :initialAttachments="initialValues[PropertiesReference.DOCUMENT_ATTACHMENTS.name]"
-                      :filterEntity="'documentTypes'"
-                      :filterLikes="{name: document.documentType ? document.documentType['name'] : ''}"
-              >
-              </document-attachments>
-            </div>
-            <div v-show="!document.documentType" class="mau-text-center">
-              <p>Se necesita seleccionar un tipo de documento</p>
-            </div>
+          <div v-show="document.documentType">
+            <document-attachments
+                    :key="document.documentType ? document.documentType['id'] : 0"
+                    v-model="document.documentAttachments"
+                    :name="PropertiesReference.DOCUMENT_ATTACHMENTS.name"
+                    :label="PropertiesReference.DOCUMENT_ATTACHMENTS.title"
+                    :initialAttachments="initialValues[PropertiesReference.DOCUMENT_ATTACHMENTS.name]"
+                    :filterEntity="'documentTypes'"
+                    :filterLikes="{name: document.documentType ? document.documentType['name'] : ''}"
+            >
+            </document-attachments>
+          </div>
+          <div v-show="!document.documentType" class="mau-text-center">
+            <p>Se necesita seleccionar un tipo de documento</p>
           </div>
         </div>
       </div>
@@ -311,6 +316,7 @@
                     :error="errors.has('entryUsers') ? errors.first('entryUsers') : ''"
                     :label="'Abogado(s) responsable de acta'"
                     v-validate="'required'"
+                    :multiselect="true"
                     :name="'entryUsers'"
             >
             </mau-form-input-select-dynamic>
@@ -324,7 +330,7 @@
                     v-model="document.exitUsers"
                     :label="'Abogado(s) responsable de cierre'"
                     :name="'exitUsers'"
-                    error="''"
+                    :error="''"
             >
             </mau-form-input-select-dynamic>
         </div>
@@ -530,11 +536,10 @@
       },
       getBootstrapValidationClass: ValidatorHelper.getBootstrapValidationClass,
       setInitialValues: function () {
-        this.initialValues[PropertiesReference.FILE_NUMBER.name] = String(DefaultValuesHelper.simple(this.initialObject, PropertiesReference.FILE_NUMBER.name))
+        this.initialValues[PropertiesReference.FILE_NUMBER.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.FILE_NUMBER.name)
         this.initialValues[PropertiesReference.DATE.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.DATE.name)
         this.initialValues[PropertiesReference.TOME.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.TOME.name)
-        this.initialValues[PropertiesReference.FOLIO.name] = String(DefaultValuesHelper.simple(this.initialObject, PropertiesReference.FOLIO.name))
-        this.document.fileNumber = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.FILE_NUMBER.name)
+        this.initialValues[PropertiesReference.FOLIO.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.FOLIO.name)
         this.initialValues[PropertiesReference.DOCUMENT_TYPE.name] = DefaultValuesHelper.object(this.initialObject, PropertiesReference.DOCUMENT_TYPE.name)
         this.document.documentStatus = this.availableDocumentStatuses[0]
         this.initialValues[PropertiesReference.DOCUMENT_STATUS.name] = DefaultValuesHelper.object(this.initialObject, PropertiesReference.DOCUMENT_STATUS.name)
@@ -627,7 +632,9 @@
         }
       },
       'document.date': function () {
-        this.$validator.validate(PropertiesReference.FOLIO.name).then(result => {})
+        if (this.document.folio !== '') {
+          this.$validator.validate(PropertiesReference.FOLIO.name).then(result => {})
+        }
       }
     }
   }

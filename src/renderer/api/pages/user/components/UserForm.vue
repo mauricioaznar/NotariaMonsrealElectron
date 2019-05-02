@@ -9,18 +9,19 @@
             :name="PropertiesReference.NAME.name"
             :initialValue="initialValues[PropertiesReference.NAME.name]"
             :error="errors.has(PropertiesReference.NAME.name) ? errors.first(PropertiesReference.NAME.name) : ''"
+            :placeholder="'Ejemplo: Juan'"
         >
         </mau-form-input-text>
       </div>
       <div class="col-sm-12 col-md-6">
         <mau-form-input-text
-                :label="PropertiesReference.LASTNAME.title"
-                v-model="user.lastname"
-                v-validate="'required'"
-                :name="PropertiesReference.LASTNAME.name"
-                :initialValue="initialValues[PropertiesReference.LASTNAME.name]"
-                :placeholder="'Ochoa'"
-                :error="errors.has(PropertiesReference.LASTNAME.name) ? errors.first(PropertiesReference.LASTNAME.name) : ''"
+            :label="PropertiesReference.LASTNAME.title"
+            v-model="user.lastname"
+            v-validate="'required'"
+            :name="PropertiesReference.LASTNAME.name"
+            :initialValue="initialValues[PropertiesReference.LASTNAME.name]"
+            :placeholder="'Ejemplo: Perez Dominguez'"
+            :error="errors.has(PropertiesReference.LASTNAME.name) ? errors.first(PropertiesReference.LASTNAME.name) : ''"
         >
         </mau-form-input-text>
       </div>
@@ -28,41 +29,40 @@
     <div class="form-group form-row">
       <div class="col-md-6 col-sm-12">
         <mau-form-input-text
-                :label="PropertiesReference.EMAIL.title"
-                v-model="user.email"
-                v-validate="'required'"
-                :type="'email'"
-                :name="PropertiesReference.EMAIL.name"
-                :initialValue="initialValues[PropertiesReference.EMAIL.name]"
-                :placeholder="'Ochoa'"
-                :error="errors.has(PropertiesReference.EMAIL.name) ? errors.first(PropertiesReference.EMAIL.name) : ''"
+            :label="PropertiesReference.EMAIL.title"
+            v-model="user.email"
+            v-validate="'required'"
+            :type="'email'"
+            :name="PropertiesReference.EMAIL.name"
+            :initialValue="initialValues[PropertiesReference.EMAIL.name]"
+            :error="errors.has(PropertiesReference.EMAIL.name) ? errors.first(PropertiesReference.EMAIL.name) : ''"
         >
         </mau-form-input-text>
       </div>
       <div class="col-md-6 col-sm-12 phone">
         <mau-form-input-text
-                :label="PropertiesReference.PHONE.title"
-                v-model="user.phone"
-                v-validate="'required'"
-                :type="'cellphone'"
-                :name="PropertiesReference.PHONE.name"
-                :initialValue="initialValues[PropertiesReference.PHONE.name]"
-                :placeholder="'Ochoa'"
-                :error="errors.has(PropertiesReference.PHONE.name) ? errors.first(PropertiesReference.PHONE.name) : ''"
+            :label="PropertiesReference.PHONE.title"
+            v-model="user.phone"
+            v-validate="'required'"
+            :type="'cellphone'"
+            :name="PropertiesReference.PHONE.name"
+            :initialValue="initialValues[PropertiesReference.PHONE.name]"
+            :placeholder="'Ochoa'"
+            :error="errors.has(PropertiesReference.PHONE.name) ? errors.first(PropertiesReference.PHONE.name) : ''"
         >
         </mau-form-input-text>
       </div>
     </div>
     <div class="form-group">
       <mau-form-input-select-dynamic
-              :url="rolesUrl"
-              :initialObject="initialValues[PropertiesReference.ROLE.name]"
-              :label="PropertiesReference.ROLE.title"
-              :displayProperty="'name'"
-              v-model="user.role"
-              :name="PropertiesReference.ROLE.name"
-              v-validate="'required'"
-              :error="errors.has(PropertiesReference.ROLE.name) ? errors.first(PropertiesReference.ROLE.name) : ''"
+            :url="rolesUrl"
+            :initialObject="initialValues[PropertiesReference.ROLE.name]"
+            :label="PropertiesReference.ROLE.title"
+            :displayProperty="'name'"
+            v-model="user.role"
+            :name="PropertiesReference.ROLE.name"
+            v-validate="'required'"
+            :error="errors.has(PropertiesReference.ROLE.name) ? errors.first(PropertiesReference.ROLE.name) : ''"
       >
       </mau-form-input-select-dynamic>
     </div>

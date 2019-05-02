@@ -6,15 +6,23 @@
           <form method="post" action="/auth/login" name="login">
             <div class="form-group">
               <label class="control-label">Email</label><i class="bar"></i>
-              <b-form-input v-model="email"
-                            type="email"
-              ></b-form-input>
+              <mau-form-input-text
+                  v-model="email"
+                  :type="'email'"
+                  :initialValue="''"
+                  :error="''"
+                  :name="'email'"
+              ></mau-form-input-text>
             </div>
             <div class="form-group">
               <label class="control-label">Contraseña</label><i class="bar"></i>
-              <b-form-input v-model="password"
-                            type="password"
-              ></b-form-input>
+              <mau-form-input-text
+                  v-model="password"
+                  :type="'password'"
+                  :initialValue="''"
+                  :error="''"
+                  :name="'password'"
+              ></mau-form-input-text>
             </div>
             <div class="d-flex flex-row flex-lg-row justify-content-center align-items-center down-container">
               <button class="btn btn-primary" type="submit" v-on:click.prevent="submit">
@@ -33,6 +41,7 @@
 <script>
   import ApiOperations from 'renderer/services/api/ApiOperations'
   import Notifications from 'renderer/services/api/Notifications'
+  import MauFormInputText from 'renderer/components/mau-components/mau-form-inputs/MauFormInputText'
   export default {
     data () {
       return {
@@ -62,6 +71,9 @@
           })
         }, 3000)
       }
+    },
+    components: {
+      MauFormInputText
     }
   }
 </script>

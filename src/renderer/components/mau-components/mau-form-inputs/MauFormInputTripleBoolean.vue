@@ -1,8 +1,5 @@
 <template>
     <div>
-        <label v-if="label">
-            {{label}}
-        </label>
         <mau-form-input-select-static
                 v-model="selected"
                 :availableObjects="options"
@@ -11,14 +8,8 @@
                 :name="name"
                 :label="label"
                 :error="error"
-                class="form-control p-0"
 
         ></mau-form-input-select-static>
-        <div class="invalid-feedback">
-            <span v-show="error" class="help is-danger">
-                {{error}}
-            </span>
-        </div>
     </div>
 </template>
 

@@ -10,6 +10,7 @@
                 v-model="numberString"
                 :mask="mask"
                 :disabled="disabled"
+                :placeholder="placeholder"
                 :class="getBootstrapValidationClass(error)">
         </masked-input>
         <div class="invalid-feedback">
@@ -41,6 +42,9 @@
       if (this.type === 'regular') {
         this.mask = this.negative ? Masks.regularNumberNegative : Masks.regularNumber
       }
+      if (this.type === 'quantity') {
+        this.mask = this.negative ? Masks.quantityNumberNegative : Masks.quantityNumber
+      }
       if (this.type === 'float') {
         this.mask = this.negative ? Masks.floatNumberNegative : Masks.floatNumber
       }
@@ -55,7 +59,9 @@
     },
     props: {
       value: [Number, String],
-      initialValue: [Number, String],
+      initialValue: {
+        type: [Number, String]
+      },
       name: String,
       label: {
         type: String
@@ -78,8 +84,14 @@
         default: 'regular',
         validator: val => {
           return (
-            ['regular', 'currency', 'float'].indexOf(val) !== -1
+            ['regular', 'quantity', 'float'].indexOf(val) !== -1
           )
+        }
+      },
+      placeholder: {
+        type: String,
+        default: function () {
+          return 'Ejemplo: 12345'
         }
       }
     },

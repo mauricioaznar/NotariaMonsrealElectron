@@ -10,7 +10,18 @@
                 type="text"
                 :disabled="disabled"
                 class="form-control"
-                :placeholder="'Nombre'"
+                :placeholder="placeholder"
+                :class="getBootstrapValidationClass(error)"
+                @input="updateValue"
+        />
+        <input
+                v-if="type === textInputTypes.PASSWORD"
+                v-model="stringValue"
+                :name="name"
+                type="password"
+                :disabled="disabled"
+                class="form-control"
+                :placeholder="placeholder"
                 :class="getBootstrapValidationClass(error)"
                 @input="updateValue"
         />
@@ -68,7 +79,8 @@
       EMAIL: 'email',
       TEXT: 'text',
       HOUSE_PHONE: 'house_phone',
-      CELLPHONE: 'cellphone'
+      CELLPHONE: 'cellphone',
+      PASSWORD: 'password'
     }
     export default {
       name: 'MauFormInputText',
@@ -130,13 +142,19 @@
             return textInputTypes.TEXT
           },
           validator: function (value) {
-            return [textInputTypes.TEXT, textInputTypes.EMAIL, textInputTypes.HOUSE_PHONE, textInputTypes.CELLPHONE].indexOf(value) !== -1
+            return [textInputTypes.TEXT, textInputTypes.EMAIL, textInputTypes.HOUSE_PHONE, textInputTypes.CELLPHONE, textInputTypes.PASSWORD].indexOf(value) !== -1
           }
         },
         disabled: {
           type: Boolean,
           default: function () {
             return false
+          }
+        },
+        placeholder: {
+          type: String,
+          default: function () {
+            return 'Ejemplo: john doe'
           }
         }
       },

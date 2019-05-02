@@ -73,7 +73,7 @@ export default {
     name: 'zip_code',
     display: DisplayFunctions.getValue,
     required: false,
-    mask: Masks.regularNumber,
+    mask: Masks.quantityNumber,
     mauInputType: MauInputTypes.NUMBER,
     defaultValue: ''
   },

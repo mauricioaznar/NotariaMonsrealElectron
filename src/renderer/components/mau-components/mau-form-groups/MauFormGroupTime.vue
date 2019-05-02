@@ -1,46 +1,28 @@
 <template>
     <div class="form-group form-row">
         <div class="col-md-6 col-sm-12">
-            <label v-if="label">
-                Hora de {{label}}
-            </label>
             <mau-form-input-select-static
                     v-model="hours"
                     :availableObjects="hourOptions"
                     :initialObject="initialHours"
                     :displayProperty="displayProperty"
-                    :error="''"
+                    :label="'Hora de ' + label"
+                    :error="error"
                     :name="name + '1'"
-                    class="form-control p-0"
-                    :class="getBootstrapValidationClass(error)"
             >
             </mau-form-input-select-static>
-            <div class="invalid-feedback">
-                <span v-show="error" class="help is-danger">
-                    {{error}}
-                </span>
-            </div>
         </div>
         <div class="col-md-6 col-sm-12">
-            <label v-if="label">
-                Minuto de {{label}}
-            </label>
             <mau-form-input-select-static
                     v-model="minutes"
                     :availableObjects="minuteOptions"
                     :initialObject="initialMinutes"
                     :displayProperty="displayProperty"
-                    :error="''"
+                    :error="error"
                     :name="name + '2'"
-                    class="form-control p-0"
-                    :class="getBootstrapValidationClass(error)"
+                    :label="'Minuto de ' + label"
             >
             </mau-form-input-select-static>
-            <div class="invalid-feedback">
-                <span v-show="error" class="help is-danger">
-                    {{error}}
-                </span>
-            </div>
         </div>
     </div>
 </template>

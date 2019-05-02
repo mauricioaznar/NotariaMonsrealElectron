@@ -17,8 +17,8 @@
             </template>
             <span slot="no-options">No se encontraron resultados.</span>
         </vue-select>
-        <div v-if="error" class="invalid-feedback">
-            <span class="help is-danger">
+        <div class="invalid-feedback">
+            <span v-show="error" class="help is-danger">
                 {{error}}
             </span>
         </div>

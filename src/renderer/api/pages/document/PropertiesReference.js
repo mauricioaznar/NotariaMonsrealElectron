@@ -20,14 +20,14 @@ export default {
     required: true,
     mauInputType: MauInputTypes.NUMBER,
     defaultValue: MauInputDefaultValues.NUMBER,
-    mask: Masks.regularNumber
+    mask: Masks.quantityNumber
   },
   TOME: {
     title: 'Tomo/Libro',
     name: 'tome',
     display: DisplayFunctions.getValue,
     required: true,
-    mask: Masks.regularNumber,
+    mask: Masks.quantityNumber,
     mauInputType: MauInputTypes.TEXT,
     defaultValue: MauInputDefaultValues.TEXT
   },
@@ -36,14 +36,14 @@ export default {
     name: 'electronic_folio',
     display: DisplayFunctions.getValue,
     required: false,
-    mask: Masks.regularNumber
+    mask: Masks.quantityNumber
   },
   FILE_NUMBER: {
     title: 'Numero de acta',
     name: 'file_number',
     display: DisplayFunctions.getValue,
     required: true,
-    mask: Masks.regularNumber,
+    mask: Masks.quantityNumber,
     mauInputType: MauInputTypes.NUMBER,
     defaultValue: MauInputDefaultValues.NUMBER
   },

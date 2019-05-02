@@ -13,7 +13,7 @@ export default {
     defaultValue: MauInputDefaultValues.NUMBER
   },
   NAME: {
-    title: 'Nombre',
+    title: 'Asunto',
     name: 'name',
     display: DisplayFunctions.getValue,
     required: true,

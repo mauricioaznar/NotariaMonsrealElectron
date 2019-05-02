@@ -6,10 +6,24 @@ const regularNumber = createNumberMask({
   prefix: '',
   suffix: '',
   integerLimit: 6,
-  includeThousandsSeparator: true,
+  includeThousandsSeparator: false,
   allowNegative: false
 })
 const regularNumberNegative = createNumberMask({
+  prefix: '',
+  suffix: '',
+  integerLimit: 6,
+  includeThousandsSeparator: false,
+  allowNegative: true
+})
+const quantityNumber = createNumberMask({
+  prefix: '',
+  suffix: '',
+  integerLimit: 6,
+  includeThousandsSeparator: true,
+  allowNegative: false
+})
+const quantityNumberNegative = createNumberMask({
   prefix: '',
   suffix: '',
   integerLimit: 6,
@@ -38,6 +52,8 @@ export default {
   cellphone: cellphone,
   regularNumber: regularNumber,
   regularNumberNegative: regularNumberNegative,
+  quantityNumber: quantityNumber,
+  quantityNumberNegative: quantityNumberNegative,
   floatNumber: floatNumber,
   floatNumberNegative: floatNumberNegative
 }
