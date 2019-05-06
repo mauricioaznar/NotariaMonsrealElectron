@@ -7,6 +7,7 @@ import store from './store'
 import router from './router'
 import { sync } from 'vuex-router-sync'
 import MauPlugin from 'renderer/components/mau-components/mau-components-plugin'
+import MauVueComponents from 'mau-vue-components/src/main'
 import VueResource from 'vue-resource'
 import moment from 'moment'
 import Notifications from 'vue-notification'
@@ -26,6 +27,7 @@ moment.locale('es', {
   }
 })
 Vue.use(MauPlugin)
+Vue.use(MauVueComponents)
 Vue.use(BootstrapVue)
 Vue.use(VueResource)
 Validator.localize('es', esLocale)

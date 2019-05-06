@@ -70,7 +70,6 @@
   import cloneDeep from 'renderer/services/common/cloneDeep'
   import ValidatorHelper from 'renderer/services/form/ValidatorHelper'
   import ManyToManyHelper from 'renderer/services/form/ManyToManyHelper'
-  import MauFormInputNumber from 'renderer/components/mau-components/mau-form-inputs/MauFormInputNumber'
   import MauFormInputText from 'renderer/components/mau-components/mau-form-inputs/MauFormInputText'
   export default {
     data () {
@@ -96,7 +95,6 @@
       this.propertiesUpdate()
     },
     components: {
-      MauFormInputNumber,
       MauFormInputText
     },
     methods: {

@@ -377,7 +377,6 @@
   import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
   import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
   import MauFormInputText from 'renderer/components/mau-components/mau-form-inputs/MauFormInputText.vue'
-  import MauFormInputNumber from 'renderer/components/mau-components/mau-form-inputs/MauFormInputNumber.vue'
   import MauFormInputTripleBoolean from 'renderer/components/mau-components/mau-form-inputs/MauFormInputTripleBoolean'
   import DocumentDocumentAttachmentPropertiesReference from '../DocumentDocumentAttachmentPropertiesReference'
   import CommentList from '../components/CommentList.vue'
@@ -461,7 +460,6 @@
       CommentList,
       CommentInput,
       MauFormInputSelectDynamic,
-      MauFormInputNumber,
       MauFormInputText,
       MauFormInputTripleBoolean,
       MaskedInput,

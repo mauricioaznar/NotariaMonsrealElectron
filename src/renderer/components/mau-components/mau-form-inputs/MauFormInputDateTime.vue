@@ -11,6 +11,7 @@
             :config="config"
             @input="updateValue"
             @change="updateValue"
+            class="w-100 h-100"
     >
     </flat-pickr>
     <div class="invalid-feedback">

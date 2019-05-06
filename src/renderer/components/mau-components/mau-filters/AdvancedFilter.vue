@@ -11,7 +11,7 @@
                 <mau-form-input-date-time
                         :inputType="'range'"
                         v-model="rangeDate"
-                        class="col-sm-12 col-md-3 no-padding"
+                        class="col-sm-12 col-md-3 form-control p-0"
                         :initialValue="rangeDate"
                         error="''"
                 >
@@ -251,7 +251,8 @@
         cursor: default;
         opacity: 0.6;
     }
-    .no-padding {
-        padding: 0;
+
+    input {
+        border-width: 0px !important;
     }
 </style>
