@@ -41,7 +41,6 @@
 <script>
   import ApiOperations from 'renderer/services/api/ApiOperations'
   import Notifications from 'renderer/services/api/Notifications'
-  import MauFormInputText from 'renderer/components/mau-components/mau-form-inputs/MauFormInputText'
   export default {
     data () {
       return {
@@ -73,7 +72,6 @@
       }
     },
     components: {
-      MauFormInputText
     }
   }
 </script>

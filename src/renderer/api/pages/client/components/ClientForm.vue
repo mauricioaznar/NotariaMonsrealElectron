@@ -124,7 +124,6 @@
   import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
   import DefaultValuesHelper from 'renderer/services/form/DefaultValuesHelper'
   import MauFormInputSelectDynamic from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelectDynamic'
-  import MauFormInputText from 'renderer/components/mau-components/mau-form-inputs/MauFormInputText'
   import ManyToManyHelper from 'renderer/services/api/ManyToManyHelper'
   import ApiUrls from 'renderer/services/api/ApiUrls'
   import EntityTypes from 'renderer/api/EntityTypes'
@@ -150,8 +149,7 @@
       }
     },
     components: {
-      MauFormInputSelectDynamic,
-      MauFormInputText
+      MauFormInputSelectDynamic
     },
     props: {
       initialObject: {

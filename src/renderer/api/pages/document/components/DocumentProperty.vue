@@ -70,7 +70,6 @@
   import cloneDeep from 'renderer/services/common/cloneDeep'
   import ValidatorHelper from 'renderer/services/form/ValidatorHelper'
   import ManyToManyHelper from 'renderer/services/form/ManyToManyHelper'
-  import MauFormInputText from 'renderer/components/mau-components/mau-form-inputs/MauFormInputText'
   export default {
     data () {
       return {
@@ -95,7 +94,6 @@
       this.propertiesUpdate()
     },
     components: {
-      MauFormInputText
     },
     methods: {
       getBootstrapValidationClass: ValidatorHelper.getBootstrapValidationClass,

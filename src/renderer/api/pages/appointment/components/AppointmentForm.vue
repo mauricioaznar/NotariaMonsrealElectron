@@ -111,7 +111,6 @@
   import ConvertDateTime from 'renderer/services/common/ConvertDateTime'
   import MauFormInputSelectDynamic from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelectDynamic.vue'
   import MauFormGroupTime from 'renderer/components/mau-components/mau-form-groups/MauFormGroupTime.vue'
-  import MauFormInputText from 'renderer/components/mau-components/mau-form-inputs/MauFormInputText'
   import EntityTypes from 'renderer/api/EntityTypes'
   import ApiUrls from 'renderer/services/api/ApiUrls'
   import ManyToManyHelper from 'renderer/services/api/ManyToManyHelper'
@@ -171,8 +170,7 @@
     },
     components: {
       MauFormInputSelectDynamic,
-      MauFormGroupTime,
-      MauFormInputText
+      MauFormGroupTime
     },
     props: {
       initialObject: {

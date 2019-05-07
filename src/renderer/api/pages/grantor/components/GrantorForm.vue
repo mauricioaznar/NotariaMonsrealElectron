@@ -109,7 +109,6 @@
   import ValidatorHelper from 'renderer/services/form/ValidatorHelper'
   import PropertiesReference from '../PropertiesReference'
   import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
-  import MauFormInputText from 'renderer/components/mau-components/mau-form-inputs/MauFormInputText'
   import DefaultValuesHelper from 'renderer/services/form/DefaultValuesHelper'
   export default {
     name: 'ClientForm',
@@ -131,7 +130,6 @@
       }
     },
     components: {
-      MauFormInputText
     },
     props: {
       initialObject: {

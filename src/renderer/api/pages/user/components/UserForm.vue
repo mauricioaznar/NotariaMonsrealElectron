@@ -79,7 +79,6 @@
   import DefaultValuesHelper from 'renderer/services/form/DefaultValuesHelper'
   import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
   import MauFormInputSelectDynamic from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelectDynamic.vue'
-  import MauFormInputText from 'renderer/components/mau-components/mau-form-inputs/MauFormInputText'
   import ApiUrls from 'renderer/services/api/ApiUrls'
   import EntityTypes from 'renderer/api/EntityTypes'
   export default {
@@ -104,8 +103,7 @@
       }
     },
     components: {
-      MauFormInputSelectDynamic,
-      MauFormInputText
+      MauFormInputSelectDynamic
     },
     props: {
       initialObject: {

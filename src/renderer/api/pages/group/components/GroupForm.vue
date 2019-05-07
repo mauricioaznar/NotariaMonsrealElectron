@@ -52,7 +52,6 @@
   import ValidatorHelper from 'renderer/services/form/ValidatorHelper'
   import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
   import MauFormInputSelectDynamic from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelectDynamic.vue'
-  import MauFormInputText from 'renderer/components/mau-components/mau-form-inputs/MauFormInputText.vue'
   import ManyToManyHelper from 'renderer/services/api/ManyToManyHelper'
   import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
   import DefaultValuesHelper from 'renderer/services/form/DefaultValuesHelper'
@@ -75,8 +74,7 @@
       }
     },
     components: {
-      MauFormInputSelectDynamic,
-      MauFormInputText
+      MauFormInputSelectDynamic
     },
     props: {
       initialObject: {
