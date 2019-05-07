@@ -1,6 +1,5 @@
 import MauTabs from 'renderer/components/mau-components/mau-tabs/MauTabs.vue'
 import MauWidget from 'renderer/components/mau-components/mau-widget/MauWidget.vue'
-import MauFormInputDateTime from 'renderer/components/mau-components/mau-form-inputs/MauFormInputDateTime.vue'
 import MauFormInputRadio from 'renderer/components/mau-components/mau-form-groups/MauFormGroupRadio.vue'
 import MauFormInputCheckBox from 'renderer/components/mau-components/mau-form-inputs/MauFormInputCheckBox.vue'
 import MauTable from 'renderer/components/mau-components/mau-table/MauTable.vue'
@@ -22,7 +21,6 @@ const MauComponentsPlugin = {
   install (Vue, options) {
     Vue.component(MauTabs.name, MauTabs)
     Vue.component(MauWidget.name, MauWidget)
-    Vue.component(MauFormInputDateTime.name, MauFormInputDateTime)
     Vue.component(MauFormInputRadio.name, MauFormInputRadio)
     Vue.component(MauFormInputCheckBox.name, MauFormInputCheckBox)
     Vue.component(MauTable.name, MauTable)

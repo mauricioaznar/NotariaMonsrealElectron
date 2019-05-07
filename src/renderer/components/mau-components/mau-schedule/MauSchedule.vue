@@ -227,14 +227,15 @@
 		cursor: pointer;
 	}
 	.task-list-item p{
-		text-align: left;
+		text-align: center;
 		padding: 0;
-		margin: 1rem 0 0 1rem;
+		margin: 1rem 0 0 0;
 		font-size: 0.8rem;
-		color: #EDF2F6;
+		background-color: #555555;
 	}
 	.task-list-item h3{
 		color: #E0E7E9;
+		font-size: 16px;
 		margin: 1rem 0 0 1rem;
 	}
 </style>

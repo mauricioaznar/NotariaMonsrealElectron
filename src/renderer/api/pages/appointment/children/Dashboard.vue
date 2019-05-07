@@ -3,12 +3,13 @@
         <div class="container">
             <div class="form-group">
                 <p>Seleccione una fecha</p>
-                <mau-form-input-date-time
+                <mau-form-input-date
                         v-model="selectedDate"
                         :type="'date'"
-                        class="form-control override-form-control"
+                        :name="'date'"
+                        :error="''"
                 >
-                </mau-form-input-date-time>
+                </mau-form-input-date>
             </div>
         </div>
         <mau-spinner

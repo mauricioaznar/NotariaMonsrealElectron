@@ -17,7 +17,7 @@
           </mau-form-input-number>
         </div>
         <div class="form-group">
-          <mau-form-input-date-time
+          <mau-form-input-date
                   :label="PropertiesReference.DATE.title"
                   :name="PropertiesReference.DATE.name"
                   :data-vv-as="PropertiesReference.DATE.title"
@@ -28,7 +28,7 @@
                     required: true
                   }"
           >
-          </mau-form-input-date-time>
+          </mau-form-input-date>
         </div>
         <div class="form-group">
           <mau-form-input-text
@@ -144,7 +144,7 @@
         </div>
         <div class="form-group">
           <div class="money_laundering_expiration_date" v-show="moneyLaunderingApplies">
-            <mau-form-input-date-time
+            <mau-form-input-date
                     :name="PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name"
                     :initialValue="initialValues[PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name]"
                     :label="PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.title"
@@ -152,7 +152,7 @@
                     v-validate="moneyLaunderingApplies ? 'required' : ''"
                     :error="errors.has(PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name) ? errors.first(PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name) : ''"
             >
-            </mau-form-input-date-time>
+            </mau-form-input-date>
           </div>
         </div>
         <div class="form-group">
@@ -338,7 +338,7 @@
       <div class="Registro Publico">
         <h3 class="mb-3">Registro publico</h3>
         <div class="form-group">
-          <mau-form-input-date-time
+          <mau-form-input-date
                   :label="PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.title"
                   :name="PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name"
                   :data-vv-as="PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.title"
@@ -347,10 +347,10 @@
                   :error="errors.first(PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name)"
                   v-validate="isPublicRegistrySelected ? 'required' : ''"
           >
-          </mau-form-input-date-time>
+          </mau-form-input-date>
         </div>
         <div class="form-group">
-          <mau-form-input-date-time
+          <mau-form-input-date
                   :label="PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.title"
                   :name="PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.name"
                   :data-vv-as="PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.title"
@@ -358,7 +358,7 @@
                   :initialValue="initialValues[PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.name]"
                   :error="errors.first(PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.name)"
           >
-          </mau-form-input-date-time>
+          </mau-form-input-date>
         </div>
       </div>
       <div class="Comentarios">

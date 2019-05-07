@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <mau-form-input-date-time
+                <mau-form-input-date
                         :name="'startDate'"
                         :data-vv-name="'startDate'"
                         v-model="appointment.startDate"
@@ -33,7 +33,7 @@
                         :error="errors.has('startDate') ? errors.first('startDate') : ''"
                         v-validate="'required'"
                 >
-                </mau-form-input-date-time>
+                </mau-form-input-date>
             </div>
             <mau-form-group-time
                     :initialTime="initialValues['startTime']"

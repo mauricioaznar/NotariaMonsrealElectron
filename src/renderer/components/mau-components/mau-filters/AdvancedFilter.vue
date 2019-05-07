@@ -8,14 +8,15 @@
                               class="col-sm-12 col-md-6"
                                 >
                 </b-form-input>
-                <mau-form-input-date-time
+                <mau-form-input-date
                         :inputType="'range'"
                         v-model="rangeDate"
                         class="col-sm-12 col-md-3 form-control p-0"
                         :initialValue="rangeDate"
-                        error="''"
+                        :error="''"
+                        :name="''"
                 >
-                </mau-form-input-date-time>
+                </mau-form-input-date>
                 <b-btn class="col-sm-12 col-md-1 btn-collapse py-1"
                        aria-controls="collapse4"
                        v-b-modal.advancedSearchModal
