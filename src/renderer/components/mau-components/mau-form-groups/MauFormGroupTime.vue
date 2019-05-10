@@ -9,6 +9,7 @@
                     :label="'Hora de ' + label"
                     :error="error"
                     :name="name + '1'"
+                    :trackBy="'value'"
             >
             </mau-form-input-select-static>
         </div>
@@ -21,6 +22,7 @@
                     :error="error"
                     :name="name + '2'"
                     :label="'Minuto de ' + label"
+                    :trackBy="'value'"
             >
             </mau-form-input-select-static>
         </div>
@@ -28,7 +30,6 @@
 </template>
 
 <script>
-    import MauFormInputSelectStatic from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelectStatic'
     import ValidatorHelper from 'renderer/services/form/ValidatorHelper'
     import moment from 'moment'
     export default {
@@ -123,7 +124,6 @@
         }
       },
       components: {
-        MauFormInputSelectStatic
       },
       methods: {
         getBootstrapValidationClass: ValidatorHelper.getBootstrapValidationClass,

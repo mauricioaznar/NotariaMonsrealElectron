@@ -1,20 +1,27 @@
 <template>
-  <div>
+  <div class="filter-bar">
     <div class="form-group form-row">
-      <b-form-select
-              :options="options"
-              :label="'text'"
+      <mau-form-input-select-static
+              :displayProperty="'text'"
+              :name="'filterBarSelect'"
+              :availableObjects="options"
+              :trackBy="'value'"
               v-model="selectedOption"
-              class="col-sm-12 col-md-2 override-form-control form-control"
+              class="col-sm-12 col-md-4"
       >
-      </b-form-select>
-      <b-form-input v-model="filteredText"
+      </mau-form-input-select-static>
+      <mau-form-input-text
+                    v-model="filteredText"
                     type="text"
                     @keyup.enter.native="doFilter"
-                    class="col-sm-12 col-md-9 form-control"
-                    placeholder="Buscar...">
-      </b-form-input>
-      <button class="btn-submit btn btn-primary col-md-1 col-sm-12" @click="doFilter">Buscar</button>
+                    class="col-sm-12 col-md-7"
+                    placeholder="Buscar..."
+                    :name="'inputText'"
+                    :error="''"
+                    :initialValue="''"
+      >
+      </mau-form-input-text>
+      <button class="col-md-1 col-sm-12 btn-submit btn btn-primary" @click="doFilter">Buscar</button>
     </div>
     <div class="form-group">
 
@@ -77,5 +84,4 @@
 </script>
 
 <style lang="scss" scoped>
-
 </style>

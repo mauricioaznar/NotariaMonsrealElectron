@@ -1,32 +1,36 @@
 <template>
     <div v-if="!loading">
-            <div class="form-group form-row search-container">
-                <b-form-input v-model="filteredText"
-                              type="text"
-                              @keyup.enter.native="doFilter"
-                              placeholder="Buscar documentos..."
-                              class="col-sm-12 col-md-6"
+            <div class="form-group form-row">
+                <mau-form-input-text
+                        v-model="filteredText"
+                        type="text"
+                        @keyup.enter.native="doFilter"
+                        placeholder="Buscar documentos..."
+                        class="col-sm-12 col-md-6"
+                        :name="'inputText'"
+                        :error="''"
+                        :initialValue="''"
                                 >
-                </b-form-input>
+                </mau-form-input-text>
                 <mau-form-input-date
                         :inputType="'range'"
                         v-model="rangeDate"
-                        class="col-sm-12 col-md-3 form-control p-0"
+                        class="col-sm-12 col-md-3"
                         :initialValue="rangeDate"
                         :error="''"
-                        :name="''"
+                        :name="'inputDate'"
                 >
                 </mau-form-input-date>
-                <b-btn class="col-sm-12 col-md-1 btn-collapse py-1"
+                <button class="btn btn-submit btn-options col-sm-12 col-md-1"
                        aria-controls="collapse4"
                        v-b-modal.advancedSearchModal
                 >
                     <span class="fa fa-gear"></span>
-                </b-btn>
-                <button class="btn-submit btn btn-primary col-md-1 col-sm-12 py-2" @click="doFilter">Buscar</button>
-                <a class="btn-submit btn btn-excel col-md-1 col-sm-12 py-2" :class="{disabled: !startDateExcel && !endDateExcel}" :href="excelRoute + 'start_date=' + startDateExcel + '&end_date=' + endDateExcel">
-                    <button class="">Excel</button>
-                </a>
+                </button>
+                <button class="btn-submit btn btn-primary col-md-1 col-sm-12" @click="doFilter">Buscar</button>
+                <button class="btn-submit btn btn-excel col-md-1 col-sm-12" :class="{disabled: !startDateExcel && !endDateExcel}" :href="excelRoute + 'start_date=' + startDateExcel + '&end_date=' + endDateExcel">
+                    Excel
+                </button>
             </div>
             <b-modal class="mau-custom-modal" id="advancedSearchModal" ref="advancedSearchModal" title="Busqueda Avanzada">
                 <div class="form-group mb-3">
@@ -37,6 +41,7 @@
                             :displayProperty="'name'"
                             :name="'operation_filter'"
                             :error="''"
+                            :trackBy="'id'"
                     ></mau-form-input-select-object-static>
                 </div>
                 <div class="form-group mb-3">
@@ -47,6 +52,7 @@
                             :displayProperty="'text'"
                             :name="'entity_filter'"
                             :error="''"
+                            :trackBy="'value'"
                     >
                     </mau-form-input-select-object-static>
                 </div>
@@ -110,7 +116,6 @@
   import ApiOperations from 'renderer/services/api/ApiOperations'
   import MauFormGroupCheckBoxes from 'renderer/components/mau-components/mau-form-groups/MauFormGroupCheckBoxes'
   import GlobalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
-  import MauFormInputSelectObjectStatic from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelectStatic.vue'
   import MauFormGroupRadio from 'renderer/components/mau-components/mau-form-groups/MauFormGroupRadio.vue'
   export default {
     name: 'AdvancedFilter',
@@ -174,7 +179,6 @@
     computed: {
     },
     components: {
-      MauFormInputSelectObjectStatic,
       VueSelect,
       MauFormGroupCheckBoxes,
       MauFormGroupRadio

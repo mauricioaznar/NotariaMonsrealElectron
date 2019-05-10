@@ -8,13 +8,13 @@
                 :name="name"
                 :label="label"
                 :error="error"
+                :trackBy="'value'"
 
         ></mau-form-input-select-static>
     </div>
 </template>
 
 <script>
-  import MauFormInputSelectStatic from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelectStatic'
   export default {
     name: 'MauFormInputTripleBoolean',
     data () {
@@ -58,7 +58,6 @@
       this.initialSelected = this.options.find(optionObj => { return optionObj.value === this.initialValue }) || this.options[2]
     },
     components: {
-      MauFormInputSelectStatic
     },
     watch: {
       selected: function () {
