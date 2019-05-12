@@ -393,7 +393,6 @@
   import EntityTypes from 'renderer/api/EntityTypes'
   import ManyToManyHelper from 'renderer/services/api/ManyToManyHelper'
   import { mapGetters } from 'vuex'
-  import MauFormGroupRadio from 'renderer/components/mau-components/mau-form-groups/MauFormGroupRadio.vue'
   export default {
     name: 'DocumentEditorTabs',
     data () {
@@ -455,7 +454,6 @@
       }
     },
     components: {
-      MauFormGroupRadio,
       CommentList,
       CommentInput,
       MauFormInputSelectDynamic,

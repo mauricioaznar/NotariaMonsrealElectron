@@ -35,18 +35,19 @@
             <b-modal class="mau-custom-modal" id="advancedSearchModal" ref="advancedSearchModal" title="Busqueda Avanzada">
                 <div class="form-group mb-3">
                     <label>Operacion</label>
-                    <mau-form-input-select-object-static
+                    <mau-form-input-select-static
                             v-model="operation"
                             :availableObjects="availableOperations"
                             :displayProperty="'name'"
                             :name="'operation_filter'"
                             :error="''"
+
                             :trackBy="'id'"
-                    ></mau-form-input-select-object-static>
+                    ></mau-form-input-select-static>
                 </div>
                 <div class="form-group mb-3">
                     <label>Entidad</label>
-                    <mau-form-input-select-object-static
+                    <mau-form-input-select-static
                             v-model="entitySelectedFilter"
                             :availableObjects="entityFilters"
                             :displayProperty="'text'"
@@ -54,7 +55,7 @@
                             :error="''"
                             :trackBy="'value'"
                     >
-                    </mau-form-input-select-object-static>
+                    </mau-form-input-select-static>
                 </div>
                 <div class="mb-3">
                     <label>Filtros de documento</label>
@@ -114,9 +115,7 @@
   import isDefined from 'renderer/services/common/isDefined'
   import EntityTypes from 'renderer/api/EntityTypes'
   import ApiOperations from 'renderer/services/api/ApiOperations'
-  import MauFormGroupCheckBoxes from 'renderer/components/mau-components/mau-form-groups/MauFormGroupCheckBoxes'
   import GlobalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
-  import MauFormGroupRadio from 'renderer/components/mau-components/mau-form-groups/MauFormGroupRadio.vue'
   export default {
     name: 'AdvancedFilter',
     data () {
@@ -179,9 +178,7 @@
     computed: {
     },
     components: {
-      VueSelect,
-      MauFormGroupCheckBoxes,
-      MauFormGroupRadio
+      VueSelect
     },
     methods: {
       getRangeDate: function () {

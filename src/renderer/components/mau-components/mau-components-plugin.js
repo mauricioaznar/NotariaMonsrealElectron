@@ -1,7 +1,5 @@
 import MauTabs from 'renderer/components/mau-components/mau-tabs/MauTabs.vue'
 import MauWidget from 'renderer/components/mau-components/mau-widget/MauWidget.vue'
-import MauFormInputRadio from 'renderer/components/mau-components/mau-form-groups/MauFormGroupRadio.vue'
-import MauFormInputCheckBox from 'renderer/components/mau-components/mau-form-inputs/MauFormInputCheckBox.vue'
 import MauTable from 'renderer/components/mau-components/mau-table/MauTable.vue'
 import MauEntityView from 'renderer/components/mau-components/mau-entity-view/MauEntityView.vue'
 import MauResponsiveButton from 'renderer/components/mau-components/mau-responsive-button/MauResponsiveButton.vue'
@@ -21,8 +19,6 @@ const MauComponentsPlugin = {
   install (Vue, options) {
     Vue.component(MauTabs.name, MauTabs)
     Vue.component(MauWidget.name, MauWidget)
-    Vue.component(MauFormInputRadio.name, MauFormInputRadio)
-    Vue.component(MauFormInputCheckBox.name, MauFormInputCheckBox)
     Vue.component(MauTable.name, MauTable)
     Vue.component(MauEntityView.name, MauEntityView)
     Vue.component(MauResponsiveButton.name, MauResponsiveButton)
