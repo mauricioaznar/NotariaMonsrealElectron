@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import ApiFunctions from 'renderer/services/api/ApiOperations'
+  import GenericApiOperations from 'renderer/services/api/GenericApiOperations'
   import GlobalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
   import Notifications from 'renderer/services/api/Notifications'
   import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
@@ -31,7 +31,7 @@
     },
     methods: {
       saveEntity: function (entityObject, relayObjects) {
-        ApiFunctions.create(this.entityType.name, entityObject)
+        GenericApiOperations.create(this.entityType.name, entityObject)
           .then(
             result => {
               let hostCreatedIdentifier = result[GlobalEntityIdentifier]
@@ -43,7 +43,7 @@
                 for (let j = 0; j < filteredM2MObjects.create.length; j++) {
                   let createRelatedEntityObject = filteredM2MObjects.create[j]
                   createRelatedEntityObject[this.relationshipIdName] = hostCreatedIdentifier
-                  ApiFunctions.create(entityType.name, createRelatedEntityObject)
+                  GenericApiOperations.create(entityType.name, createRelatedEntityObject)
                 }
               }
               this.callback()

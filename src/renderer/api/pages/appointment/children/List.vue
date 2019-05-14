@@ -8,13 +8,13 @@
 
 <script>
   import AppointmentList from '../components/AppointmentList.vue'
-  import ApiUrls from 'renderer/services/api/ApiUrls'
+  import GenericApiUrls from 'renderer/services/api/GenericApiUrls'
   import EntityTypes from 'renderer/api/EntityTypes'
   export default {
     name: 'ListAppointment',
     data () {
       return {
-        apiUrl: ApiUrls.createListUrl(EntityTypes.APPOINTMENT.apiName),
+        apiUrl: GenericApiUrls.createListUrl(EntityTypes.APPOINTMENT.apiName, {paginate: true}),
         canEdit: true
       }
     },

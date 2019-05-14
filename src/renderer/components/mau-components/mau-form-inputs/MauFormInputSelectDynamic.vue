@@ -17,6 +17,7 @@
             </template>
             <span slot="no-options">No se encontraron resultados.</span>
         </vue-select>
+        <slot></slot>
         <div class="invalid-feedback">
             <span v-show="error" class="help is-danger">
                 {{error}}
@@ -28,7 +29,7 @@
 <script>
     import VueSelect from 'vue-select'
     import cloneDeep from 'renderer/services/common/cloneDeep'
-    import ApiOperations from 'renderer/services/api/ApiOperations'
+    import GenericApiOperations from 'renderer/services/api/GenericApiOperations'
     import isObjectEmpty from 'renderer/services/common/isObjectEmpty'
     import _ from 'lodash'
     import ValidatorHelper from 'renderer/services/form/ValidatorHelper'
@@ -49,9 +50,17 @@
         }
       },
       props: {
-        url: {
+        endpointName: {
           type: String,
           required: true
+        },
+        apiOperationOptions: {
+          type: Object,
+          default: function () {
+            return {
+              paginate: false
+            }
+          }
         },
         label: {
           type: String
@@ -74,24 +83,6 @@
             return []
           }
         },
-        filterExacts: {
-          type: Object,
-          default: function () {
-            return {}
-          }
-        },
-        filterLikes: {
-          type: Object,
-          default: function () {
-            return {}
-          }
-        },
-        filterEntity: {
-          type: String,
-          default: function () {
-            return ''
-          }
-        },
         error: {
           type: String,
           required: true
@@ -111,7 +102,7 @@
         } else if (this.multiselect === true && this.initialObjects.length > 0) {
           this.selected = cloneDeep(this.initialObjects)
         }
-        ApiOperations.get(this.url, this.filterLikes, this.filterExacts, this.filterEntity).then(res => {
+        GenericApiOperations.list(this.endpointName, this.apiOperationOptions).then(res => {
           this.options = res
         }).catch(e => {
           console.log(e)
@@ -123,13 +114,13 @@
       methods: {
         getBootstrapValidationClass: ValidatorHelper.getBootstrapValidationClass,
         search: function (search, loading) {
-          if (this.url) {
+          if (this.endpointName) {
             loading(true)
             this.getOptions(search, loading, this)
           }
         },
         getOptions: _.debounce((search, loading, vm) => {
-          ApiOperations.get(vm.url, vm.filterLikes, vm.filterExacts, vm.filterEntity).then(res => {
+          GenericApiOperations.list(vm.endpointName, vm.apiOperationOptions).then(res => {
             vm.options = res
             loading(false)
           }).catch(e => {

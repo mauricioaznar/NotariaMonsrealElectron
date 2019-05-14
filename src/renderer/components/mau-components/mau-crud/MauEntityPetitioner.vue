@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import ApiOperations from 'renderer/services/api/ApiOperations'
+  import GenericApiOperations from 'renderer/services/api/GenericApiOperations'
   export default {
     name: 'MauEntityPetitioner',
     data () {
@@ -24,7 +24,7 @@
       }
     },
     created () {
-      ApiOperations.getById(this.entityType.name, this.id).then(result => {
+      GenericApiOperations.getById(this.entityType.name, this.id).then(result => {
         this.entity = result
       })
     },

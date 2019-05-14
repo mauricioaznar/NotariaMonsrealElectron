@@ -74,7 +74,6 @@
   import ItemsPerPageDefinition from './data/items-per-page-definition'
   import Vue from 'vue'
   import DataTableStyles from './data/data-table-styles'
-  import {getHeaders} from 'renderer/config'
   import DisplayFunctions from 'renderer/services/api/DisplayFunctions'
   import isEntityEditable from 'renderer/services/api/isEntityEditable'
 
@@ -131,9 +130,7 @@
         isTableLoading: true,
         perPage: 50,
         colorClasses: {},
-        httpOptions: {
-          headers: getHeaders()
-        },
+        httpOptions: '',
         apiMode: true,
         moreParams: {
 
@@ -142,6 +139,9 @@
         itemsPerPage: ItemsPerPageDefinition,
         css: DataTableStyles
       }
+    },
+    created () {
+      this.httpOptions = {headers: Vue.http.headers['common']}
     },
     methods: {
       newRowClassFunction: function (entityObj) {

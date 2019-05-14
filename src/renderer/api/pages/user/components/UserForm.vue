@@ -55,7 +55,7 @@
     </div>
     <div class="form-group">
       <mau-form-input-select-dynamic
-            :url="rolesUrl"
+            :endpointName="rolesEndpointName"
             :initialObject="initialValues[PropertiesReference.ROLE.name]"
             :label="PropertiesReference.ROLE.title"
             :displayProperty="'name'"
@@ -79,7 +79,6 @@
   import DefaultValuesHelper from 'renderer/services/form/DefaultValuesHelper'
   import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
   import MauFormInputSelectDynamic from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelectDynamic.vue'
-  import ApiUrls from 'renderer/services/api/ApiUrls'
   import EntityTypes from 'renderer/api/EntityTypes'
   export default {
     name: 'UserForm',
@@ -97,9 +96,9 @@
           phone: '',
           role: ''
         },
-        rolesUrl: ApiUrls.createListUrl(EntityTypes.ROLE.apiName) + '?paginate=false',
         initialValues: {},
-        buttonDisabled: false
+        buttonDisabled: false,
+        rolesEndpointName: EntityTypes.ROLE.apiName
       }
     },
     components: {

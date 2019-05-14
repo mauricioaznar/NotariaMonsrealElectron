@@ -57,7 +57,7 @@
                     required: true,
                     numeric: true,
                     folio_year_unique: {
-                      url: documentsUrl,
+                      endpointName: documentsEndpointName,
                       document: document,
                       initialFolio: initialValues[PropertiesReference.FOLIO.name],
                       initialDate: initialValues[PropertiesReference.DATE.name]
@@ -90,12 +90,11 @@
                     v-model="document.operations"
                     :label="PropertiesReference.OPERATIONS.title"
                     :name="PropertiesReference.OPERATIONS.name"
-                    :url="operationsUrl"
+                    :apiOperationOptions="operationsApiOperationOptions"
+                    :endpointName="operationsEndpointName"
                     :displayProperty="'name'"
                     :multiselect="true"
                     :initialObjects="initialValues[PropertiesReference.OPERATIONS.name]"
-                    :filterEntity="'documentTypes'"
-                    :filterLikes="{name: document.documentType ? document.documentType['name'] : ''}"
                     v-validate="'required'"
                     :error="errors.has(PropertiesReference.OPERATIONS.name) ? errors.first(PropertiesReference.OPERATIONS.name) : ''"
             >
@@ -190,7 +189,7 @@
             </b-modal>
           </div>
           <mau-form-input-select-dynamic
-                  :url="clientsUrl"
+                  :endpointName="clientsEndpointName"
                   :initialObject="initialValues[PropertiesReference.CLIENT.name]"
                   :displayProperty="'fullname'"
                   v-model="document.client"
@@ -217,7 +216,7 @@
             </b-modal>
           </div>
           <mau-form-input-select-dynamic
-                  :url="grantorsUrl"
+                  :endpointName="grantorsEndpointName"
                   :name="PropertiesReference.GRANTORS.name"
                   :displayProperty="'fullname'"
                   :key="grantorsCreated"
@@ -230,7 +229,7 @@
         </div>
         <div class="form-group">
           <mau-form-input-select-dynamic
-                  :url="groupsUrl"
+                  :endpointName="groupsEndpointName"
                   :initialObjects="initialValues[PropertiesReference.GROUPS.name]"
                   :name="PropertiesReference.GRANTORS.name"
                   :error="errors.has(PropertiesReference.GROUPS.name) ? errors.first(PropertiesReference.GROUPS.name) : ''"
@@ -295,8 +294,8 @@
                     :name="PropertiesReference.DOCUMENT_ATTACHMENTS.name"
                     :label="PropertiesReference.DOCUMENT_ATTACHMENTS.title"
                     :initialAttachments="initialValues[PropertiesReference.DOCUMENT_ATTACHMENTS.name]"
-                    :filterEntity="'documentTypes'"
-                    :filterLikes="{name: document.documentType ? document.documentType['name'] : ''}"
+                    :attachmentsEndpointName="attachmentsEndpointName"
+                    :attachmentsApiOperationsOptions="attachmentsApiOperationsOptions"
             >
             </document-attachments>
           </div>
@@ -309,7 +308,7 @@
         <h3 class="mb-3">Abogados</h3>
         <div class="form-group">
             <mau-form-input-select-dynamic
-                    :url="usersUrl"
+                    :endpointName="usersEndpointName"
                     :initialObjects="initialValues['entryUsers']"
                     :displayProperty="'fullname'"
                     v-model="document.entryUsers"
@@ -323,7 +322,7 @@
         </div>
         <div class="form-group">
             <mau-form-input-select-dynamic
-                    :url="usersUrl"
+                    :endpointName="usersEndpointName"
                     :initialObjects="initialValues['exitUsers']"
                     :multiselect="true"
                     :displayProperty="'fullname'"
@@ -388,8 +387,7 @@
   import ValidatorHelper from '../../../../services/form/ValidatorHelper'
   import CreateClient from 'renderer/api/pages/client/children/Create.vue'
   import CreateGrantor from 'renderer/api/pages/grantor/children/Create.vue'
-  import ApiUrls from 'renderer/services/api/ApiUrls'
-  import ApiOperations from 'renderer/services/api/ApiOperations'
+  import GenericApiOperations from 'renderer/services/api/GenericApiOperations'
   import EntityTypes from 'renderer/api/EntityTypes'
   import ManyToManyHelper from 'renderer/services/api/ManyToManyHelper'
   import { mapGetters } from 'vuex'
@@ -427,14 +425,6 @@
           exitUsers: '',
           comment: ''
         },
-        groupsUrl: ApiUrls.createListUrl(EntityTypes.GROUP.apiName) + '?paginate=false',
-        clientsUrl: ApiUrls.createListUrl(EntityTypes.CLIENT.apiName) + '?paginate=false',
-        grantorsUrl: ApiUrls.createListUrl(EntityTypes.GRANTOR.apiName) + '?paginate=false',
-        documentTypesUrl: ApiUrls.createListUrl(EntityTypes.DOCUMENT_TYPE.apiName) + '?paginate=false',
-        operationsUrl: ApiUrls.createListUrl(EntityTypes.OPERATION.apiName) + '?paginate=false',
-        attachmentsUrl: ApiUrls.createListUrl(EntityTypes.ATTACHMENT.apiName) + '?paginate=false',
-        usersUrl: ApiUrls.createListUrl(EntityTypes.USER.apiName) + '?paginate=false',
-        documentsUrl: ApiUrls.createListUrl(EntityTypes.DOCUMENT.apiName) + '?paginate=false',
         clientsCreated: 0,
         grantorsCreated: 0,
         currentUserGroups: [],
@@ -449,6 +439,13 @@
         availableOperations: [],
         availableAttachments: [],
         availableUsers: [],
+        usersEndpointName: EntityTypes.USER.apiName,
+        groupsEndpointName: EntityTypes.GROUP.apiName,
+        clientsEndpointName: EntityTypes.CLIENT.apiName,
+        grantorsEndpointName: EntityTypes.GRANTOR.apiName,
+        attachmentsEndpointName: EntityTypes.ATTACHMENT.apiName,
+        operationsEndpointName: EntityTypes.OPERATION.apiName,
+        documentsEndpointName: EntityTypes.DOCUMENT.apiName,
         DocumentDocumentAttachmentPropertiesReference: DocumentDocumentAttachmentPropertiesReference,
         loading: true
       }
@@ -482,12 +479,12 @@
     },
     created () {
       Promise.all([
-        ApiOperations.get(ApiUrls.createListUrl(EntityTypes.DOCUMENT_TYPE.apiName) + '?paginate=false'),
-        ApiOperations.get(ApiUrls.createListUrl(EntityTypes.DOCUMENT_STATUS.apiName) + '?paginate=false'),
-        ApiOperations.get(ApiUrls.createListUrl(EntityTypes.DOCUMENT_OPERATION.apiName) + '?paginate=false'),
-        ApiOperations.get(ApiUrls.createListUrl(EntityTypes.DOCUMENT_ATTACHMENT.apiName) + '?paginate=false'),
-        ApiOperations.get(ApiUrls.createListUrl(EntityTypes.USER.apiName) + '?paginate=false'),
-        ApiOperations.getById(EntityTypes.USER.apiName, this.user.id)
+        GenericApiOperations.list(EntityTypes.DOCUMENT_TYPE.apiName, {paginate: false}),
+        GenericApiOperations.list(EntityTypes.DOCUMENT_STATUS.apiName, {paginate: false}),
+        GenericApiOperations.list(EntityTypes.DOCUMENT_OPERATION.apiName, {paginate: false}),
+        GenericApiOperations.list(EntityTypes.DOCUMENT_ATTACHMENT.apiName, {paginate: false}),
+        GenericApiOperations.list(EntityTypes.USER.apiName, {paginate: false}),
+        GenericApiOperations.getById(EntityTypes.USER.apiName, this.user.id)
       ]).then(results => {
         this.availableDocumentTypes = results[0]
         this.availableDocumentStatuses = results[1]
@@ -514,6 +511,16 @@
       },
       isOtherOperationSelected: function () {
         return this.document.documentType && this.document.documentType['id'] === 3
+      },
+      operationsApiOperationOptions: function () {
+        let filterEntity = 'documentTypes'
+        let filterLikes = {name: this.document.documentType ? this.document.documentType['name'] : ''}
+        return {paginate: false, filterLikes: filterLikes, filterEntity: filterEntity}
+      },
+      attachmentsApiOperationsOptions: function () {
+        let filterEntity = 'documentTypes'
+        let filterLikes = {name: this.document.documentType ? this.document.documentType['name'] : ''}
+        return {paginate: false, filterLikes: filterLikes, filterEntity: filterEntity}
       },
       ...mapGetters([
         'user'

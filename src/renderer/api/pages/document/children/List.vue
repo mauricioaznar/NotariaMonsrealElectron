@@ -8,13 +8,13 @@
 
 <script>
   import DocumentList from '../components/DocumentList.vue'
-  import ApiUrls from 'renderer/services/api/ApiUrls'
+  import SpecificApiUrls from 'renderer/services/api/SpecificApiUrls'
   import EntityTypes from 'renderer/api/EntityTypes'
   export default {
     name: 'ListDocument',
     data () {
       return {
-        apiUrl: ApiUrls.createSearchUrl(EntityTypes.DOCUMENT.apiName),
+        apiUrl: SpecificApiUrls.createSearchUrl(EntityTypes.DOCUMENT.apiName),
         canEdit: true
       }
     },

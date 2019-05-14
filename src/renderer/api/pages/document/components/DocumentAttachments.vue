@@ -3,14 +3,13 @@
     <mau-form-input-select-dynamic
             :key="initialAttachments.length"
             class="w-100"
-            :url="attachmentsUrl"
+            :endpointName="attachmentsEndpointName"
+            :apiOperationOptions="attachmentsApiOperationsOptions"
             :initialObjects="initialAttachmentsCopy"
             :name="name"
             :label="label"
             v-model="selectedAttachments"
             :multiselect="true"
-            :filterEntity="filterEntity"
-            :filterLikes="filterLikes"
             :error="errors.has(name) ? errors.first(name) : ''"
             :displayProperty="'name'"
     >
@@ -44,8 +43,6 @@
 <script>
   import MauFormInputSelectDynamic from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelectDynamic.vue'
   import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
-  import ApiUrls from 'renderer/services/api/ApiUrls'
-  import EntityTypes from 'renderer/api/EntityTypes'
   import ManyToManyHelper from 'renderer/services/api/ManyToManyHelper'
   import cloneDeep from 'renderer/services/common/cloneDeep'
   import DocumentPropertiesReference from 'renderer/api/pages/document/PropertiesReference'
@@ -59,8 +56,7 @@
         identificationName: globalEntityIdentifier,
         selectedAttachments: [],
         initialAttachmentsCopy: [],
-        selectedAttachmentsTransformed: [],
-        attachmentsUrl: ApiUrls.createListUrl(EntityTypes.ATTACHMENT.apiName) + '?paginate=false'
+        selectedAttachmentsTransformed: []
       }
     },
     computed: {
@@ -73,23 +69,13 @@
         type: Array,
         required: true
       },
-      filterExacts: {
-        type: Object,
-        default: function () {
-          return {}
-        }
-      },
-      filterLikes: {
-        type: Object,
-        default: function () {
-          return {}
-        }
-      },
-      filterEntity: {
+      attachmentsEndpointName: {
         type: String,
-        default: function () {
-          return ''
-        }
+        required: true
+      },
+      attachmentsApiOperationsOptions: {
+        type: Object,
+        required: true
       },
       label: {
         type: String,

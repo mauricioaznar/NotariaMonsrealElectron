@@ -18,7 +18,7 @@
                   :initialObject="initialValues[PropertiesReference.USER.name]"
                   :label="PropertiesReference.USER.title"
                   v-model="group.user"
-                  :url="usersUrl"
+                  :endpointName="usersEndpointName"
                   :name="PropertiesReference.USER.name"
                   :displayProperty="'fullname'"
                   :error="errors.has(PropertiesReference.USER.name) ? errors.first(PropertiesReference.USER.name) : ''"
@@ -31,7 +31,7 @@
                   :initialObjects="initialValues[PropertiesReference.USERS.name]"
                   :label="PropertiesReference.USERS.title"
                   v-model="group.users"
-                  :url="usersUrl"
+                  :endpointName="usersEndpointName"
                   :name="PropertiesReference.USERS.name"
                   :displayProperty="'fullname'"
                   :error="errors.has(PropertiesReference.USERS.name) ? errors.first(PropertiesReference.USERS.name) : ''"
@@ -55,7 +55,6 @@
   import ManyToManyHelper from 'renderer/services/api/ManyToManyHelper'
   import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
   import DefaultValuesHelper from 'renderer/services/form/DefaultValuesHelper'
-  import ApiUrls from 'renderer/services/api/ApiUrls'
   import EntityTypes from 'renderer/api/EntityTypes'
   export default {
     name: 'GroupForm',
@@ -68,9 +67,9 @@
           users: [],
           user: ''
         },
-        usersUrl: ApiUrls.createListUrl(EntityTypes.USER.apiName) + '?paginate=false',
         initialValues: {},
-        buttonDisabled: false
+        buttonDisabled: false,
+        usersEndpointName: EntityTypes.USER.apiName
       }
     },
     components: {

@@ -104,7 +104,7 @@
                 :label="PropertiesReference.GRANTORS.title"
                 v-model="client.grantors"
                 :initialObjects="initialValues[PropertiesReference.GRANTORS.name]"
-                :url="grantorsUrl"
+                :endpointName="grantorsEndpointName"
                 :multiselect="true"
                 :displayProperty="'fullname'"
                 :error="''"
@@ -125,7 +125,6 @@
   import DefaultValuesHelper from 'renderer/services/form/DefaultValuesHelper'
   import MauFormInputSelectDynamic from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelectDynamic'
   import ManyToManyHelper from 'renderer/services/api/ManyToManyHelper'
-  import ApiUrls from 'renderer/services/api/ApiUrls'
   import EntityTypes from 'renderer/api/EntityTypes'
   export default {
     name: 'ClientForm',
@@ -143,9 +142,9 @@
           phone: '',
           grantors: []
         },
-        grantorsUrl: ApiUrls.createListUrl(EntityTypes.GRANTOR.apiName) + '?paginate=false',
         initialValues: {},
-        buttonDisabled: false
+        buttonDisabled: false,
+        grantorsEndpointName: EntityTypes.GRANTOR.apiName
       }
     },
     components: {

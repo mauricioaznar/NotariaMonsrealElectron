@@ -39,7 +39,7 @@
 </template>
 
 <script>
-  import ApiOperations from 'renderer/services/api/ApiOperations'
+  import GenericApiOperations from 'renderer/services/api/GenericApiOperations'
   import Notifications from 'renderer/services/api/Notifications'
   export default {
     data () {
@@ -58,7 +58,7 @@
         this.isLoadingUser = true
         let _this = this
         setTimeout(function () {
-          ApiOperations.generateToken(_this.email, _this.password).then(result => {
+          GenericApiOperations.generateToken(_this.email, _this.password).then(result => {
             let token = result.token
             window.localStorage.setItem('AccessToken', JSON.stringify(token))
             Notifications.info(_this, 'Bienvendio al sistema notarial')

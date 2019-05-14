@@ -21,7 +21,7 @@
 </template>
 
 <script>
-    import ApiOperations from 'renderer/services/api/ApiOperations'
+    import SpecificApiOperations from 'renderer/services/api/SpecificApiOperations'
     export default {
       data () {
         return {
@@ -31,7 +31,7 @@
       },
       created () {
         this.isDataLoading = true
-        ApiOperations.getNotifications().then(result => {
+        SpecificApiOperations.getNotifications().then(result => {
           this.notifications = result.data
           this.isDataLoading = false
         })

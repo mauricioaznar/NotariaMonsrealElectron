@@ -21,16 +21,18 @@
                         :name="'inputDate'"
                 >
                 </mau-form-input-date>
-                <button class="btn btn-submit btn-options col-sm-12 col-md-1"
-                       aria-controls="collapse4"
-                       v-b-modal.advancedSearchModal
-                >
-                    <span class="fa fa-gear"></span>
-                </button>
-                <button class="btn-submit btn btn-primary col-md-1 col-sm-12" @click="doFilter">Buscar</button>
-                <button class="btn-submit btn btn-excel col-md-1 col-sm-12" :class="{disabled: !startDateExcel && !endDateExcel}" :href="excelRoute + 'start_date=' + startDateExcel + '&end_date=' + endDateExcel">
-                    Excel
-                </button>
+                <div class="col-md-3 d-flex justify-content-sm-between flex-sm-column flex-md-row align-items-stretch align-content-stretch">
+                    <button class="btn btn-submit btn-options w-100"
+                            aria-controls="collapse4"
+                            v-b-modal.advancedSearchModal
+                    >
+                        <span class="fa fa-gear"></span>
+                    </button>
+                    <button class="btn-submit btn btn-primary w-100" @click="doFilter">Buscar</button>
+                    <button class="btn-submit btn btn-excel w-100" :class="{disabled: !startDateExcel && !endDateExcel}" :href="excelRoute + 'start_date=' + startDateExcel + '&end_date=' + endDateExcel">
+                        Excel
+                    </button>
+                </div>
             </div>
             <b-modal class="mau-custom-modal" id="advancedSearchModal" ref="advancedSearchModal" title="Busqueda Avanzada">
                 <div class="form-group mb-3">
@@ -111,10 +113,10 @@
 <script>
   import VueSelect from 'vue-select'
   import moment from 'moment'
-  import ApiUrls from 'renderer/services/api/ApiUrls'
+  import SpecificApiUrls from 'renderer/services/api/SpecificApiUrls'
   import isDefined from 'renderer/services/common/isDefined'
   import EntityTypes from 'renderer/api/EntityTypes'
-  import ApiOperations from 'renderer/services/api/ApiOperations'
+  import GenericApiOperations from 'renderer/services/api/GenericApiOperations'
   import GlobalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
   export default {
     name: 'AdvancedFilter',
@@ -132,7 +134,7 @@
         documentSelectedFilter: ['folio', 'file_number', 'tome', 'electronic_folio', 'property'],
         entitySelectedFilter: {},
         contactSelectedFilter: ['phone', 'email', 'fullname'],
-        excelRoute: ApiUrls.createBaseUrl('export/excel?'),
+        excelRoute: SpecificApiUrls.createExportExcelUrl(),
         groups: '',
         endDateExcel: moment().startOf('year').add(1, 'years').format('L'),
         startDateExcel: moment().startOf('year').format('L'),
@@ -164,9 +166,9 @@
     },
     created () {
       Promise.all([
-        ApiOperations.get(ApiUrls.createListUrl(EntityTypes.DOCUMENT_STATUS.apiName) + '?paginate=false'),
-        ApiOperations.get(ApiUrls.createListUrl(EntityTypes.DOCUMENT_TYPE.apiName) + '?paginate=false'),
-        ApiOperations.get(ApiUrls.createListUrl(EntityTypes.OPERATION.apiName) + '?paginate=false')
+        GenericApiOperations.list(EntityTypes.DOCUMENT_STATUS.apiName, {paginate: false}),
+        GenericApiOperations.list(EntityTypes.DOCUMENT_TYPE.apiName, {paginate: false}),
+        GenericApiOperations.list(EntityTypes.OPERATION.apiName, {paginate: false})
       ]).then(result => {
         this.availableDocumentStatuses = result[0]
         this.availableDocumentTypes = result[1]

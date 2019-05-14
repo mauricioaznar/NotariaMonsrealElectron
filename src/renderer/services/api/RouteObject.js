@@ -6,9 +6,10 @@ import RouteObjectActions from 'renderer/api/store/routeObjectActions'
 import EntityActions from 'renderer/api/store/entityActions'
 import AuthActions from 'renderer/api/store/authActions'
 import AppActions from 'renderer/app/store/AppActions'
-import ApiOperations from 'renderer/services/api/ApiOperations'
+import GenericApiOperations from 'renderer/services/api/GenericApiOperations'
 import isEntityEditable from 'renderer/services/api/isEntityEditable'
 import Entites from 'renderer/api/EntityTypes'
+import Vue from 'vue'
 import router from 'renderer/router/index'
 import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
 function createRouteObjectName (entityType, childType) {
@@ -31,7 +32,14 @@ router.beforeEach(async (to, from, next) => {
     next()
   }
   try {
-    let user = await ApiOperations.getCurrentUser()
+    if (!Vue.http.headers.common['Authorization']) {
+      let token = JSON.parse(window.localStorage.getItem('AccessToken'))
+      if (token) {
+        Vue.http.headers.common['Accept'] = 'Application/json'
+        Vue.http.headers.common['Authorization'] = 'Bearer ' + token
+      }
+    }
+    let user = await GenericApiOperations.getCurrentUser()
     store.dispatch(AuthActions.SET_USER, user)
     let userRole = store.getters.getRoleByRoleId(user.role_id)
     let toEntity = getRouteObjectMetaPropertyValue(to, 'entityType')
@@ -44,7 +52,7 @@ router.beforeEach(async (to, from, next) => {
     let idParam = to.params ? (to.params[globalEntityIdentifier] ? to.params[globalEntityIdentifier] : null) : null
     let requestedEntityObj = null
     if (idParam !== null) {
-      requestedEntityObj = await ApiOperations.getById(toEntity.apiName, idParam)
+      requestedEntityObj = await GenericApiOperations.getById(toEntity.apiName, idParam)
     }
     store.dispatch(EntityActions.SET_REQUESTED_ENTITY, requestedEntityObj)
     let groupedRouteObjectsByEntity = securityValidations(userRole, store.getters.getRouteObjectsByEntityType(to))

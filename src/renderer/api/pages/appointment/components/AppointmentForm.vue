@@ -57,7 +57,7 @@
             </mau-form-group-time>
             <div class="form-group">
                 <mau-form-input-select-dynamic
-                        :url="clientsUrl"
+                        :endpointName="clientsEndpointName"
                         :initialObjects="initialValues[PropertiesReference.CLIENTS.name]"
                         :multiselect="true"
                         :label="PropertiesReference.CLIENTS.title"
@@ -71,7 +71,7 @@
             </div>
             <div class="form-group">
                 <mau-form-input-select-dynamic
-                        :url="roomsUrl"
+                        :endpointName="roomsEndpointName"
                         :initialObject="initialValues[PropertiesReference.ROOM.name]"
                         :label="PropertiesReference.ROOM.title"
                         v-model="appointment.room"
@@ -85,7 +85,7 @@
             </div>
             <div class="form-group">
                 <mau-form-input-select-dynamic
-                        :url="usersUrl"
+                        :endpointName="usersEndpointName"
                         :initialObjects="initialValues[PropertiesReference.USERS.name]"
                         :multiselect="true"
                         :label="PropertiesReference.USERS.title"
@@ -111,7 +111,6 @@
   import ConvertDateTime from 'renderer/services/common/ConvertDateTime'
   import MauFormInputSelectDynamic from 'renderer/components/mau-components/mau-form-inputs/MauFormInputSelectDynamic.vue'
   import EntityTypes from 'renderer/api/EntityTypes'
-  import ApiUrls from 'renderer/services/api/ApiUrls'
   import ManyToManyHelper from 'renderer/services/api/ManyToManyHelper'
   import DefaultValuesHelper from 'renderer/services/form/DefaultValuesHelper'
   import { mapGetters } from 'vuex'
@@ -159,9 +158,9 @@
           {value: '55'}
         ],
         // Utility variables
-        clientsUrl: ApiUrls.createListUrl(EntityTypes.CLIENT.apiName) + '?paginate=false',
-        roomsUrl: ApiUrls.createListUrl(EntityTypes.ROOM.apiName) + '?paginate=false',
-        usersUrl: ApiUrls.createListUrl(EntityTypes.USER.apiName) + '?paginate=false',
+        clientsEndpointName: EntityTypes.CLIENT.apiName,
+        roomsEndpointName: EntityTypes.ROOM.apiName,
+        usersEndpointName: EntityTypes.USER.apiName,
         initialValues: {},
         PropertiesReference: PropertiesReference,
         buttonDisabled: false

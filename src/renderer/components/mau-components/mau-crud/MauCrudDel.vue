@@ -8,7 +8,7 @@
 </template>
 
 <script>
-  import ApiFunctions from 'renderer/services/api/ApiOperations'
+  import GenericApiOperations from 'renderer/services/api/GenericApiOperations'
   import {createRouteObjectPath} from 'renderer/services/api/RouteObject'
   import ChildTypes from 'renderer/api/ChildTypes'
   import Notifications from 'renderer/services/api/Notifications'
@@ -40,7 +40,7 @@
     methods: {
       confirm: function () {
         let _this = this
-        ApiFunctions.del(this.entityType.apiName, this.id, this.entity)
+        GenericApiOperations.del(this.entityType.apiName, this.id, this.entity)
           .then(
             result => {
               Notifications.success(_this)

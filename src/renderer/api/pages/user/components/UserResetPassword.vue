@@ -8,7 +8,7 @@
 
 <script>
     import PropertiesReference from 'renderer/api/pages/user/PropertiesReference'
-    import ApiOperations from 'renderer/services/api/ApiOperations'
+    import SpecificApiOperations from 'renderer/services/api/SpecificApiOperations'
     import Notifications from 'renderer/services/api/Notifications'
     export default {
       name: 'UserResetPassword',
@@ -19,7 +19,7 @@
       },
       methods: {
         resetPassword: function () {
-          ApiOperations.resetUserPassword(this.user[PropertiesReference.EMAIL.name]).then(result => {
+          SpecificApiOperations.resetUserPassword(this.user[PropertiesReference.EMAIL.name]).then(result => {
             Notifications.info(this, 'Contraseña ha sido restablecida correctamente. Cheque su correo.')
           }).catch(e => {
             Notifications.info(this, 'Hubo un problema con el email')

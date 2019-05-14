@@ -3,12 +3,12 @@
     <div class="container">
       <h1>Totales</h1>
       <mau-spinner
-              v-show="isTableLoading"
-              :small="true"
+          v-if="isTableLoading"
+          :small="true"
       >
 
       </mau-spinner>
-      <div v-show="!isTableLoading">
+      <div v-if="!isTableLoading">
         <table class="w-100 mau-fade-component" :class="{'is-loaded': !isTableLoading}">
           <thead>
           <tr>
@@ -78,19 +78,20 @@
 
 <script>
   import DocumentList from '../components/DocumentList.vue'
-  import ApiUrls from 'renderer/services/api/ApiUrls'
-  import ApiOperations from 'renderer/services/api/ApiOperations'
+  import SpecificApiUrls from 'renderer/services/api/SpecificApiUrls'
+  import GenericApiOperations from 'renderer/services/api/GenericApiOperations'
   export default {
     name: 'AnalyticsDocument',
     data () {
       return {
         apiResult: '',
-        isTableLoading: false
+        isTableLoading: true
       }
     },
     created () {
-      ApiOperations.get(ApiUrls.createBaseUrl('data/me')).then(result => {
+      GenericApiOperations.simpleGet(SpecificApiUrls.createMyDataUrl()).then(result => {
         this.apiResult = result
+        this.isTableLoading = false
       })
     },
     components: {

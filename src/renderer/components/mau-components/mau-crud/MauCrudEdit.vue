@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import ApiFunctions from 'renderer/services/api/ApiOperations'
+  import GenericApiOperations from 'renderer/services/api/GenericApiOperations'
   import GlobalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
   import Notifications from 'renderer/services/api/Notifications'
   import FormSubmitEventBus from 'renderer/services/form/FormSubmitEventBus'
@@ -34,7 +34,7 @@
     },
     methods: {
       saveFunction: function (entityObject, relayObjects) {
-        ApiFunctions.edit(this.entityType.name, this.id, entityObject)
+        GenericApiOperations.edit(this.entityType.name, this.id, entityObject)
           .then(
             result => {
               console.log(relayObjects)
@@ -44,17 +44,17 @@
                 for (let createFilteredObjectsIndex = 0; createFilteredObjectsIndex < filteredM2MObjects.create.length; createFilteredObjectsIndex++) {
                   let createRelatedEntityObject = filteredM2MObjects.create[createFilteredObjectsIndex]
                   createRelatedEntityObject[this.relationshipIdName] = this.id
-                  ApiFunctions.create(entityType.name, createRelatedEntityObject)
+                  GenericApiOperations.create(entityType.name, createRelatedEntityObject)
                 }
                 for (let editFilteredObjectsIndex = 0; editFilteredObjectsIndex < filteredM2MObjects.edit.length; editFilteredObjectsIndex++) {
                   let editRelatedEntityObject = filteredM2MObjects.edit[editFilteredObjectsIndex]
                   editRelatedEntityObject[this.relationshipIdName] = this.id
-                  ApiFunctions.edit(entityType.name, editRelatedEntityObject[GlobalEntityIdentifier], editRelatedEntityObject)
+                  GenericApiOperations.edit(entityType.name, editRelatedEntityObject[GlobalEntityIdentifier], editRelatedEntityObject)
                 }
                 for (let delFilteredObjectsIndex = 0; delFilteredObjectsIndex < filteredM2MObjects.del.length; delFilteredObjectsIndex++) {
                   let delRelatedEntityObject = filteredM2MObjects.del[delFilteredObjectsIndex]
                   delRelatedEntityObject[this.relationshipIdName] = this.id
-                  ApiFunctions.del(entityType.name, delRelatedEntityObject[GlobalEntityIdentifier], delRelatedEntityObject)
+                  GenericApiOperations.del(entityType.name, delRelatedEntityObject[GlobalEntityIdentifier], delRelatedEntityObject)
                 }
               }
               Notifications.success(this)

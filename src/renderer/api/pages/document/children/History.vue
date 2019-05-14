@@ -13,13 +13,13 @@
 
 <script>
   import DocumentList from '../components/DocumentList.vue'
-  import ApiUrls from 'renderer/services/api/ApiUrls'
+  import SpecificApiUrls from 'renderer/services/api/SpecificApiUrls'
   import EntityTypes from 'renderer/api/EntityTypes'
   export default {
     name: 'HistoryDocument',
     data () {
       return {
-        apiUrl: ApiUrls.createSearchUrl(EntityTypes.DOCUMENT.apiName, true),
+        apiUrl: SpecificApiUrls.createSearchUrl(EntityTypes.DOCUMENT.apiName, true),
         canEdit: true,
         hasPagination: false,
         hasSearchBar: false

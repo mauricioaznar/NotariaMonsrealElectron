@@ -30,11 +30,10 @@
 </template>
 
 <script>
-  import ApiFunctions from 'renderer/services/api/ApiOperations'
+  import GenericApiOperations from 'renderer/services/api/GenericApiOperations'
   import globalEntityIdentifier from 'renderer/services/api/GlobalIdentifier'
   import {mapState} from 'vuex'
   import moment from 'moment'
-  import ApiUrls from 'renderer/services/api/ApiUrls'
   import EntityTypes from 'renderer/api/EntityTypes'
   export default {
     name: 'Dashboard',
@@ -57,7 +56,7 @@
     created () {
       this.getAppointmentList()
       Promise.all([
-        ApiFunctions.get(ApiUrls.createListUrl(EntityTypes.ROOM.apiName) + '?paginate=false')
+        GenericApiOperations.list(EntityTypes.ROOM.apiName, {paginate: false})
       ]).then(result => {
         this.availableRooms = result[0]
       }).finally(() => {
@@ -117,12 +116,12 @@
         this.taskDetail = []
         this.appointments = []
         this.isDataLoading = true
-        let extraQuery = ''
+        let filterLikes = {}
         if (date) {
-          extraQuery = '?filter=start_date&filter_value=' + date
+          filterLikes = {'start_date': date}
         }
         let self = this
-        ApiFunctions.get(ApiUrls.createListUrl(EntityTypes.APPOINTMENT.apiName) + extraQuery).then(function (result) {
+        GenericApiOperations.list(EntityTypes.APPOINTMENT.apiName, {filterLikes: filterLikes}).then(function (result) {
           self.appointments = result
           self.setCategories()
           self.isDataLoading = false

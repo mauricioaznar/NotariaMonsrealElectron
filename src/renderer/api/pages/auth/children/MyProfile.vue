@@ -9,7 +9,7 @@
 
 <script>
   import PropertiesReference from 'renderer/api/pages/user/PropertiesReference'
-  import ApiOperations from 'renderer/services/api/ApiOperations'
+  import GenericApiOperations from 'renderer/services/api/GenericApiOperations'
   export default {
     name: 'MyProfileAuth',
     data () {
@@ -21,7 +21,7 @@
     },
     created () {
       this.isUserLoading = true
-      ApiOperations.getCurrentUser().then(result => {
+      GenericApiOperations.getCurrentUser().then(result => {
         this.entity = result
         this.isUserLoading = false
       })

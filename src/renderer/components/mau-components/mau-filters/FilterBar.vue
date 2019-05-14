@@ -21,7 +21,9 @@
                     :initialValue="''"
       >
       </mau-form-input-text>
-      <button class="col-md-1 col-sm-12 btn-submit btn btn-primary" @click="doFilter">Buscar</button>
+      <div class="col-md-1 col-sm-12">
+        <button class="btn-submit btn btn-primary" @click="doFilter">Buscar</button>
+      </div>
     </div>
     <div class="form-group">
 
