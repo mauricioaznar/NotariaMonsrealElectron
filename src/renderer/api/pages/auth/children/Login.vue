@@ -41,6 +41,7 @@
 <script>
   import GenericApiOperations from 'renderer/services/api/GenericApiOperations'
   import Notifications from 'renderer/services/api/Notifications'
+  import Vue from 'vue'
   export default {
     data () {
       return {
@@ -60,6 +61,8 @@
         setTimeout(function () {
           GenericApiOperations.generateToken(_this.email, _this.password).then(result => {
             let token = result.token
+            Vue.http.headers.common['Accept'] = 'Application/json'
+            Vue.http.headers.common['Authorization'] = 'Bearer ' + token
             window.localStorage.setItem('AccessToken', JSON.stringify(token))
             Notifications.info(_this, 'Bienvendio al sistema notarial')
             _this.$router.push({path: '*'})
