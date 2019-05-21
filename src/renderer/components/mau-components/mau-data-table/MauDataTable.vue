@@ -30,7 +30,7 @@
                 :css="css.table"
                 v-bind:paginationPath="paginationPath"
                 :http-options="httpOptions"
-                :appendParams="moreParams"
+                :appendParams="appendParams"
                 :perPage="perPage"
                 :row-class="newRowClassFunction"
                 :query-params="{sort: 'sort', page: 'page', perPage: 'per_page'}"
@@ -86,6 +86,24 @@
       VuetablePaginationInfo,
       ItemsPerPage
     },
+    data () {
+      return {
+        isTableLoading: true,
+        perPage: 50,
+        colorClasses: {},
+        httpOptions: '',
+        apiMode: true,
+        appendParams: {},
+        filterBarParams: {},
+        paginationPath: 'links.pagination',
+        itemsPerPage: ItemsPerPageDefinition,
+        css: DataTableStyles
+      }
+    },
+    created () {
+      this.httpOptions = {headers: Vue.http.headers['common']}
+      this.setAppendParams()
+    },
     props: {
       apiUrl: {
         type: String
@@ -123,25 +141,20 @@
       },
       viewFunction: {
         type: Function
+      },
+      filterExact: {
+        type: Object,
+        validator: function (value) {
+          let size = 0
+          for (let key in value) {
+            if (value.hasOwnProperty(key)) {
+              size++
+            }
+          }
+          if (size !== 1) console.error('Filter Exact lenght is bigger than 1')
+          return (size === 1)
+        }
       }
-    },
-    data () {
-      return {
-        isTableLoading: true,
-        perPage: 50,
-        colorClasses: {},
-        httpOptions: '',
-        apiMode: true,
-        moreParams: {
-
-        },
-        paginationPath: 'links.pagination',
-        itemsPerPage: ItemsPerPageDefinition,
-        css: DataTableStyles
-      }
-    },
-    created () {
-      this.httpOptions = {headers: Vue.http.headers['common']}
     },
     methods: {
       newRowClassFunction: function (entityObj) {
@@ -154,10 +167,19 @@
       onAction (action, data, index) {
         console.log('action: ' + action, data, index)
       },
-      onFilterSet (filterParams) {
-        if (this.apiMode) {
-          this.moreParams = filterParams
+      onFilterSet (filterBarParams) {
+        this.filterBarParams = filterBarParams
+        this.setAppendParams()
+      },
+      setAppendParams: function () {
+        let appendParams = this.filterBarParams
+        for (let filterExactKey in this.filterExact) {
+          if (this.filterExact.hasOwnProperty(filterExactKey)) {
+            appendParams['filter_exact'] = filterExactKey
+            appendParams['filter_exact_value'] = this.filterExact[filterExactKey]
+          }
         }
+        this.appendParams = appendParams
         Vue.nextTick(() => this.$refs.vuetable.refresh())
       },
       onItemsPerPage (itemsPerPageValue) {

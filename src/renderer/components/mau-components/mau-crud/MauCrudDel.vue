@@ -12,6 +12,7 @@
   import {createRouteObjectPath} from 'renderer/services/api/RouteObject'
   import ChildTypes from 'renderer/api/ChildTypes'
   import Notifications from 'renderer/services/api/Notifications'
+  import cloneDeep from 'renderer/services/common/cloneDeep'
   export default {
     name: 'MauCrudDel',
     data () {
@@ -33,7 +34,7 @@
       }
     },
     created () {
-      this.entity = this.$store.getters.requestedEntity
+      this.entity = cloneDeep(this.$store.getters.requestedEntity)
     },
     components: {
     },

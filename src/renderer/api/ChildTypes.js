@@ -51,5 +51,10 @@ export default {
     name: 'notifications',
     title: 'Notificaciones',
     icon: 'fa fa-bell'
+  },
+  API_CHANGES_LOG: {
+    name: 'ApiChangesLog',
+    title: 'Cambios',
+    icon: 'fa fa-list'
   }
 }

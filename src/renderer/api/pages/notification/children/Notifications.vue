@@ -21,7 +21,7 @@
 </template>
 
 <script>
-    import SpecificApiOperations from 'renderer/services/api/SpecificApiOperations'
+    import SpecificApiOperations from '../../../../services/api/SpecificApiOperations'
     export default {
       data () {
         return {

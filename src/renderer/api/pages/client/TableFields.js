@@ -5,20 +5,17 @@ export default [
     name: 'fullname',
     title: 'Nombre Completo',
     sortField: 'fullname',
-    filter: true,
     default: true
   },
   {
     name: ProductPropertiesReference.EMAIL.name,
     title: ProductPropertiesReference.EMAIL.title,
-    sortField: ProductPropertiesReference.EMAIL.name,
-    filter: true
+    sortField: ProductPropertiesReference.EMAIL.name
   },
   {
     name: ProductPropertiesReference.PHONE.name,
     title: ProductPropertiesReference.PHONE.title,
-    sortField: ProductPropertiesReference.PHONE.name,
-    filter: true
+    sortField: ProductPropertiesReference.PHONE.name
   },
   {
     name: '__slot:actions',

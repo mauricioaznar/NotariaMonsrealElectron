@@ -9,6 +9,7 @@ routeObjects.push(createRouteObject(EntityTypes.AUTH, ChildTypes.TOKEN, RolesTyp
   requiresAuth: false
 }))
 routeObjects.push(createRouteObject(EntityTypes.AUTH, ChildTypes.MY_PROFILE, RolesTypes, {}))
+routeObjects.push(createRouteObject(EntityTypes.AUTH, ChildTypes.API_CHANGES_LOG, RolesTypes, {}))
 // Documentos
 routeObjects.push(createRouteObject(EntityTypes.DOCUMENT, ChildTypes.LIST, RolesTypes,
   {
@@ -128,8 +129,8 @@ routeObjects.push(createRouteObject(EntityTypes.APPOINTMENT, ChildTypes.DEL, Rol
   {
     params: [globalEntityIdentifier],
     security: {
-      [RolesTypes.SECRETARY.name]: false,
-      [RolesTypes.LAWYER.name]: false,
+      [RolesTypes.SECRETARY.name]: true,
+      [RolesTypes.LAWYER.name]: true,
       [RolesTypes.GUEST.name]: false
     }
   }

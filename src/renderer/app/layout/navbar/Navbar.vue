@@ -14,8 +14,9 @@
           <template slot="button-content">
             <span>{{user.fullname}}</span>
           </template>
-          <b-dropdown-item class="dropdown-item text-right" href="#" :to="notificationsPathObject">Notificaciones</b-dropdown-item>
-          <b-dropdown-item class="dropdown-item text-right" href="#" :to="myProfilePathObject">Mi Perfil</b-dropdown-item>
+          <!--<b-dropdown-item class="dropdown-item text-right" href="#" @click="changeRoute(notificationsPathObject)">Notificaciones</b-dropdown-item>-->
+          <b-dropdown-item class="dropdown-item text-right" href="#" @click="changeRoute(myProfilePathObject)">Mi Perfil</b-dropdown-item>
+          <b-dropdown-item class="dropdown-item text-right" href="#" @click="changeRoute(apiChangesLogPathObject)">Cambios</b-dropdown-item>
           <b-dropdown-item class="dropdown-item text-right" href="#" v-on:click.prevent="logout">Cerrar sesion</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
@@ -37,6 +38,7 @@
       return {
         notificationsPathObject: {path: createRouteObjectPath(EntityTypes.NOTIFICATION, ChildTypes.NOTIFICATIONS)},
         myProfilePathObject: {path: createRouteObjectPath(EntityTypes.AUTH, ChildTypes.MY_PROFILE)},
+        apiChangesLogPathObject: {path: createRouteObjectPath(EntityTypes.AUTH, ChildTypes.API_CHANGES_LOG)},
         navbarTitle: '',
         navbarIcon: '',
         isSidebarActive: true
@@ -71,6 +73,9 @@
       },
       toggle: function () {
         this[AppActions.TOGGLE_SIDEBAR]()
+      },
+      changeRoute: function (pathObject) {
+        this.$router.push(pathObject)
       }
     }
   }
