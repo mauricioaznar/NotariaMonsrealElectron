@@ -11,7 +11,9 @@
                 :label="displayProperty"
                 :onSearch="search"
                 :track-by="'id'"
-                :options="options">
+                :options="options"
+                :disabled="disabled"
+        >
             <template slot="option" slot-scope="option">
                 {{option[displayProperty]}}
             </template>
@@ -94,6 +96,12 @@
         name: {
           type: String,
           required: true
+        },
+        disabled: {
+          type: Boolean,
+          default: function () {
+            return false
+          }
         }
       },
       created () {

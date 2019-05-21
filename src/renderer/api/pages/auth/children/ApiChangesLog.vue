@@ -2,7 +2,7 @@
     <div class="container">
         <div>
             <div>
-                <h3>v0.0.41</h3>
+                <h3>v0.0.42</h3>
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item list-group-item-success">Se agrego la funcionalidad para recordar la contraseña</li>

@@ -92,7 +92,8 @@
                         :displayProperty="'fullname'"
                         v-model="appointment.users"
                         :name="PropertiesReference.USERS.name"
-                        :error="''"
+                        :error="errors.has(PropertiesReference.USERS.name) ? errors.first(PropertiesReference.USERS.name) : ''"
+                        v-validate="'required'"
                 >
                 </mau-form-input-select-dynamic>
             </div>
