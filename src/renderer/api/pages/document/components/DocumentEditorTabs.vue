@@ -178,15 +178,16 @@
         <div class="form-group">
           <div class="d-flex justify-content-start">
             <label>{{PropertiesReference.CLIENT.title}}</label>
-            <div class="ml-2 icon-button no-padding" v-b-modal.createClientModal>
-                <span class="fa fa-plus">
-                </span>
-            </div>
-            <b-modal class="mau-custom-modal" id="createClientModal" ref="createClientModal" title="Crear un cliente">
-              <create-client :onTheFly="onTheFlyCreateClient" :key="clientsCreated"></create-client>
-              <div slot="modal-footer">
-              </div>
-            </b-modal>
+            <mau-modal
+                    :ref="'createClientModal'"
+                    :id="'createClientModal'"
+                    title="Crear un cliente"
+                    :buttonType="'icon'"
+                    buttonClass="fa fa-plus ml-2 fa-lg"
+            >
+              <create-client :onTheFly="onTheFlyCreateClient" :key="clientsCreated">
+              </create-client>
+            </mau-modal>
           </div>
           <mau-form-input-select-dynamic
                   :endpointName="clientsEndpointName"
@@ -204,16 +205,16 @@
         <div class="form-group">
           <div class="d-flex justify-content-start">
             <label>{{PropertiesReference.GRANTORS.title}}</label>
-            <div class="ml-2 icon-button no-padding" v-b-modal.createGrantorModal>
-                <span class="fa fa-plus">
-                </span>
-            </div>
-            <b-modal class="mau-custom-modal" id="createGrantorModal" ref="createGrantorModal" title="Crear un otorgante">
+            <mau-modal
+                    :ref="'createGrantorModal'"
+                    :id="'createGrantorModal'"
+                    title="Crear un otorgante"
+                    :buttonType="'icon'"
+                    buttonClass="fa fa-plus ml-2 fa-lg"
+            >
               <create-grantor :onTheFly="onTheFlyCreateGrantor" :key="grantorsCreated">
               </create-grantor>
-              <div slot="modal-footer" class="no-padding">
-              </div>
-            </b-modal>
+            </mau-modal>
           </div>
           <mau-form-input-select-dynamic
                   :endpointName="grantorsEndpointName"
@@ -528,11 +529,11 @@
     },
     methods: {
       onTheFlyCreateClient: function () {
-        this.$refs.createClientModal.hide()
+        this.$refs.createClientModal.close()
         this.clientsCreated = this.clientsCreated + 1
       },
       onTheFlyCreateGrantor: function () {
-        this.$refs.createGrantorModal.hide()
+        this.$refs.createGrantorModal.close()
         this.grantorsCreated = this.grantorsCreated + 1
       },
       getBootstrapValidationClass: ValidatorHelper.getBootstrapValidationClass,
