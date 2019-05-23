@@ -7,7 +7,7 @@ const user = state => {
 const isAdminUser = state => {
   let user = state.auth.user
   let roleId = user ? user.role_id : 0
-  return roleId === 1 || roleId === 2
+  return roleId === 1
 }
 const routeObjects = state => state.routeObject.routeObjects
 const authWidgetRouteObjects = state => state.routeObject.authWidgetRouteObjects
