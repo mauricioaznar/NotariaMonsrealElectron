@@ -175,8 +175,8 @@
         let appendParams = this.filterBarParams
         for (let filterExactKey in this.filterExact) {
           if (this.filterExact.hasOwnProperty(filterExactKey)) {
-            appendParams['filter_exact'] = filterExactKey
-            appendParams['filter_exact_value'] = this.filterExact[filterExactKey]
+            appendParams['filter_exact_1'] = filterExactKey
+            appendParams['filter_exact_value_1'] = this.filterExact[filterExactKey]
           }
         }
         this.appendParams = appendParams

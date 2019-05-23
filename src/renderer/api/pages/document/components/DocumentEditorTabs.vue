@@ -88,7 +88,7 @@
                     v-show="document.documentType"
                     :ref="PropertiesReference.OPERATIONS.name"
                     v-model="document.operations"
-                    :label="PropertiesReference.OPERATIONS.title"
+                    :label="PropertiesReference.OPERATIONS.title + ' de documento'"
                     :name="PropertiesReference.OPERATIONS.name"
                     :apiOperationOptions="operationsApiOperationOptions"
                     :endpointName="operationsEndpointName"
@@ -101,6 +101,7 @@
             </mau-form-input-select-dynamic>
           </div>
           <div v-if="!document.documentType" class="mau-text-center">
+            <label>{{PropertiesReference.OPERATIONS.title}}</label>
             <p>Se necesita seleccionar un tipo de documento</p>
           </div>
         </div>
@@ -190,15 +191,15 @@
             </mau-modal>
           </div>
           <mau-form-input-select-dynamic
+                  :key="clientsCreated"
                   :endpointName="clientsEndpointName"
                   :initialObject="initialValues[PropertiesReference.CLIENT.name]"
-                  :displayProperty="'fullname'"
-                  v-model="document.client"
-                  :key="clientsCreated"
                   :name="PropertiesReference.CLIENT.name"
+                  :displayProperty="'fullname'"
+                  :error="errors.has(PropertiesReference.CLIENT.name) ? errors.first(PropertiesReference.CLIENT.name) : ''"
+                  v-model="document.client"
                   :data-vv-as="PropertiesReference.CLIENT.title"
                   v-validate="'required'"
-                  :error="errors.has(PropertiesReference.CLIENT.name) ? errors.first(PropertiesReference.CLIENT.name) : ''"
           >
           </mau-form-input-select-dynamic>
         </div>
@@ -217,14 +218,14 @@
             </mau-modal>
           </div>
           <mau-form-input-select-dynamic
+                  :key="grantorsCreated"
                   :endpointName="grantorsEndpointName"
+                  :initialObjects="initialValues[PropertiesReference.GRANTORS.name]"
                   :name="PropertiesReference.GRANTORS.name"
                   :displayProperty="'fullname'"
-                  :key="grantorsCreated"
-                  :initialObjects="initialValues[PropertiesReference.GRANTORS.name]"
+                  :error="errors.has(PropertiesReference.GRANTORS.name) ? errors.first(PropertiesReference.GRANTORS.name) : ''"
                   v-model="document.grantors"
                   :multiselect="true"
-                  :error="errors.has(PropertiesReference.GRANTORS.name) ? errors.first(PropertiesReference.GRANTORS.name) : ''"
           >
           </mau-form-input-select-dynamic>
         </div>
@@ -232,12 +233,14 @@
           <mau-form-input-select-dynamic
                   :endpointName="groupsEndpointName"
                   :initialObjects="initialValues[PropertiesReference.GROUPS.name]"
-                  :name="PropertiesReference.GRANTORS.name"
-                  :error="errors.has(PropertiesReference.GROUPS.name) ? errors.first(PropertiesReference.GROUPS.name) : ''"
+                  :name="PropertiesReference.GROUPS.name"
                   :displayProperty="'name'"
+                  :error="errors.has(PropertiesReference.GROUPS.name) ? errors.first(PropertiesReference.GROUPS.name) : ''"
                   :multiselect="true"
                   :label="PropertiesReference.GROUPS.title"
+                  :disabled="initialValues[PropertiesReference.GROUPS.name].length > 0 ? !isAdminUser : false"
                   v-model="document.groups"
+                  v-validate="'required'"
           >
           </mau-form-input-select-dynamic>
         </div>
@@ -256,6 +259,7 @@
 
           </mau-form-input-triple-boolean>
           <div v-show="!document.documentType" class="mau-text-center">
+            <label>{{PropertiesReference.IDENTIFICATIONS.title}}</label>
             <p>Se necesita seleccionar un tipo de documento</p>
           </div>
         </div>
@@ -270,6 +274,7 @@
           >
           </mau-form-input-triple-boolean>
           <div v-show="!document.documentType" class="mau-text-center">
+            <label>{{PropertiesReference.PERSONALITIES.title}}</label>
             <p>Se necesita seleccionar un tipo de documento</p>
           </div>
         </div>
@@ -284,6 +289,7 @@
             >
             </mau-form-input-triple-boolean>
             <div v-show="!document.documentType" class="mau-text-center">
+              <label>{{PropertiesReference.PUBLIC_REGISTRY_PATENT.title}}</label>
               <p>Se necesita seleccionar un tipo de documento</p>
             </div>
         </div>
@@ -301,6 +307,7 @@
             </document-attachments>
           </div>
           <div v-show="!document.documentType" class="mau-text-center">
+            <label>{{PropertiesReference.DOCUMENT_ATTACHMENTS.title}}</label>
             <p>Se necesita seleccionar un tipo de documento</p>
           </div>
         </div>
@@ -344,7 +351,7 @@
                   :data-vv-as="PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.title"
                   v-model="document.publicRegistryEntryDate"
                   :initialValue="initialValues[PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name]"
-                  :error="errors.first(PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name)"
+                  :error="errors.has(PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name) ? errors.first(PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name) : ''"
                   v-validate="isPublicRegistrySelected ? 'required' : ''"
           >
           </mau-form-input-date>
@@ -514,17 +521,16 @@
         return this.document.documentType && this.document.documentType['id'] === 3
       },
       operationsApiOperationOptions: function () {
-        let filterEntity = 'documentTypes'
-        let filterLikes = {name: this.document.documentType ? this.document.documentType['name'] : ''}
-        return {paginate: false, filterLikes: filterLikes, filterEntity: filterEntity}
+        let filterOperationsByDocumentType = {name: this.document.documentType ? this.document.documentType['name'] : ''}
+        return {paginate: false, filterEntities: {'documentTypes': filterOperationsByDocumentType}}
       },
       attachmentsApiOperationsOptions: function () {
-        let filterEntity = 'documentTypes'
-        let filterLikes = {name: this.document.documentType ? this.document.documentType['name'] : ''}
-        return {paginate: false, filterLikes: filterLikes, filterEntity: filterEntity}
+        let filterAttachmentsByDocumentType = {name: this.document.documentType ? this.document.documentType['name'] : ''}
+        return {paginate: false, filterEntities: {'documentTypes': filterAttachmentsByDocumentType}}
       },
       ...mapGetters([
-        'user'
+        'user',
+        'isAdminUser'
       ])
     },
     methods: {
@@ -543,7 +549,6 @@
         this.initialValues[PropertiesReference.TOME.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.TOME.name)
         this.initialValues[PropertiesReference.FOLIO.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.FOLIO.name)
         this.initialValues[PropertiesReference.DOCUMENT_TYPE.name] = DefaultValuesHelper.object(this.initialObject, PropertiesReference.DOCUMENT_TYPE.name)
-        this.document.documentStatus = this.availableDocumentStatuses[0]
         this.initialValues[PropertiesReference.DOCUMENT_STATUS.name] = DefaultValuesHelper.object(this.initialObject, PropertiesReference.DOCUMENT_STATUS.name)
         this.initialValues[PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.PUBLIC_REGISTRY_ENTRY_DATE.name)
         this.initialValues[PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.PUBLIC_REGISTRY_EXIT_DATE.name)

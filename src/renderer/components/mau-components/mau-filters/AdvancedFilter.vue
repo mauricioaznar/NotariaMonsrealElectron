@@ -22,91 +22,85 @@
                 >
                 </mau-form-input-date>
                 <div class="col-md-3 d-flex justify-content-sm-between flex-sm-column flex-md-row align-items-stretch align-content-stretch">
-                    <button class="btn btn-submit btn-options w-100"
-                            aria-controls="collapse4"
-                            v-b-modal.advancedSearchModal
-                    >
-                        <span class="fa fa-gear"></span>
-                    </button>
+                    <mau-modal class="mau-modal" buttonType="icon" buttonClass="mau-modal-button btn btn-submit fa fa-gear h-100 d-flex flex-column justify-content-center" id="advancedSearchModal" ref="advancedSearchModal" title="Busqueda Avanzada">
+                        <!--<div class="form-group mb-3">-->
+                            <!--<label>Operacion</label>-->
+                            <!--<mau-form-input-select-static-->
+                                    <!--v-model="operation"-->
+                                    <!--:availableObjects="availableOperations"-->
+                                    <!--:displayProperty="'name'"-->
+                                    <!--:name="'operation_filter'"-->
+                                    <!--:error="''"-->
+
+                                    <!--:trackBy="'id'"-->
+                            <!--&gt;</mau-form-input-select-static>-->
+                        <!--</div>-->
+                        <!--<div class="form-group mb-3">-->
+                            <!--<label>Entidad</label>-->
+                            <!--<mau-form-input-select-static-->
+                                    <!--v-model="entitySelectedFilter"-->
+                                    <!--:availableObjects="entityFilters"-->
+                                    <!--:displayProperty="'text'"-->
+                                    <!--:name="'entity_filter'"-->
+                                    <!--:error="''"-->
+                                    <!--:trackBy="'value'"-->
+                            <!--&gt;-->
+                            <!--</mau-form-input-select-static>-->
+                        <!--</div>-->
+                        <div class="mb-3">
+                            <label>Filtros de documento</label>
+                            <mau-form-group-check-boxes
+                                    v-model="documentSelectedFilter"
+                                    :availableObjects="documentFilters"
+                                    :initialObjects="documentFilters"
+                                    :display="'text'"
+                            >
+                            </mau-form-group-check-boxes>
+                        </div>
+                        <div class="mb-3">
+                            <label>Tipo</label>
+                            <mau-form-group-radio
+                                    v-model="documentTypeSelectedFilter"
+                                    :availableObjects="availableDocumentTypes"
+                                    :initialObject="{}"
+                                    :name="'DocumentTypes'"
+                                    :display="'name'"
+                                    :error="''"
+                            >
+                            </mau-form-group-radio>
+                        </div>
+                        <div class="mb-3">
+                            <label>Status</label>
+                            <mau-form-group-radio
+                                    v-model="documentStatusSelectedFilter"
+                                    :availableObjects="availableDocumentStatuses"
+                                    :initialObject="{}"
+                                    :name="'DocumentStatuses'"
+                                    :display="'name'"
+                                    :error="''"
+                            >
+                            </mau-form-group-radio>
+                        </div>
+                        <div class="mb-3">
+                            <label>Filtros de contacto</label>
+                            <mau-form-group-check-boxes
+                                    v-model="contactSelectedFilter"
+                                    :availableObjects="contactFilters"
+                                    :initialObjects="contactFilters"
+                                    :display="'text'"
+                            >
+                            </mau-form-group-check-boxes>
+                        </div>
+                        <button class="btn-submit btn btn-primary col-sm-12" @click="doFilter">Buscar</button>
+                        <div slot="modal-footer" class="no-padding">
+                        </div>
+                    </mau-modal>
                     <button class="btn-submit btn btn-primary w-100" @click="doFilter">Buscar</button>
                     <button class="btn-submit btn btn-excel w-100" :class="{disabled: !startDateExcel && !endDateExcel}" :href="excelRoute + 'start_date=' + startDateExcel + '&end_date=' + endDateExcel">
                         Excel
                     </button>
                 </div>
             </div>
-            <b-modal class="mau-custom-modal" id="advancedSearchModal" ref="advancedSearchModal" title="Busqueda Avanzada">
-                <div class="form-group mb-3">
-                    <label>Operacion</label>
-                    <mau-form-input-select-static
-                            v-model="operation"
-                            :availableObjects="availableOperations"
-                            :displayProperty="'name'"
-                            :name="'operation_filter'"
-                            :error="''"
-
-                            :trackBy="'id'"
-                    ></mau-form-input-select-static>
-                </div>
-                <div class="form-group mb-3">
-                    <label>Entidad</label>
-                    <mau-form-input-select-static
-                            v-model="entitySelectedFilter"
-                            :availableObjects="entityFilters"
-                            :displayProperty="'text'"
-                            :name="'entity_filter'"
-                            :error="''"
-                            :trackBy="'value'"
-                    >
-                    </mau-form-input-select-static>
-                </div>
-                <div class="mb-3">
-                    <label>Filtros de documento</label>
-                    <mau-form-group-check-boxes
-                            v-model="documentSelectedFilter"
-                            :availableObjects="documentFilters"
-                            :initialObjects="documentFilters"
-                            :display="'text'"
-                    >
-                    </mau-form-group-check-boxes>
-                </div>
-                <div class="mb-3">
-                    <label>Tipo</label>
-                    <mau-form-group-radio
-                            v-model="documentTypeSelectedFilter"
-                            :availableObjects="availableDocumentTypes"
-                            :initialObject="{}"
-                            :name="'DocumentTypes'"
-                            :display="'name'"
-                            :error="''"
-                    >
-                    </mau-form-group-radio>
-                </div>
-                <div class="mb-3">
-                    <label>Status</label>
-                    <mau-form-group-radio
-                            v-model="documentStatusSelectedFilter"
-                            :availableObjects="availableDocumentStatuses"
-                            :initialObject="{}"
-                            :name="'DocumentStatuses'"
-                            :display="'name'"
-                            :error="''"
-                    >
-                    </mau-form-group-radio>
-                </div>
-                <div class="mb-3">
-                    <label>Filtros de contacto</label>
-                    <mau-form-group-check-boxes
-                            v-model="contactSelectedFilter"
-                            :availableObjects="contactFilters"
-                            :initialObjects="contactFilters"
-                            :display="'text'"
-                    >
-                    </mau-form-group-check-boxes>
-                </div>
-                <button class="btn-submit btn btn-primary col-sm-12" @click="doFilter">Buscar</button>
-                <div slot="modal-footer" class="no-padding">
-                </div>
-            </b-modal>
         </div>
 </template>
 
@@ -233,7 +227,7 @@
       doFilter () {
         let searchQuery = this.getSearchQuery()
         console.log(searchQuery)
-        this.$refs.advancedSearchModal.hide()
+        this.$refs.advancedSearchModal.close()
         this.$emit('filter', searchQuery)
       }
     },
@@ -249,14 +243,19 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
     .disabled {
         pointer-events: none;
         cursor: default;
         opacity: 0.6;
     }
 
-    input {
-        border-width: 0px !important;
+    .mau-modal .mau-modal-button {
+        background-color: #999999;
+        color: #ffffff;
+    }
+
+    .mau-modal:hover .mau-modal-button{
+        color: #333333;
     }
 </style>
