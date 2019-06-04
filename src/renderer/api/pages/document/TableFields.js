@@ -39,7 +39,7 @@ export default [
     name: PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name,
     title: PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.title,
     sortField: PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.name,
-    callback: PropertiesReference.MONEY_LAUNDERING_EXPIRATION_DATE.callback
+    callback: DisplayFunctions.getDate
   },
   {
     name: PropertiesReference.DOCUMENT_STATUS.name,

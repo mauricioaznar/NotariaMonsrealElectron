@@ -88,6 +88,7 @@
     },
     created () {
       this.initialAttachmentsCopy = cloneDeep(this.initialAttachments)
+      this.setInputValue()
     },
     methods: {
       setInputValue: function () {
@@ -95,28 +96,31 @@
         let m2mAttachments = ManyToManyHelper.createM2MStructuredObjects(this.selectedAttachmentsTransformed, DocumentPropertiesReference.DOCUMENT_ATTACHMENTS.relationship_id_name)
         let filteredAttachments = ManyToManyHelper.filterM2MStructuredObjectsByApiOperations(initialM2mAttachments, m2mAttachments, DocumentPropertiesReference.DOCUMENT_ATTACHMENTS.relationship_id_name)
         this.$emit('input', filteredAttachments)
+      },
+      setAttachmentsModifiableObjects: function (selectedAttachments) {
+        let selectedAttachmentsTransformed = []
+        selectedAttachments.forEach(selectedAttachmentObj => {
+          let foundSelectedAttachmentTransformed = this.selectedAttachmentsTransformed.find(selectedAttachmentTransformedObj => {
+            return selectedAttachmentTransformedObj.id === selectedAttachmentObj.id
+          })
+          if (foundSelectedAttachmentTransformed) {
+            selectedAttachmentsTransformed.push(foundSelectedAttachmentTransformed)
+          } else {
+            if (selectedAttachmentObj.pivot) {
+              selectedAttachmentsTransformed.push(selectedAttachmentObj)
+            } else {
+              selectedAttachmentObj.pivot = {attachment_id: selectedAttachmentObj.id, attachment_status: 0}
+              selectedAttachmentsTransformed.push(selectedAttachmentObj)
+            }
+          }
+        })
+        this.selectedAttachmentsTransformed = selectedAttachmentsTransformed
       }
     },
     watch: {
       selectedAttachments: {
         handler: function (selectedAttachments) {
-          let selectedAttachmentsTransformed = []
-          selectedAttachments.forEach(selectedAttachmentObj => {
-            let foundSelectedAttachmentTransformed = this.selectedAttachmentsTransformed.find(selectedAttachmentTransformedObj => {
-              return selectedAttachmentTransformedObj.id === selectedAttachmentObj.id
-            })
-            if (foundSelectedAttachmentTransformed) {
-              selectedAttachmentsTransformed.push(foundSelectedAttachmentTransformed)
-            } else {
-              if (selectedAttachmentObj.pivot) {
-                selectedAttachmentsTransformed.push(selectedAttachmentObj)
-              } else {
-                selectedAttachmentObj.pivot = {attachment_id: selectedAttachmentObj.id, attachment_status: 0}
-                selectedAttachmentsTransformed.push(selectedAttachmentObj)
-              }
-            }
-          })
-          this.selectedAttachmentsTransformed = selectedAttachmentsTransformed
+          this.setAttachmentsModifiableObjects(selectedAttachments)
         },
         deep: true
       },

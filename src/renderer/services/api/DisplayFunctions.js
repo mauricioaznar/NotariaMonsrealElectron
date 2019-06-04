@@ -40,6 +40,9 @@ export default {
     return personaArrayHtmlString + '</ul>'
   },
   getDate: function (date) {
+    if (date === '0000-00-00') {
+      return 'N/A'
+    }
     let momentDate = moment(date)
     return momentDate.isValid() ? moment(date).format('dddd DD [de] MMMM [del] YYYY') : '-'
   },
@@ -50,6 +53,9 @@ export default {
     return ConvertDateTime.date(date)
   },
   getDateYear: function (date) {
+    if (date === '0000-00-00') {
+      return 'N/A'
+    }
     return moment(date).format('Y')
   },
   calculateAttachmentCompletion: function (attachmentArray) {
