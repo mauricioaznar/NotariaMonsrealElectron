@@ -18,16 +18,13 @@
         </div>
         <div class="form-group">
           <mau-form-input-date
-                  :label="PropertiesReference.DATE.title"
                   :name="PropertiesReference.DATE.name"
-                  :data-vv-as="PropertiesReference.DATE.title"
+                  :label="PropertiesReference.DATE.title"
                   v-model="document.date"
                   :initialValue="initialValues[PropertiesReference.DATE.name]"
+                  :data-vv-as="PropertiesReference.DATE.title"
                   :error="errors.has(PropertiesReference.DATE.name) ? errors.first(PropertiesReference.DATE.name) : ''"
-                  :inputType="'date'"
-                  v-validate="{
-                    required: true
-                  }"
+                  v-validate="'required'"
           >
           </mau-form-input-date>
         </div>
