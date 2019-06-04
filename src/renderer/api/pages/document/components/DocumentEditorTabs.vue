@@ -24,6 +24,7 @@
                   v-model="document.date"
                   :initialValue="initialValues[PropertiesReference.DATE.name]"
                   :error="errors.has(PropertiesReference.DATE.name) ? errors.first(PropertiesReference.DATE.name) : ''"
+                  :inputType="'date'"
                   v-validate="{
                     required: true
                   }"
