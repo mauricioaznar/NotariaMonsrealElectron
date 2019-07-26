@@ -1,6 +1,6 @@
 {
   "name": "NotaryManager",
-  "version": "0.0.55",
+  "version": "0.0.56",
   "author": "Maguas Tupaguas <mauricioaznar94@gmail.com>",
   "description": "An electron-vue project",
   "license": null,
@@ -52,9 +52,6 @@
     },
     "win": {
       "icon": "build/icons/icon.ico",
-      "publish": [
-        "github"
-      ],
       "target": [
         {
           "target": "nsis",
