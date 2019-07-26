@@ -54,6 +54,15 @@
       "icon": "build/icons/icon.ico",
       "publish": [
         "github"
+      ],
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
       ]
     },
     "linux": {
