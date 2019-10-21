@@ -44,7 +44,7 @@
         weekGround: [
           'Oficina 1'
         ],
-        timeGround: ['07:00', '19:00'],
+        timeGround: ['07:00', '20:00'],
         taskDetail: [],
         selectedDate: '',
         initialDate: '',
@@ -169,5 +169,10 @@
                 }
             }
         }
+    }
+    .task-list-item h3 {
+        margin: 3px !important;
+        margin-left: 6px !important;
+        font-size: 12px !important;
     }
 </style>
