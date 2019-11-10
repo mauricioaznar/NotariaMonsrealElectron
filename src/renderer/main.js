@@ -37,7 +37,7 @@ Vue.use(VeeValidate, {
   locale: 'es',
   dictionary: VeeValidateDictionary
 })
-Vue.http.options.root = (process.env.NODE_ENV === 'development') ? 'http://monsrealserver.test/api' : 'http://134.209.254.172/api'
+Vue.http.options.root = (process.env.NODE_ENV === 'development') ? 'http://monsrealserver.test/api' : 'http://165.22.58.38/api'
 sync(store, router)
 
 let mediaHandler = () => {
