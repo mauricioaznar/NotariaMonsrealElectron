@@ -42,6 +42,51 @@ let folioYearUnique = {
     })
   }
 }
+
+let folioTomeUnique = {
+  getMessage: field => `The field ${field} has to be unique on that tome`,
+  validate: (value, params, data) => {
+    let initialFolio = params.initialFolio ? Number(params.initialFolio) : ''
+    let folio = params.document.folio ? Number(params.document.folio) : ''
+    let initialTome = params.initialTome ? Number(params.initialTome) : ''
+    let tome = params.document.tome ? Number(params.document.tome) : ''
+    let endpointName = params.endpointName
+    return new Promise(resolve => {
+      console.log(folio)
+      console.log(initialTome)
+      console.log(initialFolio)
+      console.log(tome)
+      if (folio !== '' && initialFolio !== '' && tome !== '' && initialTome !== '' && folio === initialFolio && tome === initialTome) {
+        resolve({
+          valid: true
+        })
+      } else {
+        if (folio === '' || tome === '') {
+          resolve({
+            valid: false
+          })
+        }
+        let filterExactObject = {'tome': tome}
+        GenericApiOperations.list(endpointName, {filterExacts: filterExactObject}).then(result => {
+          let documents = result
+          let isValueUsed = false
+          documents.forEach(documentObj => {
+            let documentObjFolio = Number(documentObj.folio)
+            if (folio === documentObjFolio) {
+              isValueUsed = true
+            }
+          })
+          resolve({
+            valid: !isValueUsed,
+            data: value !== 'trigger' ? undefined : { message: 'Not this value' }
+          })
+        })
+      }
+    })
+  }
+}
+
 export default {
-  folioYearUnique: folioYearUnique
+  folioYearUnique: folioYearUnique,
+  folioTomeUnique: folioTomeUnique
 }

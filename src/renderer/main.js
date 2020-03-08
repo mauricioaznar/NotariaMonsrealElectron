@@ -32,6 +32,7 @@ Vue.use(BootstrapVue)
 Vue.use(VueResource)
 Validator.localize('es', esLocale)
 Validator.extend('folio_year_unique', VeeValidateCustomRules.folioYearUnique, {immediate: false})
+Validator.extend('folio_tome_unique', VeeValidateCustomRules.folioTomeUnique, {immediate: false})
 Vue.use(VeeValidate, {
   fieldsBagName: 'formFields',
   locale: 'es',

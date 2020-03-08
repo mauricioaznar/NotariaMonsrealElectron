@@ -37,7 +37,7 @@
                   :data-vv-as="PropertiesReference.TOME.title"
                   :initialValue="initialValues[PropertiesReference.TOME.name]"
                   :placeholder="'Ejemplo: XV-12'"
-                  v-validate="'required|alpha_dash'"
+                  v-validate="'required|numeric'"
           >
           </mau-form-input-text>
         </div>
@@ -52,14 +52,13 @@
                   :initialValue="initialValues[PropertiesReference.FOLIO.name]"
                   :placeholder="'Ejemplo: 12345'"
                   v-validate="{
-                    required: true,
-                    numeric: true,
-                    folio_year_unique: {
+                    folio_tome_unique: {
                       endpointName: documentsEndpointName,
                       document: document,
                       initialFolio: initialValues[PropertiesReference.FOLIO.name],
-                      initialDate: initialValues[PropertiesReference.DATE.name]
-                    }
+                      initialTome: initialValues[PropertiesReference.TOME.name]
+                    },
+                    required: true
                   }"
           >
           </mau-form-input-number>
