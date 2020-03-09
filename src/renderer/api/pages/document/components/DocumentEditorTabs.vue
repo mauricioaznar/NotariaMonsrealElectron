@@ -235,7 +235,6 @@
                   :error="errors.has(PropertiesReference.GROUPS.name) ? errors.first(PropertiesReference.GROUPS.name) : ''"
                   :multiselect="true"
                   :label="PropertiesReference.GROUPS.title"
-                  :disabled="initialValues[PropertiesReference.GROUPS.name].length > 0 ? !isAdminUser : false"
                   v-model="document.groups"
                   v-validate="'required'"
           >
@@ -561,8 +560,7 @@
         this.initialValues[PropertiesReference.PROPERTY.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.PROPERTY.name)
         this.initialValues[PropertiesReference.OPERATIONS.name] = DefaultValuesHelper.arrayOfObjects(this.initialObject, PropertiesReference.OPERATIONS.name)
         this.initialValues[PropertiesReference.DOCUMENT_PROPERTIES.name] = DefaultValuesHelper.arrayOfObjects(this.initialObject, PropertiesReference.DOCUMENT_PROPERTIES.name)
-        let initialGroups = DefaultValuesHelper.arrayOfObjects(this.initialObject, PropertiesReference.GROUPS.name)
-        this.initialValues[PropertiesReference.GROUPS.name] = initialGroups.length > 0 ? this.initialObject[PropertiesReference.GROUPS.name] : this.currentUserGroups
+        this.initialValues[PropertiesReference.GROUPS.name] = DefaultValuesHelper.arrayOfObjects(this.initialObject, PropertiesReference.GROUPS.name)
         this.initialValues[PropertiesReference.GRANTORS.name] = DefaultValuesHelper.arrayOfObjects(this.initialObject, PropertiesReference.GRANTORS.name)
         let initialUsers = DefaultValuesHelper.arrayOfObjects(this.initialObject, PropertiesReference.USERS.name)
         this.initialValues['entryUsers'] = initialUsers ? initialUsers.filter(initialUserObj => { return initialUserObj.pivot['entry_lawyer'] }) : []
