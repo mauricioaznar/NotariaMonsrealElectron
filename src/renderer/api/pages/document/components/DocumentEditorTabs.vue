@@ -32,12 +32,15 @@
           <mau-form-input-text
                   :name="PropertiesReference.TOME.name"
                   :error="errors.has(PropertiesReference.TOME.name) ? errors.first(PropertiesReference.TOME.name) : ''"
-                  :label="PropertiesReference.TOME.title"
+                  :label="PropertiesReference.TOME.title + ' (Formatos validos: 12/21 o 12-12 o 12)'"
                   v-model="document.tome"
                   :data-vv-as="PropertiesReference.TOME.title"
                   :initialValue="initialValues[PropertiesReference.TOME.name]"
-                  :placeholder="'Ejemplo: XV-12'"
-                  v-validate="'required|numeric'"
+                  :placeholder="'Ejemplo: 12-12'"
+                  v-validate="{
+                    required: true,
+                    regex: '^[0-9]+([-/][0-9]+)?$'
+                  }"
           >
           </mau-form-input-text>
         </div>
