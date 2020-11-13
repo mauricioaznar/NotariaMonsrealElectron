@@ -32,14 +32,14 @@
           <mau-form-input-text
                   :name="PropertiesReference.TOME.name"
                   :error="errors.has(PropertiesReference.TOME.name) ? errors.first(PropertiesReference.TOME.name) : ''"
-                  :label="PropertiesReference.TOME.title + ' (Formatos validos: 12/21 o 12-12 o 12)'"
+                  :label="PropertiesReference.TOME.title + ' (Formatos validos: 12-12 o 12)'"
                   v-model="document.tome"
                   :data-vv-as="PropertiesReference.TOME.title"
                   :initialValue="initialValues[PropertiesReference.TOME.name]"
                   :placeholder="'Ejemplo: 12-12'"
                   v-validate="{
                     required: true,
-                    regex: '^[0-9]+([-/][0-9]+)?$'
+                    regex: '^[0-9]+([-][0-9]+)?$'
                   }"
           >
           </mau-form-input-text>
@@ -58,8 +58,7 @@
                     folio_tome_unique: {
                       endpointName: documentsEndpointName,
                       document: document,
-                      initialFolio: initialValues[PropertiesReference.FOLIO.name],
-                      initialTome: initialValues[PropertiesReference.TOME.name]
+                      initialValues: initialValues
                     },
                     required: true
                   }"
@@ -543,6 +542,7 @@
       },
       getBootstrapValidationClass: ValidatorHelper.getBootstrapValidationClass,
       setInitialValues: function () {
+        this.initialValues[PropertiesReference.ID.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.ID.name)
         this.initialValues[PropertiesReference.FILE_NUMBER.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.FILE_NUMBER.name)
         this.initialValues[PropertiesReference.DATE.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.DATE.name)
         this.initialValues[PropertiesReference.TOME.name] = DefaultValuesHelper.simple(this.initialObject, PropertiesReference.TOME.name)
