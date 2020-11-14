@@ -55,12 +55,8 @@
                   :initialValue="initialValues[PropertiesReference.FOLIO.name]"
                   :placeholder="'Ejemplo: 12345'"
                   v-validate="{
-                    folio_tome_unique: {
-                      endpointName: documentsEndpointName,
-                      document: document,
-                      initialValues: initialValues
-                    },
-                    required: true
+                    min_value: 1,
+                    max_value: 400
                   }"
           >
           </mau-form-input-number>
